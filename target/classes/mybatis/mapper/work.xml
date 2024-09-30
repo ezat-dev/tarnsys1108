@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="work">
+	<select id="workDetailList" parameterType="work" resultType="work">
+		SELECT A.DEVICECODE, A.LOTNO, A.PUMBUN, A.PUMCODE, B.PUMNAME, B.GIJONG,
+		A.LOADCNT, SUBSTRING(A.STARTTIME, 6, 11) STARTTIME, SUBSTRING(A.STARTCARB, 6,11) STARTCARB,
+		SUBSTRING(A.ENDSALT,6,11) ENDSALT, SUBSTRING(A.ENDTIME, 6, 11) ENDTIME, A.MESLOT, A.REMARK
+		FROM t_siljuk A, t_product B
+		WHERE 1=1
+		AND SUBSTRING(A.STARTTIME, 1, 16) >= #{searchStartDate}
+		AND SUBSTRING(A.STARTTIME, 1, 16) <![CDATA[<=]]> DATEADD(DAY,1,#{searchEndDate})
+		<if test="devicecode != '' and devicecode != null">
+		AND A.DEVICECODE = #{devicecode}
+		</if>
+		AND A.PUMCODE = B.DOBUN
+		ORDER BY A.DEVICECODE, A.LOTNO
+	</select>
+</mapper>
