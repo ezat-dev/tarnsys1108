@@ -15,4 +15,21 @@
 		AND A.PUMCODE = B.DOBUN
 		ORDER BY A.DEVICECODE, A.LOTNO
 	</select>
+	
+	<!-- PLC데이터 -->
+
+	<select id="getPlcWriteWorkData" resultType="work">
+		SELECT LIST_YEAR, LOTNO, CYCLENO, PUMBUN, AGITATE_RPM, DEVICECODE, COMMON_DEVICE, MESLOT
+		FROM T_WAITLIST
+		WHERE LIST_YEAR = 
+		(SELECT MIN(LIST_YEAR) FROM T_WAITLIST WHERE PLC = '0')
+	</select>
+ 
+<!-- 
+	<select id="getPlcWriteWorkData" resultType="work">
+		SELECT *
+		FROM t_siljuk
+		WHERE lotno = '201501031001'
+	</select>	
+-->
 </mapper>

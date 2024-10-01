@@ -7,6 +7,6 @@
 	<package name="com.transys.domain"/>
 </typeAliases>
   <mappers>
-   
+   <mapper resource="mybatis/mapper-oracle/plc.xml"/>
   </mappers>
 </configuration>
