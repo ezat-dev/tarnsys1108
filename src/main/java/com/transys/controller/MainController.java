@@ -16,7 +16,7 @@ public class MainController {
 
     //OPC서버 연결시작
     public static void opcStart() throws UaException, InterruptedException, ExecutionException {
-		client = OpcUaClient.create("opc.tcp://192.168.219.100:5660");
+		client = OpcUaClient.create("opc.tcp://192.168.1.59:5660");
 			
 		client.connect().get();
     }

@@ -1,15 +1,15 @@
 package com.transys.dao;
 
-import com.transys.domain.Work;
+import com.transys.domain.PlcWrite;
 
 public interface PlcDao {
 
-	Work getPlcWriteWorkData();
+	PlcWrite getPlcWriteWorkData();
 
-	void setPlcWriteDataUpdate(Work work);
+	void setPlcWriteDataUpdate(PlcWrite plcWrite);
 
-	void setPlcWriteProc(Work work);
+	void setPlcWriteProc(PlcWrite plcWrite);
 
-	void setPlcWriteDataDelete(Work work);
+	void setPlcWriteDataDelete(PlcWrite plcWrite);
 
 }

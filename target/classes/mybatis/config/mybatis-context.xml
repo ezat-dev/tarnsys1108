@@ -8,6 +8,6 @@
 </typeAliases>
   <mappers>
    <mapper resource="mybatis/mapper/work.xml"/>  
-   <mapper resource="mybatis/mapper/plc.xml"/> 
+   <mapper resource="mybatis/mapper/plcWrite.xml"/> 
   </mappers>
 </configuration>

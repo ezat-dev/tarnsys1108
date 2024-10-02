@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.transys.domain.Work;
+import com.transys.domain.PlcWrite;
 
 @Repository
 public class PlcDaoImpl implements PlcDao{
@@ -19,29 +19,29 @@ public class PlcDaoImpl implements PlcDao{
 
 
 	@Override
-	public Work getPlcWriteWorkData() {
-		Work work = sqlSession.selectOne("work.getPlcWriteWorkData");
-		System.out.println("DAO LIST_YEAR : "+work.getList_year());
+	public PlcWrite getPlcWriteWorkData() {
+		PlcWrite plcWrite = sqlSession.selectOne("plcWrite.getPlcWriteWorkData");
+//		System.out.println("DAO LIST_YEAR : "+plcWrite.getList_year());
 //		System.out.println("DAO REGTIME : "+work.getRegtime());
 		
-		return work;
+		return plcWrite;
 	}
 
 
 	@Override
-	public void setPlcWriteDataUpdate(Work work) {
-		sqlSession.update("plc.setPlcWriteDataUpdate",work);
+	public void setPlcWriteDataUpdate(PlcWrite plcWrite) {
+		sqlSession.update("plcWrite.setPlcWriteDataUpdate",plcWrite);
 	}
 
 
 	@Override
-	public void setPlcWriteProc(Work work) {
-		sqlSession.update("plc.setPlcWriteProc",work);
+	public void setPlcWriteProc(PlcWrite plcWrite) {
+		sqlSession.update("plcWrite.setPlcWriteProc",plcWrite);
 	}
 
 
 	@Override
-	public void setPlcWriteDataDelete(Work work) {
+	public void setPlcWriteDataDelete(PlcWrite work) {
 		sqlSessionOracle.delete("plc.setPlcWriteDataDelete",work);
 	}
 

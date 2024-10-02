@@ -116,29 +116,7 @@ public class Work {
 	private int m10;
 	private int m11;
 	private int m12;
-	
-	//t_waitlist
-	private String list_year;
-/*	
-	private String devicecode;	
-	private String lotno;
-	private String pumcode;
-	private String pumname;
-	private String gijong;
-	private String cycleno;
-	private String agitate_rpm;
-	private String common_device;
-	private String loadcnt;
-	private String pumbun;
-*/	
-	private String workday;
-	private String seq;
-	private String status;
-	private String plc;
-	private String datastatus;
-//	private String remark;
-//	private String meslot;
-	private String put_area;	
+
 	
 	public String getDevicecode() {
 		return devicecode;
@@ -703,47 +681,5 @@ public class Work {
 	}
 	public void setSearchEndDate(String searchEndDate) {
 		this.searchEndDate = searchEndDate;
-	}
-	public String getList_year() {
-		return list_year;
-	}
-	public void setList_year(String list_year) {
-		this.list_year = list_year;
-	}
-	public String getWorkday() {
-		return workday;
-	}
-	public void setWorkday(String workday) {
-		this.workday = workday;
-	}
-	public String getSeq() {
-		return seq;
-	}
-	public void setSeq(String seq) {
-		this.seq = seq;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	public String getPlc() {
-		return plc;
-	}
-	public void setPlc(String plc) {
-		this.plc = plc;
-	}
-	public String getDatastatus() {
-		return datastatus;
-	}
-	public void setDatastatus(String datastatus) {
-		this.datastatus = datastatus;
-	}
-	public String getPut_area() {
-		return put_area;
-	}
-	public void setPut_area(String put_area) {
-		this.put_area = put_area;
 	}
 }
