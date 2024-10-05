@@ -50,9 +50,20 @@ public class CommConfig implements SchedulingConfigurer, AsyncConfigurer {
 	}
 
 	@Bean
-	public PlcProcessor plcProcessor() {
-		return new PlcProcessor();
-	}	
+	public PlcWriteProcessor plcWriteProcessor() {
+		return new PlcWriteProcessor();
+	}
+	
+	@Bean
+	public MchInputProcessor mchInputProcessor() {
+		return new MchInputProcessor();
+	}
+	
+	@Bean
+	public OutPutProcessor outputProcessor() {
+		return new OutPutProcessor();
+	}
+	
 	@Override
 	public Executor getAsyncExecutor() {
 		return taskScheduler();

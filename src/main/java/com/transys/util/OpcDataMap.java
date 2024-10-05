@@ -46,7 +46,6 @@ public class OpcDataMap {
         	ReferenceDescription reference = browseResult.getReferences()[i];
         	String getName = reference.getBrowseName().getName().toString();
         	
-        	
         	if(!"BaseObjectType".equals(getName)) {
         		referenceList.add(getName);
         		NodeId nodeId = new NodeId(2, reference.getNodeId().getIdentifier().toString());
@@ -160,4 +159,22 @@ public class OpcDataMap {
 		}
 	}
 	
+	
+	//OPC태그값 1개 조회
+	public Map<String, Object> getOpcData(String opcTag) throws InterruptedException, ExecutionException{
+		Map<String, Object> rtnMap = new HashMap<String, Object>();
+		
+		UShort namespaceIndex = Unsigned.ushort(2);
+		
+		NodeId nodeId = new NodeId(namespaceIndex, opcTag);
+		
+        // Read 요청 보내기
+        CompletableFuture<DataValue> future = MainController.client.readValue(0, TimestampsToReturn.Both, nodeId);
+        
+        DataValue singleValue = future.get();       
+        
+        rtnMap.put("value", singleValue.getValue().getValue());
+        
+		return rtnMap;
+	}
 }

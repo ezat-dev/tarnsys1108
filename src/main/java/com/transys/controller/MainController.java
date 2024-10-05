@@ -13,6 +13,11 @@ public class MainController {
 	
 	public static OpcUaClient client = null;
 
+	
+	public static boolean outPutChk1 = false;
+	public static boolean outPutChk2 = false;
+	public static boolean outPutChk3 = false;
+	public static boolean outPutChk4 = false;		
 
     //OPC서버 연결시작
     public static void opcStart() throws UaException, InterruptedException, ExecutionException {

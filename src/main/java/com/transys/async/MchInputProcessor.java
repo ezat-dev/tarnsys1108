@@ -5,16 +5,16 @@ import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.transys.service.PlcService;
+import com.transys.service.MchInputService;
 
 
-public class PlcProcessor {
+public class MchInputProcessor {
 	
 	@Autowired
-	private PlcService plcService;	
+	private MchInputService mchInputService;	
 	
 	@Scheduled(fixedRate = 2000)
 	public void handle() throws InterruptedException, ExecutionException{
-		plcService.plcWrite();
+		mchInputService.mchInput();
 	}
 }

@@ -1,9 +1,11 @@
 package com.transys.dao;
 
+import com.transys.domain.MchInput;
 import com.transys.domain.PlcWrite;
 
-public interface PlcDao {
+public interface PlcWriteDao {
 
+	//PLC_WRITE(창고 -> 각 설비[연속로])
 	PlcWrite getPlcWriteWorkData();
 
 	void setPlcWriteDataUpdate(PlcWrite plcWrite);

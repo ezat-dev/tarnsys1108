@@ -18,7 +18,9 @@
 
 	<task:annotation-driven executor="executor" scheduler="scheduler" proxy-target-class="false"/>
 	<bean id="commProcessor" class="com.transys.async.CommProcessor"/>
-	<bean id="plcProcessor" class="com.transys.async.PlcProcessor"/>
+	<bean id="plcWriteProcessor" class="com.transys.async.PlcWriteProcessor"/>
+	<bean id="mchInputProcessor" class="com.transys.async.MchInputProcessor"/>
+	<bean id="outPutProcessor" class="com.transys.async.OutPutProcessor"/>
 	<task:scheduler id="scheduler" pool-size="4" />
 	<task:executor id="executor" keep-alive="10" pool-size="10-20"
 		queue-capacity="10" rejection-policy="ABORT" />
@@ -26,7 +28,7 @@
 	<!-- 메인DB(MSSQL) -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" /> 
-		<property name="url" value="jdbc:sqlserver://192.168.1.59:1433;DataBaseName=HTSERVERDB_4_14;encrypt=true;trustServerCertificate=true;" /> 
+		<property name="url" value="jdbc:sqlserver://192.168.1.59:1433;DataBaseName=HTSERVERDB;encrypt=true;trustServerCertificate=true;" /> 
 		<property name="username" value="sa" /> 
 		<property name="password" value="ezat6695"/>
 	</bean>
@@ -34,7 +36,7 @@
 	<!-- 창고DB(Oracle) -->
 	<bean id="dataSourceOracle" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" /> 
-		<property name="url" value="jdbc:oracle:thin:@192.168.1.59:1521/ORCL" /> 
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521/ORCL" /> 
 		<property name="username" value="fire" /> 
 		<property name="password" value="ezat6695"/>
 	</bean>

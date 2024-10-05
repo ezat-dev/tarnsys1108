@@ -2,6 +2,7 @@ package com.transys.domain;
 
 public class Product {
 
+	//t_product 테이블
 	private String pumcode;
 	private String pumname;
 	private String gijong;
@@ -32,6 +33,8 @@ public class Product {
 	private String cycletime;
 	private String agitate_rpm;
 	private String common_device;
+	
+	
 	public String getPumcode() {
 		return pumcode;
 	}

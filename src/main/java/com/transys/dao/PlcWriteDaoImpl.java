@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.transys.domain.PlcWrite;
 
 @Repository
-public class PlcDaoImpl implements PlcDao{
+public class PlcWriteDaoImpl implements PlcWriteDao{
 	
 	@Resource(name="session")
 	private SqlSession sqlSession;
@@ -42,7 +42,7 @@ public class PlcDaoImpl implements PlcDao{
 
 	@Override
 	public void setPlcWriteDataDelete(PlcWrite work) {
-		sqlSessionOracle.delete("plc.setPlcWriteDataDelete",work);
+		sqlSessionOracle.delete("plcWrite.setPlcWriteDataDelete",work);
 	}
 
 }
