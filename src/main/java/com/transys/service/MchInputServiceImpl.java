@@ -7,6 +7,7 @@ import org.apache.poi.util.SystemOutLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.transys.controller.MainController;
 import com.transys.dao.MchInputDao;
 import com.transys.domain.MchInput;
 import com.transys.util.OpcDataMap;
@@ -17,27 +18,12 @@ public class MchInputServiceImpl implements MchInputService{
 	@Autowired
 	private MchInputDao mchInputDao;
 	
-	public void mchInput() throws InterruptedException, ExecutionException {
+	public void mchInput(String plcPumbun, String plcDevice) throws InterruptedException, ExecutionException {
 //		System.out.println("MCHINPUT ");
-		OpcDataMap opcDataMap = new OpcDataMap();
-		String plcPumbun = "0";
-		String plcDevice = "";
 		String dbMesLot = "";
-		
-		//품번, 호기값 조회
-		Map<String, Object> pumbunMap = opcDataMap.getOpcData("TRANSYS_TEST.MCHINPUT.PUMBUN");
-		Map<String, Object> deviceMap = opcDataMap.getOpcData("TRANSYS_TEST.MCHINPUT.DEVICECODE");
-//		System.out.println("pumbun : "+pumbunMap.get("value"));
-//		System.out.println("device : "+deviceMap.get("value"));
-		
-		plcPumbun = pumbunMap.get("value").toString();
-		plcDevice = deviceMap.get("value").toString();
 		
 		//품번이 0이 아닐때만
 		if(!"0".equals(plcPumbun)) {
-			//4자리 포맷으로 만들기 품번이 4면 0004
-			plcPumbun = String.format("%04d",Integer.parseInt(plcPumbun));
-//			System.out.println("plcPumbun : "+plcPumbun);
 			
 			//t_workinline에서 품번, 호기로 데이터 조회
 			MchInput mchInput = new MchInput();
@@ -97,8 +83,8 @@ public class MchInputServiceImpl implements MchInputService{
 				OpcDataMap opcData = new OpcDataMap();
 				
 				//화면의 표시값 초기화 (PLC값 등등)
-				opcData.setOpcData("TRANSYS_TEST.MCHINPUT.PUMBUN", 0);
-				opcData.setOpcData("TRANSYS_TEST.MCHINPUT.DEVICECODE", 0);
+				opcData.setOpcData("Transys.MCHINPUT.PUMBUN", 0);
+				opcData.setOpcData("Transys.MCHINPUT.DEVICECODE", 0);
 				
 				//마지막 창고 입고내역
 				
@@ -117,4 +103,52 @@ public class MchInputServiceImpl implements MchInputService{
 		}
 	}
 
+	public void mchInputTimer() throws InterruptedException, ExecutionException {
+		OpcDataMap opcDataMap = new OpcDataMap();
+		String dbMesLot = "";
+		
+		//품번, 호기값 조회
+		Map<String, Object> pumbunMap = opcDataMap.getOpcData("Transys.MCHINPUT.PUMBUN");		//DB1.DBW804
+		Map<String, Object> deviceMap = opcDataMap.getOpcData("Transys.MCHINPUT.DEVICECODE");	//DB1.DBW808
+		
+		String plcPumbun = pumbunMap.get("value").toString();
+		String plcDevice = deviceMap.get("value").toString();
+		
+		//제품추출요구 신호
+		boolean mchInputChk = false;
+		Map<String, Object> mchInputMap = opcDataMap.getOpcData("Transys.MCHINPUT.MCHINPUT_CHK");	//DB18.X41.4
+		
+		mchInputChk = Boolean.parseBoolean(mchInputMap.get("value").toString());
+		
+		String savePumbun = "";
+		String saveDevice = "";
+		
+		if(!"0".equals(plcPumbun) && plcPumbun.length() > 0) {
+			//4자리 포맷으로 만들기 품번이 4면 0004
+			savePumbun = String.format("%04d",Integer.parseInt(plcPumbun));
+		}
+		
+		if(!"0".equals(plcDevice) && plcDevice.length() > 0) {
+			saveDevice = plcDevice;
+		}		
+		
+		if(mchInputChk) {
+			Map<String, Object> plcCountMap = opcDataMap.getOpcData("Transys.MCHINPUT.PLC_COUNT");	//DB18.X41.4
+			
+			//PLC 창고입고카운트 1증가
+			MainController.plcCount = Integer.parseInt(plcCountMap.get("value").toString());			
+			MainController.plcCount++;
+			
+	        //txt_INPUT1 값이 txt_INPUT 값보다 먼저 삭제되는 경우가 발생하여 변수로 저장한 값으로 비교(이동진 수정 : 2012.09.07)
+			if(!"0".equals(savePumbun) && !"0".equals(saveDevice)) {
+				
+				mchInput(plcPumbun, plcDevice);			
+			}else {
+				//로그남기기(입고등록 중단)
+			}
+			
+		}
+
+	}
+	
 }

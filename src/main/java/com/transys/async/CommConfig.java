@@ -64,6 +64,11 @@ public class CommConfig implements SchedulingConfigurer, AsyncConfigurer {
 		return new OutPutProcessor();
 	}
 	
+	@Bean
+	public ArrivedTabProcessor arrivedTabProcessor() {
+		return new ArrivedTabProcessor();
+	}
+	
 	@Override
 	public Executor getAsyncExecutor() {
 		return taskScheduler();

@@ -13,15 +13,18 @@ public class MainController {
 	
 	public static OpcUaClient client = null;
 
-	
+	//설비별 출고가능신호
 	public static boolean outPutChk1 = false;
 	public static boolean outPutChk2 = false;
 	public static boolean outPutChk3 = false;
-	public static boolean outPutChk4 = false;		
+	public static boolean outPutChk4 = false;
 
+	//창고 입고카운트
+	public static int plcCount = 0;
+	
     //OPC서버 연결시작
     public static void opcStart() throws UaException, InterruptedException, ExecutionException {
-		client = OpcUaClient.create("opc.tcp://192.168.1.59:5660");
+		client = OpcUaClient.create("opc.tcp://192.168.1.181:5660");
 			
 		client.connect().get();
     }

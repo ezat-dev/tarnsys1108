@@ -64,7 +64,7 @@
 		color: black;
 	}
 	
-	#placename{
+	#devicecode{
 		/* 설비명 셀렉트 박스 */
 		font-size: 14pt;
 		text-align: center;
@@ -83,6 +83,7 @@
 		color: #123478;
 		font-size:14pt;
 		font-weight:700;
+		cursor:pointer;
 	}
 	
 		
@@ -163,80 +164,14 @@
 	input[type="text"]:disabled {
 	  color: #c3c3c3;
 	}
-	
-	/* 테이블 스크롤 없애기 */
-	#table_file{
-		-ms-overflow-style:none;
-		height: 950px;
-	}
-	
-	#table_file::-webkit-scrollbar { display:none; }
-	/* 테이블 스크롤 없애기 끝 */
-	/* alert창 */
 
 </style>
-
-
-<script>
-var check_pr = "";
-
-function checkTime(i) {
-if (i<10) {i = "0" + i};  // add zero in front of numbers < 10 
-	return i;
-}
-
-function checkDate(i) {
-	if (i<10) {
-		i = "0" + i;
-	}  // add zero in front of numbers < 10 
-	
-	return i;
-}
-
-// 실시간 날짜 end
-
-function writeCheck(){
-	
-   var form = document.writeform;
-   
-   if(cl_name == null || cl_name == ''){
-	   if(check != 1){ // 공통 QR을 선택하지 않았을 때
-		   alert("거래처를 선택해주세요.");
-		   return;
-	   }
-   }
-   
-   if(pr_code == null || pr_code == ''){
-	   if(check != 1){ // 공통 QR을 선택하지 않았을 때    
-		   //console.log("큐알 구분 : " + check_pr.indexOf('P'));
-		   if(check_pr.indexOf('P') == 0){
-			   // 제품코드 P일 경우
-			   alert("품목코드를 선택해주세요.");
-		   }else{
-			   form.submit(); // i003007.jsp로 이동
-			   alert("저장되었습니다.");
-		   }
-		   return;
-	   }
-   }
-  
-   form.submit(); // i003007.jsp로 이동
-   alert("저장되었습니다.");
-   
-  }
-</script>
-
-
 </head>
 
 <body data-offset="60" data-target=".navbar">
 
 
 <div id="wrap">
-
- <%--    <div class="header">
-		<jsp:include page="header-menu.jsp"/>
-	</div> --%>
 	
 	<div id="body2">
 		<div id="menu_bar">
@@ -244,218 +179,127 @@ function writeCheck(){
 		</div>
 	
 	<div id="contents">
-		<!-- <div style="color: black; font-size: 20px; padding-top: 2%;"> &lt;작업일보 상세&gt; </div> -->
-		<div style="color: black; font-size: 14px; padding-top: 1%; margin-left: 2.5%; text-align: left;"> <b style="font-size:15pt;">작업실적</b> / <label style="font-size:14pt;">작업일보 상세</label> </div>
+		<div style="color: black; font-size: 14px; padding-top: 1%; margin-left: 2.5%; text-align: left;"> 
+		<b style="font-size:15pt;">작업실적</b> / <label style="font-size:14pt;">작업일보 상세</label> </div>
 		<hr>
 		
 		<fieldset class="list_input">
 			<legend style="font-size:15pt;">검색조건</legend>
 			<div class="input_d">
-				<label> 설비명 : <select name="placename" id="placename" ></select> </label>
-				<!-- <button id="edit_name" hidden><i class="fa fa-pencil" aria-hidden="true"></i></button> -->
-	
-				<label style="margin-left: 15px;"> 작업일자 : <input type="text" class="input-sm datepicker" id="to_date" name="to_date" style="font-size: 14pt; text-align: center; width:130px;" placeholder=""/> </label>
-				<!-- <button id="edit_name" hidden><i class="fa fa-pencil" aria-hidden="true"></i></button> -->
+				<div class="row_label" style="display:inline-block;">
+					<label> 설비명 : 
+						<select style="font-weight:700; font-size: 14pt; text-align: center;" 
+							name="devicecode" id="devicecode" >
+							<option value="">전체</option>
+							<option value="1">1호기</option>
+							<option value="2">2호기</option>
+							<option value="3">3호기</option>
+							<option value="4">4호기</option>
+						</select>
+					</label>
+		
+					<label style="margin-left: 15px;"> 작업일자 : 
+					<input type="date" class="input-sm" id="wdate" name="wdate" 
+					style="font-weight:700; font-size: 14pt; text-align: center; width:150px;" placeholder=""/></label>
+				</div>
 
-				<button style="margin-left: 5%;" id="detailbtn">상세조회</button>
-				<button id="searchbtn">조회</button>
-				<button id="editbtn">편집</button>
-				<button id="delbtn">삭제</button>
-				<button onclick="getPopupEndTime();" style="width: 140px;">생산실적 처리</button>
-				<!-- <button id="printbtn">인쇄</button> -->
+				<div class="row_data" style="display:inline-block; width:800px;">
+					<div class="row_top">
+						<button style="margin-left: 5%;" id="searchBtn" onclick="getProduct();">조회</button>
+						<button id="detailBtn">상세이력</button>
+						<button id="addBtn">추가</button>				
+						<button id="deleteBtn">삭제</button>
+						<button id="excelBtn">엑셀</button>
+					</div>
+					
+					<div class="row_bottom" style="margin-top:1%;">			
+						<button style="margin-left: 5%;" id="endSaltBtn">SALT추출</button>
+						<button id="endTimeBtn">전체완료</button>
+						<button id="forcingStartBtn">강제투입</button>
+						<button id="forcingEndBtn">강제완료</button>
+						<button id="closeBtn">창닫기</button>
+					</div>
+				</div>
 			</div>
-			
 		</fieldset>
-	
 		<div id="workDetailList"></div>
-		
-		
-		<div id="edit_table" style="display:none;">
-		    <table id="editlist" class="table table-bordered table-hover table-responsive scrolltbody table_font_size">
-				<thead>
-					<tr>
-						<th class="text-center cell" 
-						style="background-color:darkslateblue; color:white; border: 1px solid black; border-right: 1px solid black; width: 5%; height: 20px;">호기</th>
-						<th class="text-center cell"
-						style="background-color:darkslateblue; color:white; border: 1px solid black; border-right: 1px solid black; width: 12%; height: 20px;">Lot No.</th>
-						<th class="text-center cell"
-						style="background-color:darkslateblue; color:white; border: 1px solid black; border-right: 1px solid black; width: 6%; height: 20px;">품번</th>
-						<th class="text-center cell"
-						style="background-color:darkslateblue; color:white; border: 1px solid black; border-right: 1px solid black; width: 10%; height: 20px;">품명코드</th>
-						<th class="text-center cell"
-						style="background-color:darkslateblue; color:white; border: 1px solid black; border-right: 1px solid black; width: 19%; height: 20px;">품명</th>
-						<th class="text-center cell"
-						style="background-color:darkslateblue; color:white; border: 1px solid black; border-right: 1px solid black; width: 6%; height: 20px;">기종</th>
-						<th class="text-center cell"
-						style="background-color:darkslateblue; color:white; border: 1px solid black; border-right: 1px solid black; width: 6%; height: 20px;">적재량</th>
-						<th class="text-center cell"
-						style="background-color:darkslateblue; color:white; border: 1px solid black; border-right: 1px solid black; width: 8%; height: 20px;">투입시간</th>
-						<th class="text-center cell"
-						style="background-color:darkslateblue; color:white; border: 1px solid black; border-right: 1px solid black; width: 8%; height: 20px;">SALT추출</th>
-						<th class="text-center cell"
-						style="background-color:darkslateblue; color:white; border: 1px solid black; border-right: 1px solid black; width: 8%; height: 20px;">추출완료</th>
-						<th class="text-center cell"
-						style="background-color:darkslateblue; color:white; border: 1px solid black; width: 12%; height: 20px;">Mes Lot</th>
-					</tr>
-				</thead>
-				
-				<form name="editForm" id="editForm" method="post" >
-					<tbody id="edit_contents">
-						<tr> 
-							<td class="text-center cell" 
-							style="color:black; border: 1px solid black; border-right: 1px solid black; width: 5%; height: 20px;"><input type="text" class="intext" id="editdev" name="editdev" value="" readonly/></td>
-							<td class="text-center cell"
-							style="color:black; border: 1px solid black; border-right: 1px solid black; width: 12%; height: 20px;"><input type="text" class="intext" id="editlotno" name="editlotno" value="" readonly/></td>
-							<td class="text-center cell"
-							style="color:black; border: 1px solid black; border-right: 1px solid black; width: 6%; height: 20px;"><input type="text" class="intext" id="editpumbun" name="editpumbun" value="" readonly/></td>
-							<td class="text-center cell"
-							style="color:black; border: 1px solid black; border-right: 1px solid black; width: 10%; height: 20px;"><input type="text" class="intext" id="editpumcode" name="editpumcode" value="" readonly/></td>
-							<td class="text-center cell"
-							style="color:black; border: 1px solid black; border-right: 1px solid black; width: 19%; height: 20px;"><input type="text" class="intext" id="editpumname" name="editpumname" value="" readonly/></td>
-							<td class="text-center cell"
-							style="color:black; border: 1px solid black; border-right: 1px solid black; width: 6%; height: 20px;"><input type="text" class="intext" id="editgijong" name="editgijong" value="" readonly/></td>
-							<td class="text-center cell"
-							style="color:black; border: 1px solid black; border-right: 1px solid black; width: 6%; height: 20px;"><input type="text" class="intext" id="editcnt" name="editcnt" value=""/></td>
-							<td class="text-center cell"
-							style="color:black; border: 1px solid black; border-right: 1px solid black; width: 8%; height: 20px;"><input type="text" class="intext" id="editstime" name="editstime" value=""/></td>
-							<td class="text-center cell"
-							style="color:black; border: 1px solid black; border-right: 1px solid black; width: 8%; height: 20px;"><input type="text" class="intext" id="editendsalt" name="editendsalt" value=""/></td>
-							<td class="text-center cell"
-							style="color:black; border: 1px solid black; border-right: 1px solid black; width: 8%; height: 20px;"><input type="text" class="intext" id="editetime" name="editetime" value=""/></td>
-							<td class="text-center cell"
-							style="color:black; border: 1px solid black; width: 12%; height: 20px;"><input type="text" class="intext" id="editmeslot" name="editmeslot" value=""/></td>
-						</tr>
-					</tbody>
-				</form>
-			</table>
-			
-			<button id="savebtn" style="float:right;">저장</button>
-		</div>	
 	</div>
 </div>
 </div>
 	<script>
-	var check = 0; // 체크박스 변수
-	var temp = 0; // 중앙 테이블 클릭 했는지 체크
-	var date = "";
-	var place = ""; // devicecode
-	var type = ""; // devicetype
-	var list = [];
-	var n_cnt = 0;
-	
 
 	//로드
 	$(function () {
+		var now = new Date();
+		var y = now.getFullYear();
+		var m = paddingZero(now.getMonth()+1);
+		var d = paddingZero(now.getDate());
+		$("#wdate").val(y+"-"+m+"-"+d);
 		getProduct();
-/*
-		
-		//2021-10-20 날짜수정
-		var d_now = new Date();
-		
-//		console.log(d_now);
-		var month = d_now.getMonth();
-		var d_year = d_now.getFullYear();
-		var d_month = checkDate(month+1);
-		var d_date = checkDate(d_now.getDate());
-
-		$("#searchEdate").val(d_year+"-"+d_month+"-"+d_date);
-		$("#to_date").val(d_year+"-"+d_month+"-"+d_date);
-		
-		date = $("#to_date").val(); // 당일 날짜 변수에 넣기
-
-		var d_before = new Date();
-		d_before.setFullYear(d_before.getFullYear(), d_before.getMonth()-1);
-
-		var d_b_year = d_before.getFullYear();
-		var d_b_month = checkDate(d_before.getMonth()+1);
-		var d_b_date = checkDate(d_before.getDate());
-
-		$("#tdate1").val(d_year+d_month+d_date);
-		
-
-		$(".datepicker").datepicker({
-			dateFormat: "yy-mm-dd",
-			dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
-			monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
-			monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ]
-			
-		});			
-
-		$(".countDATA").text("조회된 데이터 수 : " + n_cnt);
-
-		 getSelectPlace();
-		 getProduct();
-*/
 	});
 	// 로드 끝
-
-	// 조회 버튼 클릭 시	
-	$('#searchbtn').click(function(){
-		var select = $("#placename option:selected").val();
-		date = $(".datepicker[name=to_date]").val();
-		
-		array_p = select.split("^");
-		
-		place = array_p[0]; // devicecode
-		type = array_p[1]; // devicetype
-		
-		
-		getProduct();
+	
+	$("#closeBtn").on("click", function(){
+		window.close();
 	});
 
 	// 삭제 버튼 클릭 시	
-	$('#delbtn').click(function(){
-/*		
-		var chkb = 'chk_box_';
+	$('#deleteBtn').on("click",function(){
+		var lotNo = localStorage.getItem("lotNo");
 		
-		var j = 0;
-
-		for(i = 0; i < n_cnt; i++){
-			
-			if( $('#'+ chkb + i).is(":checked") ){
-				list[j] = $('#lotno'+i).text();
-				//memo[j] = document.getElementById('chk_memo'+i).value;
-				j++;
-            }
+		if(confirm("LotNo : "+lotNo+"를 \n삭제하시겠습니까?")){
+			setWorkDetailDelete();
 		}
-*/
-
-
-		delProduct();
 	});
-
-	// 편집 버튼 클릭 시	
-	$('#editbtn').click(function(){
-/*		
-		if($('#edit_table').css('display') == 'block'){
-			$('#edit_table').css('display', 'none');
-		}else {
-			$('#edit_table').css('display', 'block');
+	
+	//SALT추출
+	$("#endSaltBtn").on("click",function(){
+		var lotNo = localStorage.getItem("lotNo");
+		
+		if(confirm("LotNo : "+lotNo+"의 \nSALT추출시간을 수정하시겠습니까?")){
+			setWorkDetailEndSalt();
 		}
-*/
-		var lotno = $("#editlotno").val();
-		var pumbun = $("#editpumbun").val();
-		var pumcode = $("#editpumcode").val();
-		var pumname = $("#editpumname").val();
-		var loadcnt = $("#editcnt").val();
-		var meslot = $("#editmeslot").val();
+	});
+	
+	//전체완료
+	$("#endTimeBtn").on("click",function(){
+		var lotNo = localStorage.getItem("lotNo");
 		
+		if(confirm("LotNo : "+lotNo+"의 \nSALT완료시간을 수정하시겠습니까?")){
+			setWorkDetailEndTime();
+		}
+	});
+	
+	//강제투입
+	$("#forcingStartBtn").on("click",function(){
+		var lotNo = localStorage.getItem("lotNo");
+		var pumbun = localStorage.getItem("pumbun");
 		
-		getPopupDetailEdit();
-
-
+		if(confirm("LotNo : "+lotNo+"을 \n강제투입 하시겠습니까?")){
+			setWorkDetailForcingStart();
+		}
+	});
+	
+	//전체완료
+	$("#forcingEndBtn").on("click",function(){
+		var lotNo = localStorage.getItem("lotNo");
+		
+		if(confirm("LotNo : "+lotNo+"을 \n강제완료 하시겠습니까?")){
+			setWorkDetailForcingEnd();
+		}
 	});
 	
 	//상세조회 클릭 시
-	$("#detailbtn").on("click", function(){
-		var device = $("#editdev").val();
-		var lotno = $("#editlotno").val();
-		
-		getPopupDetail(device, lotno);
+	$("#detailBtn").on("click", function(){
+		getPopupDetail();
+	});
+	
+	$("#addBtn").on("click", function(){
+		getPopupDetailAdd();
 	});
 
 	//상세조회 팝업창
-	function getPopupDetail(dev, lot){
+	function getPopupDetail(){
 		/*큰화면
 		var width = (window.screen.width)-620;
 		var height = (window.screen.height)-630;
@@ -466,267 +310,211 @@ function writeCheck(){
 		var popupx = width-(width/2)-400;
 		var popupy = height-(height/2);
 		
-		openWin = window.open('01work_01detail_desc.jsp?dev='+dev+'&lot='+lot, '', 'status=no, width='+width+', height='+height+', menubar=1, left='+popupx+',top='+ popupy+', screenX='+popupx+', screenY='+popupy);
+		openWin = window.open('/transys/work/workDetailDesc', '', 'status=no, width='+width+', height='+height+', menubar=1, left='+popupx+',top='+ popupy+', screenX='+popupx+', screenY='+popupy);
 	}
 
-	//작업일보 편집
+	//작업일보편집 팝업창
 	function getPopupDetailEdit(){
 		/*큰화면
 		var width = (window.screen.width)-620;
 		var height = (window.screen.height)-630;
 		*/
-		var width = (window.screen.width)-300;
-		var height = (window.screen.height)-500;
+		var width = window.screen.width;
+		var height = window.screen.height;
 		
-		var popupx = width-(width/2)-400;
-		var popupy = height-(height/2);
+		var popupx = 0;
+		var popupy = 0;
 		
-		openWin = window.open('01work_01detail_edit.jsp', 'detail_edit', 'status=no, width='+width+', height='+height+', menubar=1, left='+popupx+',top='+ popupy+', screenX='+popupx+', screenY='+popupy);
-		
-		var form = document.editForm;
-		
-		form.action = "01work_01detail_edit.jsp";
-		form.target = "detail_edit";
-		form.submit();
+		openWin = window.open('/transys/work/workDetailEdit', 'detail_edit', 'status=no, width='+width+', height='+height+', menubar=1, left='+popupx+',top='+ popupy+', screenX='+popupx+', screenY='+popupy);
 	}	
 
-	//생산실적 처리
-	function getPopupEndTime(){
-		var width = (window.screen.width)-300;
-		var height = (window.screen.height)-500;
+	//추가화면 팝업창
+	function getPopupDetailAdd(){
+		var width = window.screen.width;
+		var height = window.screen.height;
 		
-		var popupx = width-(width/2)-400;
-		var popupy = height-(height/2);
+		var popupx = 0;
+		var popupy = 0;
 		
-		openWin = window.open('01work_01detail_endtime.jsp', 'detail_edit', 'status=no, width='+width+', height='+height+', menubar=1, left='+popupx+',top='+ popupy+', screenX='+popupx+', screenY='+popupy);
-	}	
-	
-	var workArray = new Array();
-	
-    $("#cate_contents").delegate('tr','click', function() {
-    	//console.log(check + "테이블 클릭1");
-		var $row = $(this).closest("tr"),
-			$text2 = $row.find(".nr2").text();		// 호기
-			$text3 = $row.find(".nr3").text();		// 로트 번호
-			$text4 = $row.find(".nr4").text();		// 품번
-			$text5 = $row.find(".nr5").text();		// 품명코드
-			$text6 = $row.find(".nr6").text();		// 품명
-			$text7 = $row.find(".nr7").text();		// 기종
-			$text8 = $row.find(".nr8").text();		// 적재량
-			$text9 = $row.find(".nr9").text();		// 투입시간
-			$text10 = $row.find(".nr10").text();	// salt추출
-			$text11 = $row.find(".nr11").text();	// 추출완료
-			$text12 = $row.find(".nr12").text();	// mes lot
-			
-			var p_code;
-			
-//			$("input:checkbox[id='comm_box']").prop("checked", false).attr("checked", false).removeAttr("checked");
-			$('#editdev').val($text2);				// 호기
-			$('#editlotno').val($text3);			// 로트 번호
-			$('#editpumbun').val($text4);			// 품번
-			$('#editpumcode').val($text5);			// 품명코드
-			$('#editpumname').val($text6);			// 품명
-			$('#editgijong').val($text7);			// 기종
-			$('#editcnt').val($text8);				// 적재량
-			$('#editstime').val($text9);			// 투입시간
-			$('#editendsalt').val($text10);			// salt추출
-			$('#editetime').val($text11);			// 추출완료
-			$('#editmeslot').val($text12);			// mes lot
-			
-			var index = 0;
-			$("#cate_contents >tr").each(function(){
-				if($text3 == workArray[index]){
-//					console.log("반복분 : "+purClientArray[index]);
-					$("#work"+$text3).css("background-color","#B2CCFF");						
-				}else{						
-					$("#work"+workArray[index]).css("background-color","#fff");
-				}						
-				
-				index++;
-			});			
-			
-	});
-	
-	
-
-	// 편집 후 저장 버튼 클릭 시	
-	$('#savebtn').click(function(){		
-		EditSend();
-	});
-	
-	function EditSend(){
+		openWin = window.open('/transys/work/workDetailAdd', 'detail_edit', 'status=no, width='+width+', height='+height+', menubar=1, left='+popupx+',top='+ popupy+', screenX='+popupx+', screenY='+popupy);
 		
-		var form = document.editForm;
-		form.submit();
-		
-	    console.log("저장 클릭");
-	    var temp = $('#editcnt').val();
-	    console.log("temp : " + temp);
-	   
-	    $('#edit_table').css('display', 'none');
 	}
-			
-	// 위치 셀렉트 박스
-	function getSelectPlace(){
+
+	//SALT추출
+	function setWorkDetailEndSalt(){
+		var lotNo = localStorage.getItem("lotNo");
+
 		$.ajax({
-			type : "POST",
-			url : "place_list.jsp",
-			cache : false,
-			dataType : "json",
-			data : {'time':new Date().getTime(),
-					},
-			success : function(rsJson) {
-				if (rsJson && rsJson.status == "ok") {
+			url:"/transys/work/workDetail/endSalt",
+			type:"post",
+			dataType:"json",
+			data:{"lotNo":lotNo},
+			success:function(result){
+				alert(result.data);
+				getProduct();
+			}
+		});	
+	}
+
+	//전체완료
+	function setWorkDetailEndTime(){
+		var lotNo = localStorage.getItem("lotNo");
+
+		$.ajax({
+			url:"/transys/work/workDetail/endTime",
+			type:"post",
+			dataType:"json",
+			data:{"lotNo":lotNo},
+			success:function(result){
+				alert(result.data);
+				getProduct();
+			}
+		});	
+	}
+
+	//강제투입
+	function setWorkDetailForcingStart(){
+		var lotNo = localStorage.getItem("lotNo");
+		var pumbun = localStorage.getItem("pumbun");
+
+		$.ajax({
+			url:"/transys/work/workDetail/forcingStart",
+			type:"post",
+			dataType:"json",
+			data:{"lotNo":lotNo, "pumbun":pumbun},
+			success:function(result){
+				alert(result.data);
+				getProduct();
+			}
+		});			
+	}
+
+	//강제완료
+	function setWorkDetailForcingEnd(){
+		var lotNo = localStorage.getItem("lotNo");
+
+		$.ajax({
+			url:"/transys/work/workDetail/forcingEnd",
+			type:"post",
+			dataType:"json",
+			data:{"lotNo":lotNo},
+			success:function(result){
+				alert(result.data);
+				getProduct();
+			}
+		});			
+	}
+	
+	function getProduct() {
+			
+		var p_devicecode = "";
+
+		var p_date = $("#wdate").val();
+		
+		p_date = "2015-01-08";
+		
+			
+	/* 작업일보 상세 */
+		alarmHistory = new Tabulator("#workDetailList", {
+		    height:"550px",
+		    layout:"fitColumns",
+		    selectable:true,	//로우 선택설정
+		    tooltips:true,
+		    selectableRangeMode:"click",
+		    reactiveData:true,
+		    headerHozAlign:"center",
+		    ajaxConfig:"POST",
+		    ajaxLoader:false,
+		    ajaxURL:"/transys/work/workDetail/list",
+		    ajaxProgressiveLoad:"scroll",			    			    
+		    ajaxParams:{
+		    	"p_devicecode":$("#devicecode").val(),
+		    	"p_date":p_date
+		    },
+		    placeholder:"조회된 데이터가 없습니다.",
+		    paginationSize:20,
+		    ajaxResponse:function(url, params, response){
+		        //url - the URL of the request
+		        //params - the parameters passed with the request
+		        //response - the JSON object returned in the body of the response.
+				$("#workDetailList .tabulator-col.tabulator-sortable").css("height","29px");
+		        return response; //return the response data to tabulator
+		    },
+		    columns:[
+		        {title:"호기", field:"devicecode", sorter:"string", width:80,
+		        	hozAlign:"center"},
+		        {title:"Lot No.", field:"lotno", sorter:"string", width:120,
+		        	hozAlign:"center"},
+		        {title:"품번", field:"pumbun", sorter:"string", width:100,
+		        	hozAlign:"center"},
+		        {title:"품명코드", field:"pumcode", sorter:"string", width:180,
+		        	hozAlign:"center"},
+		        {title:"기종", field:"gijong", sorter:"string", width:160,
+		        	hozAlign:"center"},
+		        {title:"적재량", field:"loadcnt", sorter:"string", width:100,
+		        	hozAlign:"center"},
+		        {title:"투입시간", field:"starttime", sorter:"string", width:120,
+		        	hozAlign:"center"},
+		        {title:"SALT추출시간", field:"endsalt", sorter:"string", width:140,
+		        	hozAlign:"center"},
+		        {title:"추출완료시간", field:"endtime", sorter:"string", width:120,
+		        	hozAlign:"center"},
+		        {title:"MES LOT", field:"meslot", sorter:"string", width:200,
+		        	hozAlign:"center"},
+		        {title:"참고사항", field:"remark", sorter:"string", width:200,
+		        	hozAlign:"center"},
+		    ],
+		    rowFormatter:function(row){
+			    var data = row.getData();
+			    
+			    row.getElement().style.fontWeight = "700";
+				row.getElement().style.backgroundColor = "#FFFFFF";
+			},
+			rowClick:function(e, row){
+
+				$("#workDetailList .tabulator-tableHolder > .tabulator-table > .tabulator-row").each(function(index, item){
+						
+					if($(this).hasClass("row_select")){							
+						$(this).removeClass('row_select');
+						row.getElement().className += " row_select";
+					}else{
+						$("#workDetailList div.row_select").removeClass("row_select");
+						row.getElement().className += " row_select";	
+					}
+				});
+
+				var rowData = row.getData();
+				//행 선택시 세션에 LOTNO전송
+				localStorage.setItem("lotNo",rowData.lotno);
+				localStorage.setItem("pumbun",rowData.pumbun);
 					
-			 		var cli = "";
-				 	cli = cli + "<option value=''>All</option>";
+			},
+			rowDblClick: function(e, row){
 
-			   		$.each(rsJson.rows, function(i, cl_s){	
-				 		/* if(company_temp != cl_s.qr_place){ */
-				   		cli = cli + "<option value='"+ cl_s.devicecode + "^" + cl_s.devicetype +"'>"+cl_s.devicename+"</option>";	
-				 		/* } */
-			   		});
-			   		
-			   		$("#placename").empty().append(cli);							
+				var rowData = row.getData();
 
-				} else if (rsJson && rsJson.status == "fail") {
-					alert("데이터 불러오는중 예외가 발생하였습니다.\n다시 시도하시기 바랍니다.");
-				} else {
-					alert("에러발생!");
-				}
-			},	// success 끝
-			error: function(req, status) {
-				if (req.status == 0 || status == "timeout") {
-					alert("네트워크 연결 확인 후 다시 시도해주세요.");
-				} else {
-					alert("처리중 예외가 발생하였습니다. 브라우저를 완전히 종료 후 다시 시도해 보시기 바랍니다.");
-				}
-			},						
+				//행 선택시 세션에 LOTNO전송
+				localStorage.setItem("lotNo",rowData.lotno);
+				localStorage.setItem("pumbun",rowData.pumbun);
+				getPopupDetailEdit();
+			}
 		});
 	}
-
-	
 		
-		function getProduct() {
+	function setWorkDetailDelete(){
+		var lotNo = localStorage.getItem("lotNo");
 			
-			var p_devicecode = "";
-			var p_date = "2021-02-21";
-			
-		/* 작업일보 상세 */
-			alarmHistory = new Tabulator("#workDetailList", {
-			    height:"550px",
-			    layout:"fitColumns",
-			    selectable:true,	//로우 선택설정
-			    tooltips:true,
-			    selectableRangeMode:"click",
-			    reactiveData:true,
-			    headerHozAlign:"center",
-			    ajaxConfig:"POST",
-			    ajaxLoader:false,
-			    ajaxURL:"/transys/work/workDetail/list",
-			    ajaxProgressiveLoad:"scroll",			    			    
-			    ajaxParams:{
-			    	"p_devicecode":p_devicecode,
-			    	"p_date":p_date
-			    },
-			    placeholder:"조회된 데이터가 없습니다.",
-			    paginationSize:20,
-			    ajaxResponse:function(url, params, response){
-			        //url - the URL of the request
-			        //params - the parameters passed with the request
-			        //response - the JSON object returned in the body of the response.
-					$("#workDetailList .tabulator-col.tabulator-sortable").css("height","29px");
-			        return response; //return the response data to tabulator
-			    },
-			    columns:[
-//				    {title:"고유번호", field:"idx"},
-			        {title:"태그명", field:"devicecode", sorter:"string", width:160,
-			        	hozAlign:"center"},
-			        {title:"알람명", field:"lotno", sorter:"string", width:500,
-			        	hozAlign:"center"},
-			        {title:"발생시간", field:"pumbun", sorter:"string", width:210,
-			        	hozAlign:"center"},
-			        {title:"해제시간", field:"pumcode", sorter:"string", width:200,
-			        	hozAlign:"center"}
-			    ],
-			    rowFormatter:function(row){
-				    var data = row.getData();
-				    
-				    row.getElement().style.fontWeight = "700";
-				    if(data.success_chk == "N" || data.success_chk == "" || data.success_chk == null){
-					 	row.getElement().style.backgroundColor = "#F6F6F6";
-					}else{
-						row.getElement().style.backgroundColor = "#E4F7BA";
-					}
-				},
-				rowClick:function(e, row){
-
-					$("#workDetailList .tabulator-tableHolder > .tabulator-table > .tabulator-row").each(function(index, item){
-						
-						if($(this).hasClass("row_select")){							
-							$(this).removeClass('row_select');
-							row.getElement().className += " row_select";
-						}else{
-							$("#workDetailList div.row_select").removeClass("row_select");
-							row.getElement().className += " row_select";	
-
-
-						}
-					});
-				}
-			});
-		}
-
-		function delProduct() {
-			var lotno = $("#editlotno").val();
-			var pumcode = $("#editpumcode").val();
-			var loadcnt = $("#editcnt").val();
-			var endtime = $("#editetime").val();
-			
-			if(lotno == "" || pumcode == ""){
-				alert("삭제할 행을 선택해 주십시오!!");
-				return;
+		$.ajax({
+			url:"/transys/work/workDetail/delete",
+			type:"post",
+			dataType:"json",
+			data:{"lotNo":lotNo},
+			success:function(result){
+				getProduct();
 			}
-			
-			if(confirm("데이터 삭제\n LOTNO : "+lotno+"\n"+"처리품코드 : "+pumcode+"\n데이터를 삭제하시겠습니까?")){
-				var siljuk_gb = 0;
-				
-				if(endtime != ""){
-					siljuk_gb = 1;
-				}
-				
-				$.ajax({
-			 		url:"../DB/01work_01del.jsp",
-			 		type:"post",
-			 		dataType:"json",
-			 		data:{
-			 			"lotno" : $("#editlotno").val(),
-			 			"pumcode" : $("#editpumcode").val(),
-			 			"loadcnt" : $("#editcnt").val(),
-			 			"siljuk_gb":siljuk_gb
-			 		},success: function(data){
-			 			
-			 		}
-			 	});
-				getProduct();				
-			}
-
-		}
+		});
+	}
+		
 	</script>
-	
-	<!-- <form name="parmForm" method="post">
-		<input type="hidden" id="DEVICECODE" name="DEVICECODE"/>
-		<input type="hidden" id="LOTNO" name="LOTNO" />
-		<input type="hidden" id="PUMBUN" name="PUMBUN"/>
-		<input type="hidden" id="PUMCODE" name="PUMCODE"/>
-		<input type="hidden" id="PUMNAME" name="PUMNAME"/>
-		<input type="hidden" id="GIJONG" name="GIJONG"/>
-		<input type="hidden" id="LOADCNT" name="LOADCNT"/>
-		<input type="hidden" id="STARTTIME" name="STARTTIME"/>
-		<input type="hidden" id="ENDSALT" name="ENDSALT"/>
-		<input type="hidden" id="ENDTIME" name="ENDTIME"/>
-		<input type="hidden" id="MESLOT" name="MESLOT"/>
-	</form> -->
-
 </body>
 </html>

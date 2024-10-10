@@ -15,6 +15,6 @@ public class PlcWriteProcessor {
 	
 	@Scheduled(fixedRate = 2000)
 	public void handle() throws InterruptedException, ExecutionException{
-		plcWriteService.plcWrite();
+		plcWriteService.plcWriteTimer();
 	}
 }

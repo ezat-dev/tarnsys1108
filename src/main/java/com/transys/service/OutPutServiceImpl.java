@@ -19,13 +19,37 @@ public class OutPutServiceImpl implements OutPutService{
 
 	@Override
 	public void outPut(int devicecode) {
-		OutPut outPut = new OutPut();
+		OutPut paramOutPut = new OutPut();
+		paramOutPut.setFireno(devicecode);
 		//파라미터로 받은 설비로 status값 조회
-		outPut.setDevicecode(devicecode);
 		
-//		outPutDao.getOutPutDeviceStatus(outPut);
-			//status값 0이라면
-				//OUTPUT_TAB에 INSERT
+		OutPut outPut = outPutDao.getOutPutDeviceStatus(paramOutPut);
+			if(outPut.getWorkdate() != null) {
+				//status값 0이라면
+				if(outPut.isOutPutChk1()) {
+					//OUTPUT_TAB에 INSERT					
+					MainController.outPutChk1 = true;
+					outPutDao.setOutPutSend(outPut);
+				}
+				
+				if(outPut.isOutPutChk2()) {
+					//OUTPUT_TAB에 INSERT					
+					MainController.outPutChk2 = true;
+					outPutDao.setOutPutSend(outPut);
+				}
+				
+				if(outPut.isOutPutChk3()) {
+					//OUTPUT_TAB에 INSERT					
+					MainController.outPutChk3 = true;
+					outPutDao.setOutPutSend(outPut);
+				}
+				
+				if(outPut.isOutPutChk4()) {
+					//OUTPUT_TAB에 INSERT					
+					MainController.outPutChk4 = true;
+					outPutDao.setOutPutSend(outPut);
+				}
+			}
 	}
 
 	@Override
@@ -48,10 +72,10 @@ public class OutPutServiceImpl implements OutPutService{
 		//각 설비별 출고요청가능 신호 받기
 		OpcDataMap opcData = new OpcDataMap();
 		//창고출고가능요구 1이면
-		Map<String, Object> hogi1Map = opcData.getOpcData("TRANSYS_TEST.OUTPUT.HOGI1");
-		Map<String, Object> hogi2Map = opcData.getOpcData("TRANSYS_TEST.OUTPUT.HOGI2");
-		Map<String, Object> hogi3Map = opcData.getOpcData("TRANSYS_TEST.OUTPUT.HOGI3");
-		Map<String, Object> hogi4Map = opcData.getOpcData("TRANSYS_TEST.OUTPUT.HOGI4");
+		Map<String, Object> hogi1Map = opcData.getOpcData("Transys.OUTPUT.HOGI1");
+		Map<String, Object> hogi2Map = opcData.getOpcData("Transys.OUTPUT.HOGI2");
+		Map<String, Object> hogi3Map = opcData.getOpcData("Transys.OUTPUT.HOGI3");
+		Map<String, Object> hogi4Map = opcData.getOpcData("Transys.OUTPUT.HOGI4");
 		Thread.sleep(300);
 		
 		hogi1 = Boolean.parseBoolean(hogi1Map.get("value").toString());
@@ -60,10 +84,10 @@ public class OutPutServiceImpl implements OutPutService{
 		hogi4 = Boolean.parseBoolean(hogi4Map.get("value").toString());
 
 		//
-		Map<String, Object> hogi1PrdMap = opcData.getOpcData("TRANSYS_TEST.OUTPUT.HOGI1_PRD");
-		Map<String, Object> hogi2PrdMap = opcData.getOpcData("TRANSYS_TEST.OUTPUT.HOGI2_PRD");
-		Map<String, Object> hogi3PrdMap = opcData.getOpcData("TRANSYS_TEST.OUTPUT.HOGI3_PRD");
-		Map<String, Object> hogi4PrdMap = opcData.getOpcData("TRANSYS_TEST.OUTPUT.HOGI4_PRD");
+		Map<String, Object> hogi1PrdMap = opcData.getOpcData("Transys.OUTPUT.HOGI1_PRD");
+		Map<String, Object> hogi2PrdMap = opcData.getOpcData("Transys.OUTPUT.HOGI2_PRD");
+		Map<String, Object> hogi3PrdMap = opcData.getOpcData("Transys.OUTPUT.HOGI3_PRD");
+		Map<String, Object> hogi4PrdMap = opcData.getOpcData("Transys.OUTPUT.HOGI4_PRD");
 		Thread.sleep(300);
 		
 		hogi1Prd = Boolean.parseBoolean(hogi1PrdMap.get("value").toString());
@@ -71,7 +95,7 @@ public class OutPutServiceImpl implements OutPutService{
 		hogi3Prd = Boolean.parseBoolean(hogi3PrdMap.get("value").toString());
 		hogi4Prd = Boolean.parseBoolean(hogi4PrdMap.get("value").toString());		
 		
-		Map<String, Object> outContinueMap = opcData.getOpcData("TRANSYS_TEST.OUTPUT.OUT_CONTINUE");
+		Map<String, Object> outContinueMap = opcData.getOpcData("Transys.OUTPUT.OUT_CONTINUE");
 		
 		outContinue = Boolean.parseBoolean(outContinueMap.get("value").toString());
 		

@@ -117,6 +117,7 @@ public class Work {
 	private int m11;
 	private int m12;
 
+	private int seq;
 	
 	public String getDevicecode() {
 		return devicecode;
@@ -682,4 +683,12 @@ public class Work {
 	public void setSearchEndDate(String searchEndDate) {
 		this.searchEndDate = searchEndDate;
 	}
+	public int getSeq() {
+		return seq;
+	}
+	public void setSeq(int seq) {
+		this.seq = seq;
+	}
+	
+	
 }

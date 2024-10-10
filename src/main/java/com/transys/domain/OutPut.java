@@ -2,17 +2,32 @@ package com.transys.domain;
 
 public class OutPut {
 
-	private int devicecode;
+	private int fireno;
+	private String workdate;
+	private String status;
+	
 	private boolean outPutChk1;
 	private boolean outPutChk2;
 	private boolean outPutChk3;
 	private boolean outPutChk4;
 	
-	public int getDevicecode() {
-		return devicecode;
+	public int getFireno() {
+		return fireno;
 	}
-	public void setDevicecode(int devicecode) {
-		this.devicecode = devicecode;
+	public void setFireno(int fireno) {
+		this.fireno = fireno;
+	}
+	public String getWorkdate() {
+		return workdate;
+	}
+	public void setWorkdate(String workdate) {
+		this.workdate = workdate;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public boolean isOutPutChk1() {
 		return outPutChk1;
@@ -38,6 +53,6 @@ public class OutPut {
 	public void setOutPutChk4(boolean outPutChk4) {
 		this.outPutChk4 = outPutChk4;
 	}
-	
+		
 	
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.transys.dao.WorkDao;
+import com.transys.domain.Product;
 import com.transys.domain.Work;
 
 @Service
@@ -17,6 +18,61 @@ public class WorkServiceImpl implements WorkService{
 	@Override
 	public List<Work> workDetailList(Work work) {
 		return workDao.workDetailList(work);
+	}
+
+	@Override
+	public Work workDetailDescData(Work work) {
+		return workDao.workDetailDescData(work);
+	}
+
+	@Override
+	public List<Product> workDetailProductList() {
+		return workDao.workDetailProductList();
+	}
+
+	@Override
+	public Work workDetailEditData(Work work) {
+		return workDao.workDetailEditData(work);
+	}
+
+	@Override
+	public void setWorkDetailEditDataSave(Work work) {
+		workDao.setWorkDetailEditDataSave(work);
+	}
+
+	@Override
+	public void setWorkDetailAddDataSave(Work work) {
+		workDao.setWorkDetailAddDataSave(work);
+	}
+
+	@Override
+	public void setWorkDetailDelete(Work work) {
+		workDao.setWorkDetailDelete(work);
+	}
+
+	@Override
+	public void setWorkDetailEndSalt(Work work) {
+		workDao.setWorkDetailEndSalt(work);
+	}
+
+	@Override
+	public void setWorkDetailEndTime(Work work) {
+		workDao.setWorkDetailEndTime(work);
+	}
+
+	@Override
+	public void setWorkDetailForcingStart(Work work) {
+		workDao.setWorkDetailForcingStart(work);
+	}
+
+	@Override
+	public void setWorkDetailForcingEnd(Work work) {
+		workDao.setWorkDetailForcingEnd(work);
+	}
+
+	@Override
+	public Work getWorkDetailEndTime(Work work) {
+		return workDao.getWorkDetailEndTime(work);
 	}
 
 }
