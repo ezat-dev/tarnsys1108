@@ -23,7 +23,6 @@ public class OutPutDaoImpl implements OutPutDao{
 		return sqlSessionOracle.selectOne("outPut.getOutPutDeviceStatus", paramOutPut);
 	}
 
-
 	@Override
 	public void setOutPutSend(OutPut outPut) {
 		sqlSessionOracle.insert("outPut.setOutPutSend", outPut);

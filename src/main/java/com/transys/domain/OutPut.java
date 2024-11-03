@@ -1,6 +1,7 @@
 package com.transys.domain;
 
 public class OutPut {
+	private String deviceCode;
 
 	private int fireno;
 	private String workdate;
@@ -11,6 +12,13 @@ public class OutPut {
 	private boolean outPutChk3;
 	private boolean outPutChk4;
 	
+	
+	public String getDeviceCode() {
+		return deviceCode;
+	}
+	public void setDeviceCode(String deviceCode) {
+		this.deviceCode = deviceCode;
+	}
 	public int getFireno() {
 		return fireno;
 	}

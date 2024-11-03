@@ -7,8 +7,10 @@
 	<package name="com.transys.domain"/>
 </typeAliases>
   <mappers>
-   <mapper resource="mybatis/mapper/work.xml"/>  
+   <mapper resource="mybatis/mapper/work.xml"/>
+   <mapper resource="mybatis/mapper/product.xml"/>
    <mapper resource="mybatis/mapper/plcWrite.xml"/>
    <mapper resource="mybatis/mapper/mchInput.xml"/>
+   <mapper resource="mybatis/mapper/util.xml"/>
   </mappers>
 </configuration>

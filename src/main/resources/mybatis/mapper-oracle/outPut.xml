@@ -12,4 +12,20 @@
 		VALUES
 		(#{fireno}, SYSDATE, '0')
 	</insert>
+	
+	  <!-- SELECT 구문 -->
+	    <select id="selectOutputTab" resultType="output">
+	        SELECT * FROM OUTPUT_TAB
+	    </select>
+	
+
+ 
+	<insert id="insertOutputTab" parameterType="string">
+	    INSERT INTO OUTPUT_TAB (FIRENO, WORKDATE, STATUS)
+	    VALUES 
+	    (#{value}, NOW(), '0')
+	</insert>
+
+
+
 </mapper>

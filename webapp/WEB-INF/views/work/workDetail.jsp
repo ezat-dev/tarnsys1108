@@ -205,7 +205,7 @@
 
 				<div class="row_data" style="display:inline-block; width:800px;">
 					<div class="row_top">
-						<button style="margin-left: 5%;" id="searchBtn" onclick="getProduct();">조회</button>
+						<button style="margin-left: 200px;" id="searchBtn" onclick="getProduct();">조회</button>
 						<button id="detailBtn">상세이력</button>
 						<button id="addBtn">추가</button>				
 						<button id="deleteBtn">삭제</button>
@@ -411,7 +411,7 @@
 
 		var p_date = $("#wdate").val();
 		
-		p_date = "2015-01-08";
+//		p_date = "2015-01-08";
 		
 			
 	/* 작업일보 상세 */
@@ -437,6 +437,9 @@
 		        //url - the URL of the request
 		        //params - the parameters passed with the request
 		        //response - the JSON object returned in the body of the response.
+	            console.log("Ajax 응답 URL: ", url);
+	            console.log("Ajax 응답 파라미터: ", params);
+	            console.log("Ajax 응답 데이터: ", response);		        
 				$("#workDetailList .tabulator-col.tabulator-sortable").css("height","29px");
 		        return response; //return the response data to tabulator
 		    },

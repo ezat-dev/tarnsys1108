@@ -54,13 +54,13 @@ ul{
 		<!-- 
 			<li><a class="menuLink" href="OVERVIEW.jsp">오버뷰</a></li>
  		-->
-			<li><a class="menuLink" href="CCF01_02.jsp">침탄1,2호기</a></li>
+			<li><a class="menuLink" href="ccf01_02">침탄1,2호기</a></li>
 
-			<li><a class="menuLink" href="CCF03_04.jsp">침탄3,4호기</a></li>
+			<li><a class="menuLink" href="ccf03_04">침탄3,4호기</a></li>
 			
-			<li><a class="menuLink" href="COMM01_02.jsp">공통 1,2호기</a></li>
+			<li><a class="menuLink" href="comm01_02">공통 1,2호기</a></li>
 			
-			<li><a class="menuLink" href='javascript:void(0);' onclick="getPopupData();" style="width: 250px;" >TM 열처리 데이터 관리</a></li>
+			<li><a class="menuLink" href="/transys/product/productList"  style="width: 250px;" >TM 열처리 데이터 관리</a></li>
 		</ul>
 	</nav>
 <script>

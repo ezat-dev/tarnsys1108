@@ -242,9 +242,10 @@ public class WorkController {
     @ResponseBody
     public Map<String, Object> setWorkDetailForcingStart(@RequestParam String lotNo, @RequestParam String pumbun) {
     	Map<String, Object> rtnMap = new HashMap<String, Object>();
-    	
+    	System.out.println(lotNo);
+    	System.out.println(lotNo.substring(8,9));
     	Work work = new Work();
-    	work.setLotno(lotNo);
+    	work.setDevicecode(lotNo.substring(8,9));
     	work.setPumbun(pumbun);
     	
     	workService.setWorkDetailForcingStart(work);

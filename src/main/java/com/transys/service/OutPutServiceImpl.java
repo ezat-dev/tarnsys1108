@@ -152,8 +152,6 @@ public class OutPutServiceImpl implements OutPutService{
 				}
 			}
 		}
-
-		
 		
 	}
 }
