@@ -65,6 +65,9 @@ ul{
 			
 			
 			<li><a class="menuLink" href="/transys/util/electricYear">전력 사용량(년)</a></li>
+		
+			<li><a class="menuLink" href="/transys/popup_data"  style="width: 250px;" >MENU</a></li>
+		
 		</ul>
 	</nav>
 			

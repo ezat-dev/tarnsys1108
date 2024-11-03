@@ -60,7 +60,7 @@ ul{
 			
 			<li><a class="menuLink" href="01work_05uptime.jsp">가동시간 분석</a></li>
 			
-			<li><a class="menuLink" href="../Popup_data.jsp">MENU</a></li>
+			<li><a class="menuLink" href="/transys/popup_data">MENU</a></li>
 		</ul>
 	</nav>
 			

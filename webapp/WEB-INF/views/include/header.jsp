@@ -60,7 +60,7 @@ ul{
 			
 			<li><a class="menuLink" href="comm01_02">공통 1,2호기</a></li>
 			
-			<li><a class="menuLink" href="/transys/product/productList"  style="width: 250px;" >TM 열처리 데이터 관리</a></li>
+			<li><a class="menuLink" href="/transys/popup_data"  style="width: 250px;" >MENU</a></li>
 		</ul>
 	</nav>
 <script>

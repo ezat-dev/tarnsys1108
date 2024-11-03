@@ -23,5 +23,10 @@ public class CcfController {
     public String ccf07(Model model) {
         return "/ccf/ccf07.jsp"; // 
     }	
+	@RequestMapping(value = "/popup_data", method = RequestMethod.GET)
+	 public String popup_data(Model model) {
+		return "/include/popup_data.jsp";
+	}
+	
     
 }

@@ -64,7 +64,7 @@ ul{
 			<li><a class="menuLink" href="/transys/product/productPlayList">진행리스트</a></li>
 			
 			
-			<li><a class="menuLink" href="/transys/ccf/ccf01_02">MENU</a></li>
+			<li><a class="menuLink" href="/transys/popup_data">MENU</a></li>
 		</ul>
 	</nav>
 			
