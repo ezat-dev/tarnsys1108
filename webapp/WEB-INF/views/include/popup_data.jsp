@@ -141,9 +141,12 @@ ul{
 		</ul>
 	</nav>
 	
+	
 	<nav class="Menu" >
 		<ul>		
 			
+
+			<li><a class="menuLink" href="/transys/">일일작업일보인쇄</a></li>
 
 			<li><a class="menuLink"></a></li>
 			
@@ -153,7 +156,34 @@ ul{
 		</ul>
 	</nav>
 	
-	<nav class="Menu"  style="margin-top: 5%;" >
+	<nav class="Menu" >
+		<ul>		
+			
+
+			<li><a class="menuLink" href="/transys/">월보작업일보인쇄</a></li>
+
+			<li><a class="menuLink"></a></li>
+			
+			<li><a class="menuLink"></a></li>
+
+			<li><a class="menuLink"></a></li>
+		</ul>
+	</nav>
+	<nav class="Menu" >
+		<ul>		
+			
+
+			<li><a class="menuLink" href="/transys/">년보작업일보인쇄</a></li>
+
+			<li><a class="menuLink"></a></li>
+			
+			<li><a class="menuLink"></a></li>
+
+			<li><a class="menuLink"></a></li>
+		</ul>
+	</nav>
+	
+	<nav class="Menu"  style="margin-top: 3%;" >
 		<ul>		
 			<li><a class="menuLink" href="/transys/ccf/ccf01_02" style="width:820px;">닫 기</a></li>
 		</ul>
