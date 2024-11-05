@@ -52,13 +52,13 @@ ul{
 		<ul>
 			<li><a class="menuLink" href="/transys/work/workDetail">작업일보상세</a></li>
 			
-			<li><a class="menuLink" href="01work_02normal.jsp">작업일보</a></li>
+			<li><a class="menuLink" href="/transys/work/workDay">작업일보</a></li>
 			
-			<li><a class="menuLink" href="01work_03month.jsp">작업월보</a></li>
+			<li><a class="menuLink" href="/transys/work/workMonth">작업월보</a></li>
 			
-			<li><a class="menuLink" href="01work_04year.jsp">작업년보</a></li>
+			<li><a class="menuLink" href="/transys/work/workYear">작업년보</a></li>
 			
-			<li><a class="menuLink" href="01work_05uptime.jsp">가동시간 분석</a></li>
+<!--		<li><a class="menuLink" href="01work_05uptime.jsp">가동시간 분석</a></li> -->
 			
 			<li><a class="menuLink" href="/transys/popup_data">MENU</a></li>
 		</ul>

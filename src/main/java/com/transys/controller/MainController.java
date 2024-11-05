@@ -35,9 +35,8 @@ public class MainController {
 		client.disconnect().get();
     }	
     
-    
-	
-
-
-	
+    @RequestMapping(value= "/", method = RequestMethod.GET)
+    public String ccf01_02(Model model) {
+        return "/ccf/ccf01_02.jsp"; // 
+    }
 }

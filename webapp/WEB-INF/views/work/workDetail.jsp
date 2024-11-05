@@ -205,7 +205,7 @@
 
 				<div class="row_data" style="display:inline-block; width:800px;">
 					<div class="row_top">
-						<button style="margin-left: 200px;" id="searchBtn" onclick="getProduct();">조회</button>
+						<button style="margin-left: 40px;" id="searchBtn" onclick="getProduct();">조회</button>
 						<button id="detailBtn">상세이력</button>
 						<button id="addBtn">추가</button>				
 						<button id="deleteBtn">삭제</button>
@@ -296,6 +296,23 @@
 	
 	$("#addBtn").on("click", function(){
 		getPopupDetailAdd();
+	});
+	
+	//엑셀다운로드 - 테스트 후에는 출력
+	$("#excelBtn").on("click", function(){
+		$.ajax({
+			url:"/transys/work/workDetail/excelDownload",
+			type:"post",
+			dataType:"json",
+			data:{
+				"p_devicecode":$("#devicecode").val(),
+				"p_date":$("#wdate").val()
+			},
+			success:function(result){
+				console.log(result);
+			}
+		});
+
 	});
 
 	//상세조회 팝업창

@@ -1,6 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-	
+   pageEncoding="UTF-8"%>
+   
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,134 +11,134 @@
 
 <style>
 
-	body {
-			text-align: center;
-		}
+   body {
+         text-align: center;
+      }
 
-	hr{
-		width: 95%;
-		margin: 10px 2.5% 2% 2.5%;
-	}
-	
-	#menu_bar{
-		padding-top: 3%;
-		background: #123478;
-	}
-	
-	.list_input{
-		text-align: center;
-		margin: 1% 5%;
-		padding: 10px 0%;
-		width: 90%;
-		border: 3px solid #F4EFEA;
-	}
-	
-	legend{
-		border: 0px;
-		width: 7%;
-		font-size: 15px;
-		margin-bottom: 0px;
-		padding-left: 2%;
-		text-align: left;
-	}
-	
-	.input_d{
-		font-size: 14px;
-		font-weight: 600;
-		color: black;
-	}
-	
-	#placename{
-		/* 설비명 셀렉트 박스 */
-		font-size: 14px;
-		text-align: center;
-	}
-	
-	.btn_work{
-		/* 작업일보 버튼 */
-		margin-top: 10px;
-	}
+   hr{
+      width: 95%;
+      margin: 10px 2.5% 2% 2.5%;
+   }
+   
+   #menu_bar{
+      padding-top: 3%;
+      background: #123478;
+   }
+   
+   .list_input{
+      text-align: center;
+      margin: 1% 5%;
+      padding: 10px 0%;
+      width: 90%;
+      border: 3px solid #F4EFEA;
+   }
+   
+   legend{
+      border: 0px;
+      width: 7%;
+      font-size: 15px;
+      margin-bottom: 0px;
+      padding-left: 2%;
+      text-align: left;
+   }
+   
+   .input_d{
+      font-size: 14px;
+      font-weight: 600;
+      color: black;
+   }
+   
+   #placename{
+      /* 설비명 셀렉트 박스 */
+      font-size: 14px;
+      text-align: center;
+   }
+   
+   .btn_work{
+      /* 작업일보 버튼 */
+      margin-top: 10px;
+   }
 
-	/* 작업일보 버튼 */
-	div > button{
-		width: 100px;
-		height: 30px;
-		border: 1px solid black; 
-		color: #123478;
-	}
-	
-		
-	div > button:hover {     
-		background: #798cb3;
-		border: 1px solid #798cb3;
-		color: white; 
-	}
+   /* 작업일보 버튼 */
+   div > button{
+      width: 100px;
+      height: 30px;
+      border: 1px solid black; 
+      color: #123478;
+   }
+   
+      
+   div > button:hover {     
+      background: #798cb3;
+      border: 1px solid #798cb3;
+      color: white; 
+   }
 
-	.text-center{
-		font-size: 16px;
-	}
-	
-	.countDATA{
-		/* 조회된 데이터 수 */
-		width: 90%;
-		text-align: right;
-		color: black;
-		margin: 0 auto;
-		margin-bottom: 3px;
-	}
-	
-	#table_file{
-		width: 90%;
-		text-align: center;
-		margin: auto;
-		max-height: 40%;
-		overflow:auto;
-	}
-	
-	#qr_memo{
-		width: 60%;
-		text-align: center;
-	}
-	
-	.del_btn{
-		background: transparent;
-		border: 0px;
-		color: #123478;
-		font-size: 20px;
-	}
+   .text-center{
+      font-size: 16px;
+   }
+   
+   .countDATA{
+      /* 조회된 데이터 수 */
+      width: 90%;
+      text-align: right;
+      color: black;
+      margin: 0 auto;
+      margin-bottom: 3px;
+   }
+   
+   #table_file{
+      width: 90%;
+      text-align: center;
+      margin: auto;
+      max-height: 40%;
+      overflow:auto;
+   }
+   
+   #qr_memo{
+      width: 60%;
+      text-align: center;
+   }
+   
+   .del_btn{
+      background: transparent;
+      border: 0px;
+      color: #123478;
+      font-size: 20px;
+   }
 
-	.NO_list{
-		text-align: center;
-	}
-	
-	#back_div{
-		text-align: right;
-		padding-right: 2%;
-		padding-top: 2%;
-	}
-	
-	#back_btn{
-		float: right;
-		background-color: transparent;
-		border : 0px;
-		color : #123478;
-	}
-	
-	#year{
-		width: 120px;
-		height: 25px;
-		text-align: center;
-	}
-	
-	/* 테이블 스크롤 없애기 */
-	#table_file{
-		-ms-overflow-style:none;
-		height: 550px;
-	}
-	
-	#table_file::-webkit-scrollbar { display:none; }
-	/* 테이블 스크롤 없애기 끝 */
-	/* alert창 */
+   .NO_list{
+      text-align: center;
+   }
+   
+   #back_div{
+      text-align: right;
+      padding-right: 2%;
+      padding-top: 2%;
+   }
+   
+   #back_btn{
+      float: right;
+      background-color: transparent;
+      border : 0px;
+      color : #123478;
+   }
+   
+   #year{
+      width: 120px;
+      height: 25px;
+      text-align: center;
+   }
+   
+   /* 테이블 스크롤 없애기 */
+   #table_file{
+      -ms-overflow-style:none;
+      height: 550px;
+   }
+   
+   #table_file::-webkit-scrollbar { display:none; }
+   /* 테이블 스크롤 없애기 끝 */
+   /* alert창 */
 
 </style>
 
@@ -162,10 +162,13 @@
         <legend>검색조건</legend>
         <div class="input_d">
             <label style="margin-left: 15px;"> 조회설정(년) : 
-                <input type="text" id="year" name="year" placeholder="2022"/>
+                <input type="text" id="year" name="year" placeholder="2012"/>
             </label>
             <button id="searchbtn" style="margin-left: 100px;">조회</button>
+        <button id="excelbtn" style="margin-left: 10px;">엑셀 다운로드</button>
         </div>
+        
+      
     </fieldset>
 
     <div id="table_file" style="margin: 2%;"></div>
@@ -268,6 +271,46 @@
             });
         }); 
     });
+
+
+
+    $('#excelbtn').click(function () {
+        var year = $("#year").val();
+        
+        if (!year) {
+            var currentYear = new Date().getFullYear();
+            year = currentYear; 
+            $("#year").val(year);
+        }
+
+      
+        $.ajax({
+            type: "POST",
+            url: "/transys/util/electricYear/excel", 
+            dataType: "json",
+            data: {
+                'electricYear': parseInt(year) 
+            },
+            success: function (response) {
+                console.log("엑셀 다운로드 요청 성공:", response);
+                if (response.status == "ok") {
+                    window.location.href = response.filename; 
+                } else {
+                    alert("엑셀 파일 생성 중 오류가 발생했습니다.");
+                }
+            },
+            error: function (req, status) {
+                console.error("Error occurred while downloading Excel:", req, status);
+                if (req.status == 0 || status == "timeout") {
+                    alert("네트워크 연결 확인 후 다시 시도해 주세요.");
+                } else {
+                    alert("처리 중 예외가 발생했습니다.");
+                }
+            }
+        });
+
+    });
+
 </script>
 
 
