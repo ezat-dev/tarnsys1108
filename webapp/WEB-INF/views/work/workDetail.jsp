@@ -199,7 +199,7 @@
 					</label>
 		
 					<label style="margin-left: 15px;"> 작업일자 : 
-					<input type="date" class="input-sm" id="wdate" name="wdate" 
+					<input type="date" class="daySet" id="wdate" name="wdate" 
 					style="font-weight:700; font-size: 14pt; text-align: center; width:150px;" placeholder=""/></label>
 				</div>
 
@@ -222,7 +222,7 @@
 				</div>
 			</div>
 		</fieldset>
-		<div id="workDetailList"></div>
+		<div id="workDetailList" style="margin-left: 5%;"></div>
 	</div>
 </div>
 </div>
@@ -433,7 +433,7 @@
 			
 	/* 작업일보 상세 */
 		alarmHistory = new Tabulator("#workDetailList", {
-		    height:"550px",
+		    height:"640px",
 		    layout:"fitColumns",
 		    selectable:true,	//로우 선택설정
 		    tooltips:true,
@@ -463,25 +463,25 @@
 		    columns:[
 		        {title:"호기", field:"devicecode", sorter:"string", width:80,
 		        	hozAlign:"center"},
-		        {title:"Lot No.", field:"lotno", sorter:"string", width:120,
+		        {title:"Lot No.", field:"lotno", sorter:"string", width:180,
 		        	hozAlign:"center"},
-		        {title:"품번", field:"pumbun", sorter:"string", width:100,
+		        {title:"품번", field:"pumbun", sorter:"string", width:180,
 		        	hozAlign:"center"},
 		        {title:"품명코드", field:"pumcode", sorter:"string", width:180,
 		        	hozAlign:"center"},
-		        {title:"기종", field:"gijong", sorter:"string", width:160,
+		        {title:"기종", field:"gijong", sorter:"string", width:140,
 		        	hozAlign:"center"},
-		        {title:"적재량", field:"loadcnt", sorter:"string", width:100,
+		        {title:"적재량", field:"loadcnt", sorter:"string", width:140,
 		        	hozAlign:"center"},
-		        {title:"투입시간", field:"starttime", sorter:"string", width:120,
+		        {title:"투입시간", field:"starttime", sorter:"string", width:140,
 		        	hozAlign:"center"},
 		        {title:"SALT추출시간", field:"endsalt", sorter:"string", width:140,
 		        	hozAlign:"center"},
-		        {title:"추출완료시간", field:"endtime", sorter:"string", width:120,
+		        {title:"추출완료시간", field:"endtime", sorter:"string", width:140,
 		        	hozAlign:"center"},
-		        {title:"MES LOT", field:"meslot", sorter:"string", width:200,
+		        {title:"MES LOT", field:"meslot", sorter:"string", width:140,
 		        	hozAlign:"center"},
-		        {title:"참고사항", field:"remark", sorter:"string", width:200,
+		        {title:"참고사항", field:"remark", sorter:"string", width:260,
 		        	hozAlign:"center"},
 		    ],
 		    rowFormatter:function(row){

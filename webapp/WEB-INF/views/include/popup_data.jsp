@@ -107,7 +107,7 @@ ul{
 	
 	<nav class="Menu" >
 		<ul>		
-			<li><a class="menuLink" href="/transys/work/workDetail">작업일보</a></li>
+			<li><a class="menuLink" href="/transys/work/workDay">작업일보</a></li>
 
 			<li><a class="menuLink" href="/transys/alarm/alarmSum">발생경보누계</a></li>
 			
@@ -119,7 +119,7 @@ ul{
 	
 	<nav class="Menu" >
 		<ul>		
-			<li><a class="menuLink" href="/transys/">작업월보</a></li>
+			<li><a class="menuLink" href="/transys/work/workMonth">작업월보</a></li>
 
 			<li><a class="menuLink" href="/transys/alarm/alarmSum">경보정보</a></li>
 			
@@ -131,7 +131,7 @@ ul{
 	
 	<nav class="Menu" >
 		<ul>		
-			<li><a class="menuLink" href="/transys/">작업년보</a></li>
+			<li><a class="menuLink" href="/transys/work/workYear">작업년보</a></li>
 
 			<li><a class="menuLink"></a></li>
 			

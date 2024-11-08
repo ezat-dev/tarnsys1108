@@ -162,7 +162,7 @@
         <legend>검색조건</legend>
         <div class="input_d">
             <label style="margin-left: 15px;"> 조회설정(년) : 
-                <input type="text" id="year" name="year" placeholder="2012"/>
+                <input type="text" id="year" name="year" class="yearSet" placeholder="년도 선택"/>
             </label>
             <button id="searchbtn" style="margin-left: 100px;">조회</button>
         <button id="excelbtn" style="margin-left: 10px;">엑셀 다운로드</button>
@@ -174,27 +174,10 @@
     <div id="table_file" style="margin: 2%;"></div>
 
 <script> 
-    $(document).ready(function () {
-        $("#year").datepicker({
-            changeYear: true,
-            showButtonPanel: true,
-            dateFormat: 'yy',
-            closeText: '선택',
-            currentText: '현재',
-            stepMonths: 12,
-            showMonthAfterYear: true,
-            yearRange: "c-10:c+10",
-            onClose: function(dateText, inst) {
-                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                $(this).val(year);
-            }
-        });
 
-        $("#year").focus(function () {
-            $(".ui-datepicker-month").hide();
-            $(".ui-datepicker-calendar").hide();
-        });
 
+
+        // Tabulator 테이블 설정
         var table = new Tabulator("#table_file", {
             layout: "fitColumns",
             placeholder: "검색 결과가 없습니다.",
@@ -217,6 +200,7 @@
         });
         console.log("현재 테이블 데이터:", table.getData());
 
+        // 조회 버튼 클릭 이벤트
         $('#searchbtn').click(function () {
             var year = $("#year").val();
             
@@ -238,7 +222,7 @@
                 cache: false,
                 dataType: "json",
                 data: {
-                    'electricYear': year
+                    'electricYear': parseInt(year)
                 },
                 success: function (rsJson) {
                     console.log("Received request:", {'electricYear': year});
@@ -269,48 +253,50 @@
                     }
                 }
             });
-        }); 
-    });
-
-
-
-    $('#excelbtn').click(function () {
-        var year = $("#year").val();
-        
-        if (!year) {
-            var currentYear = new Date().getFullYear();
-            year = currentYear; 
-            $("#year").val(year);
-        }
-
-      
-        $.ajax({
-            type: "POST",
-            url: "/transys/util/electricYear/excel", 
-            dataType: "json",
-            data: {
-                'electricYear': parseInt(year) 
-            },
-            success: function (response) {
-                console.log("엑셀 다운로드 요청 성공:", response);
-                if (response.status == "ok") {
-                    window.location.href = response.filename; 
-                } else {
-                    alert("엑셀 파일 생성 중 오류가 발생했습니다.");
-                }
-            },
-            error: function (req, status) {
-                console.error("Error occurred while downloading Excel:", req, status);
-                if (req.status == 0 || status == "timeout") {
-                    alert("네트워크 연결 확인 후 다시 시도해 주세요.");
-                } else {
-                    alert("처리 중 예외가 발생했습니다.");
-                }
-            }
         });
 
-    });
+        // 엑셀 다운로드 버튼 클릭 이벤트
+        $('#excelbtn').click(function () {
+            var year = $("#year").val();
+            
+            if (!year) {
+                var currentYear = new Date().getFullYear();
+                year = currentYear; 
+                $("#year").val(year);
+            }
 
+            $.ajax({
+                type: "POST",
+                url: "/transys/util/electricYear/excel", 
+                dataType: "json",
+                data: {
+                    'electricYear': year 
+                },
+                success: function (response) {
+                    console.log("엑셀 다운로드 요청 성공:", response);
+                    if (response.status == "ok") {
+                        window.location.href = response.filename; 
+                    } else {
+                        alert("엑셀 파일 생성 중 오류가 발생했습니다.");
+                    }
+                },
+                error: function (req, status) {
+                    console.error("Error occurred while downloading Excel:", req, status);
+                    if (req.status == 0 || status == "timeout") {
+                        alert("네트워크 연결 확인 후 다시 시도해 주세요.");
+                    } else {
+                        alert("처리 중 예외가 발생했습니다.");
+                    }
+                }
+            });
+        });
+
+        // 페이지 로드 시 기본적으로 현재 연도로 검색
+        $(document).ready(function() {
+            var currentYear = new Date().getFullYear();
+            $("#year").val(currentYear); // 기본 연도 설정
+            $('#searchbtn').click(); // 자동으로 조회 버튼 클릭
+        });
 </script>
 
 

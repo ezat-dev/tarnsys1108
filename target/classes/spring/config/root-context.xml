@@ -29,7 +29,7 @@
 	<!-- 메인DB(MSSQL) -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" /> 
-		<property name="url" value="jdbc:sqlserver://192.168.1.181:1433;DataBaseName=HTSERVERDB;encrypt=true;trustServerCertificate=true;" /> 
+		<property name="url" value="jdbc:sqlserver://127.0.0.1:1433;DataBaseName=HTSERVERDB;encrypt=true;trustServerCertificate=true;" /> 
 		<property name="username" value="sa" /> 
 		<property name="password" value="ezat6695"/>
 	</bean>
@@ -45,7 +45,7 @@
 	<!-- 알람DB(SQLite) -->
 	<bean id="dataSourceSQLite" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
 		<property name="driverClassName" value="org.sqlite.JDBC" /> 
-		<property name="url" value="jdbc:sqlite:D:\WIA_AlarmData.db" />
+		<property name="url" value="jdbc:sqlite:D:\AutonicProject\Transys\Data\Alarm" />
 	</bean>
 
 	<tx:annotation-driven/>

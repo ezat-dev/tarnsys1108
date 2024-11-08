@@ -162,7 +162,7 @@
         <legend>검색조건</legend>
         <div class="input_d">
             <label style="margin-left: 15px;"> 조회설정(년) : 
-                <input type="text" id="year" name="year" placeholder="2022"/>
+                <input type="text" id="year" name="year" class="yearSet" placeholder="년도 선택"/>
             </label>
             <button id="searchbtn" style="margin-left: 100px;">조회</button>
         </div>
@@ -170,105 +170,93 @@
 
     <div id="table_file" style="margin: 2%;"></div>
 
-<script> 
-    $(document).ready(function () {
-        $("#year").datepicker({
-            changeYear: true,
-            showButtonPanel: true,
-            dateFormat: 'yy',
-            closeText: '선택',
-            currentText: '현재',
-            stepMonths: 12,
-            showMonthAfterYear: true,
-            yearRange: "c-10:c+10",
-            onClose: function(dateText, inst) {
-                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                $(this).val(year);
-            }
+<script>
+    // Tabulator 테이블 설정
+    var table = new Tabulator("#table_file", {
+        layout: "fitColumns",
+        placeholder: "검색 결과가 없습니다.",
+        columns: [
+            { title: "설비명", field: "deviceCode", headerSort: false, hozAlign: "center", width: 250 },
+            { title: "1월", field: "m01", headerSort: false, hozAlign: "center", width: 100 },
+            { title: "2월", field: "m02", headerSort: false, hozAlign: "center", width: 100 },
+            { title: "3월", field: "m03", headerSort: false, hozAlign: "center", width: 100 },
+            { title: "4월", field: "m04", headerSort: false, hozAlign: "center", width: 100 },
+            { title: "5월", field: "m05", headerSort: false, hozAlign: "center", width: 100 },
+            { title: "6월", field: "m06", headerSort: false, hozAlign: "center", width: 100 },
+            { title: "7월", field: "m07", headerSort: false, hozAlign: "center", width: 100 },
+            { title: "8월", field: "m08", headerSort: false, hozAlign: "center", width: 100 },
+            { title: "9월", field: "m09", headerSort: false, hozAlign: "center", width: 100 },
+            { title: "10월", field: "m10", headerSort: false, hozAlign: "center", width: 100 },
+            { title: "11월", field: "m11", headerSort: false, hozAlign: "center", width: 100 },
+            { title: "12월", field: "m12", headerSort: false, hozAlign: "center", width: 100 },
+            { title: "합계", field: "total", headerSort: false, hozAlign: "center", width: 120 }
+        ],
+    });
+    console.log("현재 테이블 데이터:", table.getData());
+
+    // 조회 버튼 클릭 이벤트
+    $('#searchbtn').click(function () {
+        var year = $("#year").val();
+
+        if (!year) {
+            var currentYear = new Date().getFullYear();
+            year = currentYear;
+            $("#year").val(year); // 기본 연도 설정
+        }
+
+        var electricYear = parseInt(year, 10);
+
+        console.log("전송할 데이터:", {
+            'electricYear': electricYear
         });
 
-        $("#year").focus(function () {
-            $(".ui-datepicker-month").hide();
-            $(".ui-datepicker-calendar").hide();
-        });
+        $.ajax({
+            type: "POST",
+            url: "/transys/util/lngYear/list",
+            cache: false,
+            dataType: "json",
+            data: {
+                'electricYear': year
+            },
+            success: function (rsJson) {
+                console.log("Received request:", {'electricYear': year});
+                console.log("Response JSON:", rsJson);
 
-        var table = new Tabulator("#table_file", {
-            layout: "fitColumns",
-            placeholder: "검색 결과가 없습니다.",
-            columns: [
-                { title: "설비명", field: "deviceCode", headerSort: false, hozAlign: "center", width: 250 },
-                { title: "1월", field: "m01", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "2월", field: "m02", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "3월", field: "m03", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "4월", field: "m04", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "5월", field: "m05", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "6월", field: "m06", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "7월", field: "m07", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "8월", field: "m08", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "9월", field: "m09", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "10월", field: "m10", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "11월", field: "m11", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "12월", field: "m12", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "합계", field: "total", headerSort: false, hozAlign: "center", width: 120 }
-            ],
-        });
-        console.log("현재 테이블 데이터:", table.getData());
+                if (rsJson && rsJson.status == "ok") {
+                    var rsAr = rsJson.data;
 
-        $('#searchbtn').click(function () {
-            var year = $("#year").val();
-            
-            if (!year) {
-                var currentYear = new Date().getFullYear();
-                year = currentYear; 
-                $("#year").val(year);
-            }
+                    rsAr.forEach(function (row) {
+                        row.total = row.m01 + row.m02 + row.m03 + row.m04 + row.m05 + row.m06 + row.m07 + row.m08 + row.m09 + row.m10 + row.m11 + row.m12;
+                    });
 
-            var electricYear = parseInt(year, 10); 
-            
-            console.log("전송할 데이터:", {
-                'electricYear': electricYear
-            });
-          
-            $.ajax({
-                type: "POST",
-                url: "/transys/util/lngYear/list",
-                cache: false,
-                dataType: "json",
-                data: {
-                    'electricYear': year
-                },
-                success: function (rsJson) {
-                    console.log("Received request:", {'electricYear': year});
-                    console.log("Response JSON:", rsJson);
-                    
-                    if (rsJson && rsJson.status == "ok") {
-                        var rsAr = rsJson.data;
-
-                        rsAr.forEach(function (row) {
-                            row.total = row.m01 + row.m02 + row.m03 + row.m04 + row.m05 + row.m06 + row.m07 + row.m08 + row.m09 + row.m10 + row.m11 + row.m12;
-                        });
-
-                        table.setData(rsAr);
-                        console.log("Table data set:", rsAr);
-                    } else if (rsJson && rsJson.status == "fail") {
-                        alert("데이터 불러오는 중 예외가 발생했습니다.");
-                    } else {
-                        alert("에러 발생!");
-                    }
-                },
-
-                error: function (req, status) {
-                    console.error("Error occurred:", req, status);
-                    if (req.status == 0 || status == "timeout") {
-                        alert("네트워크 연결 확인 후 다시 시도해 주세요.");
-                    } else {
-                        alert("처리 중 예외가 발생했습니다.");
-                    }
+                    table.setData(rsAr);
+                    console.log("Table data set:", rsAr);
+                } else if (rsJson && rsJson.status == "fail") {
+                    alert("데이터 불러오는 중 예외가 발생했습니다.");
+                } else {
+                    alert("에러 발생!");
                 }
-            });
-        }); 
+            },
+
+            error: function (req, status) {
+                console.error("Error occurred:", req, status);
+                if (req.status == 0 || status == "timeout") {
+                    alert("네트워크 연결 확인 후 다시 시도해 주세요.");
+                } else {
+                    alert("처리 중 예외가 발생했습니다.");
+                }
+            }
+        });
+    });
+
+    // 페이지 로드 시 기본적으로 현재 연도로 검색
+    $(document).ready(function() {
+        var currentYear = new Date().getFullYear();
+        $("#year").val(currentYear); // 기본 연도 설정
+        $('#searchbtn').click(); // 자동으로 조회 버튼 클릭
     });
 </script>
+
 
 
 </body>

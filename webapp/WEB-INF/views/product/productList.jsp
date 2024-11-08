@@ -231,22 +231,25 @@
     var selectedRowData = null; // 선택된 행의 데이터를 저장할 변수
 
     var table = new Tabulator("#cate_list", {
-        height: "640px",
-        layout: "fitData",
-        responsiveLayout: "hide",
-        pagination: false,
+    	   height:"640px",
+		    layout:"fitColumns",
+		    selectable:true,	//로우 선택설정
+		    tooltips:true,
+		    selectableRangeMode:"click",
+		    reactiveData:true,
+		    headerHozAlign:"center",
         columns: [
-            { title: "NO", field: "idx", hozAlign: "center", width: 50 },
+            { title: "NO", field: "idx", hozAlign: "center", width: 80 },
             { title: "품명 코드", field: "pumcode", hozAlign: "center", width: 200 },
-            { title: "품명", field: "pumname", hozAlign: "center", width: 250 },
-            { title: "기종", field: "gijong", hozAlign: "center", width: 200 },
+            { title: "품명", field: "pumname", hozAlign: "center", width: 200 },
+            { title: "기종", field: "gijong", hozAlign: "center", width: 180 },
             { title: "품번", field: "dobun", hozAlign: "center", width: 200 },
-            { title: "수량", field: "cnt", hozAlign: "center", width: 200 },
-            { title: "CYCLE NO", field: "cycleno", hozAlign: "center", width: 200 },
-            { title: "아지테이터 RPM", field: "agitate_rpm", hozAlign: "center", width: 200 },
-            { title: "공통설비 투입 호기", field: "common_device", hozAlign: "center", width: 200 },
-            { title: "등록일", field: "insertday", hozAlign: "center", width: 200 },
-            { title: "수정일", field: "updateday", hozAlign: "center", width: 200 },
+            { title: "수량", field: "cnt", hozAlign: "center", width: 120 },
+            { title: "CYCLE NO", field: "cycleno", hozAlign: "center", width: 120 },
+            { title: "아지테이터 RPM", field: "agitate_rpm", hozAlign: "center", width: 150 },
+            { title: "공통설비 투입 호기", field: "common_device", hozAlign: "center", width: 160 },
+            { title: "등록일", field: "insertday", hozAlign: "center", width: 150 },
+            { title: "수정일", field: "updateday", hozAlign: "center", width: 150 },
         ],
         rowClick: function(e, row) {
             selectedRowData = row.getData(); // 선택된 행의 데이터를 저장

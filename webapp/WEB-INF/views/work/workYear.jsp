@@ -136,7 +136,9 @@
 <body data-offset="60" data-target=".navbar" style="overflow-y: hidden">
 <div id="wrap">
     <div id="body2">
-        <div id="menu_bar"></div>
+		<div id="menu_bar">
+			<jsp:include page="../include/headerPopup.jsp"/>
+		</div>
         <div id="contents">
             <div style="color: black; font-size: 14px; padding-top: 1%; margin-left: 2.5%; text-align: left;">
                 <b style="font-size: 15pt;">작업실적</b> / <label style="font-size: 14pt;">작업년보</label>
@@ -156,11 +158,11 @@
 					</label>
 
                     <label style="margin-left: 15px;"> 작업일자 : 
-					    <input type="text" class="input-sm datepicker" id="to_date" name="to_date" style="font-size: 14pt; font-weight: 700; text-align: center; width: 130px;" placeholder=""/>
+					    <input type="date" class="yearSet" id="to_date" name="to_date" style="font-size: 14pt; font-weight: 700; text-align: center; width: 150px;" placeholder=""/>
 					</label>
 
                     <button id="searchbtn" style="margin-left: 100px;">조회</button>
-                     <button id="excel" style="margin-left: 10px;">엑셀 <img src="https://img.icons8.com/material-outlined/24/000000/excel.png" style="vertical-align: middle;"/></button>
+                     <button id="excel" style="margin-left: 10px;">엑셀 </button>
                     
                     <button id="printbtn">인쇄</button>
                     <button id="previewbtn" style="width: 200px;">인쇄 전 미리보기</button>
@@ -181,23 +183,28 @@
     var table = new Tabulator("#tabulator-table", {
         height: 650,
         data: tableData, 
-        layout: "fitData", 
+	    layout:"fitColumns",
+	    selectable:true,	//로우 선택설정
+	    tooltips:true,
+	    selectableRangeMode:"click",
+	    reactiveData:true,
+	    headerHozAlign:"center",
         columns: [
-            { title: "품명", field: "pumname", width: 180 },
-            { title: "품명코드", field: "pumcode", width: 180 },
-            { title: "기종", field: "gijong", width: 180 },         
-            { title: "1월", field: "m01", width: 115 },
-            { title: "2월", field: "m02", width: 115 },
-            { title: "3월", field: "m03", width: 115 },
-            { title: "4월", field: "m04", width: 115 },
-            { title: "5월", field: "m05", width: 115 },
-            { title: "6월", field: "m06", width: 115 },
-            { title: "7월", field: "m07", width: 115 },
-            { title: "8월", field: "m08", width: 115 },
-            { title: "9월", field: "m09", width: 115 },
-            { title: "10월", field: "m10", width: 115},
-            { title: "11월", field: "m11", width: 115 },
-            { title: "12월", field: "m12", width: 115 },
+            { title: "품명", field: "pumname", width: 140 },
+            { title: "품명코드", field: "pumcode", width: 140 },
+            { title: "기종", field: "gijong", width: 140 },         
+            { title: "1월", field: "m01", width: 110 },
+            { title: "2월", field: "m02", width: 110 },
+            { title: "3월", field: "m03", width: 110 },
+            { title: "4월", field: "m04", width: 110 },
+            { title: "5월", field: "m05", width: 110 },
+            { title: "6월", field: "m06", width: 110 },
+            { title: "7월", field: "m07", width: 110 },
+            { title: "8월", field: "m08", width: 110 },
+            { title: "9월", field: "m09", width: 110 },
+            { title: "10월", field: "m10", width: 110},
+            { title: "11월", field: "m11", width: 110 },
+            { title: "12월", field: "m12", width: 110 },
         ],
         placeholder: "검색 결과가 없습니다.", 
     });
@@ -263,15 +270,11 @@
     });
 
     $(document).ready(function() {
-        $("#to_date").datepicker({
-            dateFormat: "yy",
-            dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"],
-            monthNames: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-            monthNamesShort: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-            changeMonth: true,
-            changeYear: true,
-            showButtonPanel: true
-        }).datepicker("setDate", new Date()); 
+		var now = new Date();
+		var y = now.getFullYear();
+		var m = paddingZero(now.getMonth()+1);
+		var d = paddingZero(now.getDate());
+		$("#to_date").val(y+"-"+m+"-"+d);
     });
 
     document.getElementById("excel").addEventListener("click", function() {

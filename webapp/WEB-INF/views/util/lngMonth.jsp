@@ -233,7 +233,7 @@
 		<fieldset class="list_input">
 			<legend>검색조건</legend>
 			<div class="input_d">
-				<label style="margin-left: 15px;"> 조회설정(월) : <input type="text" id="monthPicker" name="month" placeholder="202201"/> </label>
+				<label style="margin-left: 15px;"> 조회설정(월) : <input type="text" id="monthPicker" name="month" class="monthSet" placeholder="월 선택"/> </label>
 				<!-- <button id="edit_name" hidden><i class="fa fa-pencil" aria-hidden="true"></i></button> -->
 				
 				<button id="searchbtn" style="margin-left: 100px;">조회</button>
@@ -269,86 +269,44 @@
 		</div>	
 		
 <script>
-
-    flatpickr("#monthPicker", {
-        dateFormat: "Y-m", 
-        defaultDate: new Date(), 
-        maxDate: "today", 
-        "locale": "ko", 
-        plugins: [
-            new monthSelectPlugin({ shorthand: true, dateFormat: "Y-m", altFormat: "F Y" }) // Month Select 플러그인 적용
-        ]
-    });
-
    
-    var table1 = new Tabulator("#cate_list01", {
-        layout: "fitColumns",
-        columns: [
-            {title: "번호", field: "id", width: 150, hozAlign: "center"},
-            {title: "작성시간", field: "WRITEDAYTIME", hozAlign: "center"},
-            {title: "LNG 합계", field: "LNG_SUM", hozAlign: "center"},
-        ],
-        placeholder: "데이터가 없습니다." 
+    $(document).ready(function() {
+
+        var currentDate = new Date();
+        var currentYear = currentDate.getFullYear();
+        var currentMonth = currentDate.getMonth() + 1;  
+        var formattedMonth = currentYear + "-" + (currentMonth < 10 ? "0" + currentMonth : currentMonth);  // "YYYY-MM" 형식
+
+
+        $("#monthPicker").val(formattedMonth);
+
+
+        $('#searchbtn').click();
     });
 
-    var table2 = new Tabulator("#cate_list02", {
-        layout: "fitColumns",
-        columns: [
-            {title: "번호", field: "id", width: 150, hozAlign: "center"},
-            {title: "작성시간", field: "WRITEDAYTIME", hozAlign: "center"},
-            {title: "LNG 합계", field: "LNG_SUM", hozAlign: "center"},
-        ],
-        placeholder: "데이터가 없습니다." 
-    });
-
-    var table3 = new Tabulator("#cate_list03", {
-        layout: "fitColumns",
-        columns: [
-            {title: "번호", field: "id", width: 150, hozAlign: "center"},
-            {title: "작성시간", field: "WRITEDAYTIME", hozAlign: "center"},
-            {title: "LNG 합계", field: "LNG_SUM", hozAlign: "center"},
-        ],
-        placeholder: "데이터가 없습니다." 
-    });
-
-    var table4 = new Tabulator("#cate_list04", {
-        layout: "fitColumns",
-        columns: [
-            {title: "번호", field: "id", width: 150, hozAlign: "center"},
-            {title: "작성시간", field: "WRITEDAYTIME", hozAlign: "center"},
-            {title: "LNG 합계", field: "LNG_SUM", hozAlign: "center"},
-        ],
-        placeholder: "데이터가 없습니다." 
-    });
 
     $('#searchbtn').click(function() {
         var selectedMonth = $("#monthPicker").val(); 
-
         var yearMonthArray = selectedMonth.split("-");
-        var lngYear = parseInt(yearMonthArray[0]); 
+        var lngYear = parseInt(yearMonthArray[0]);
         var lngMonth = parseInt(yearMonthArray[1]);
         console.log("선택된 년: " + lngYear);
         console.log("선택된 월: " + lngMonth);
 
-
         LNGList01(lngYear, lngMonth);
-
 
         setTimeout(function() {
             LNGList02(lngYear, lngMonth);
         }, 100);
 
- 
         setTimeout(function() {
             LNGList03(lngYear, lngMonth);
         }, 200);
 
-       
         setTimeout(function() {
             LNGList04(lngYear, lngMonth);
         }, 300);
     });
-
 
     function LNGList01(lngYear, lngMonth) {
         $.ajax({
@@ -362,11 +320,11 @@
                     var tableData = rsAr.map(function(item, index) {
                         return { id: index + 1, WRITEDAYTIME: item.WRITEDAYTIME, LNG_SUM: item.LNG_SUM };
                     });
-                    table1.setData(tableData); 
+                    table1.setData(tableData);
                 }
             },
             error: function(req, status) {
-               
+                console.error("Error:", req, status);
             }
         });
     }
@@ -383,11 +341,11 @@
                     var tableData = rsAr.map(function(item, index) {
                         return { id: index + 1, WRITEDAYTIME: item.WRITEDAYTIME, LNG_SUM: item.LNG_SUM };
                     });
-                    table2.setData(tableData); 
+                    table2.setData(tableData);
                 }
             },
             error: function(req, status) {
-             
+                console.error("Error:", req, status);
             }
         });
     }
@@ -408,7 +366,7 @@
                 }
             },
             error: function(req, status) {
-              
+                console.error("Error:", req, status);
             }
         });
     }
@@ -425,15 +383,14 @@
                     var tableData = rsAr.map(function(item, index) {
                         return { id: index + 1, WRITEDAYTIME: item.WRITEDAYTIME, LNG_SUM: item.LNG_SUM };
                     });
-                    table4.setData(tableData); 
+                    table4.setData(tableData);
                 }
             },
             error: function(req, status) {
-               
+                console.error("Error:", req, status);
             }
         });
     }
-
 </script>
 
 	

@@ -57,6 +57,7 @@ public class WorkController {
        work.setSearchStartDate(p_date+" 07:00");
        work.setSearchEndDate(p_date+" 06:59");
        
+       //t_siljuk, t_product 조인
        List<Work> workList = workService.workDetailList(work);
        
        rtnMap.put("last_page",1);
@@ -321,7 +322,8 @@ public class WorkController {
         Work work = new Work();
         work.setDevicecode(placename);
         // 날짜 값을 Work 객체에 설정
-        work.setKeymonth(date.substring(0,7).replace("-", ""));
+        work.setKeymonth(date.substring(0,6));
+        System.out.println(date.substring(0,6));
 
 
         return workService.workMonthList(work);

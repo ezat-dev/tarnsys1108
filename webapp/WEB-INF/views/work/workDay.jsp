@@ -146,7 +146,7 @@
 					</label>
 
                     <label style="margin-left: 15px;"> 작업일자 : 
-					    <input type="date" class="input-sm" id="to_date" 
+					    <input type="text" class="daySet" id="to_date" 
 					    name="to_date" style="font-size: 14pt; font-weight: 700; text-align: center; width: 150px;" placeholder=""/>
 					    
 					</label>
@@ -171,15 +171,21 @@
     var table = new Tabulator("#tabulator-table", {
         height: 650,
         data: tableData, 
-        layout: "fitData", 
+        layout:"fitColumns",
+	    selectable:true,	//로우 선택설정
+	    tooltips:true,
+	    selectableRangeMode:"click",
+	    reactiveData:true,
+	    headerHozAlign:"center",
         columns: [
-            { title: "NO", field: "devicecode", width: 250 },
-            { title: "품명코드", field: "pumcode", width: 300 },
-            { title: "품명", field: "pumname", width: 350 },
-            { title: "기종", field: "gijong", width: 300 },
-            { title: "장입량", field: "cntsum", width: 300 },
-            { title: "처리중", field: "intray", width: 300 },
-            { title: "추출량", field: "outtray", width: 300 },
+            { title: "NO", field: "devicecode", width: 80,
+	        	hozAlign:"center"},
+            { title: "품명코드", field: "pumcode", width: 300, hozAlign:"center"},
+            { title: "품명", field: "pumname", width: 300, hozAlign:"center"},
+            { title: "기종", field: "gijong", width: 200, hozAlign:"center"},
+            { title: "장입량", field: "cntsum", width: 200, hozAlign:"center"},
+            { title: "처리중", field: "intray", width: 300, hozAlign:"center"},
+            { title: "추출량", field: "outtray", width: 200, hozAlign:"center"},
         ],
         placeholder: "검색 결과가 없습니다.", 
     });

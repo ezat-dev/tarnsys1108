@@ -199,7 +199,7 @@
 					</label>
 		
 					<label style="margin-left: 15px;"> 작업일자 : 
-					<input type="date" class="input-sm" id="wdate" name="wdate" 
+					<input type="date" class="daySet" id="wdate" name="wdate" 
 					style="font-weight:700; font-size: 14pt; text-align: center; width:150px;" placeholder=""/></label>
 				</div>
 
@@ -347,18 +347,18 @@
 	        
 	        placeholder: "조회된 데이터가 없습니다.",
 	        columns: [
-	            {title:"Lot NO", field:"lotno", sorter:"string", width:80, hozAlign:"center"},
+	            {title:"Lot NO", field:"lotno", sorter:"string", width:160, hozAlign:"center"},
 	            {title:"침탄로 호기", field:"devicecode", sorter:"string", width:120, hozAlign:"center"},
 	            {title:"품번", field:"pumbun", sorter:"string", width:100, hozAlign:"center"},
-	            {title:"공통설비 호기", field:"common_device", sorter:"string", width:100, hozAlign:"center"},
+	            {title:"공통설비 호기", field:"common_device", sorter:"string", width:140, hozAlign:"center"},
 	            {title:"품명코드", field:"pumcode", sorter:"string", width:180, hozAlign:"center"},
 	            {title:"품명", field:"pumname", sorter:"string", width:180, hozAlign:"center"},
-	            {title:"기종", field:"gijong", sorter:"string", width:160, hozAlign:"center"},
-	            {title:"적재량", field:"loadcnt", sorter:"string", width:100, hozAlign:"center"},
-	            {title:"투입구분", field:"status", sorter:"string", width:120, hozAlign:"center"},
-	            {title:"데이터발생", field:"datastatus", sorter:"string", width:140, hozAlign:"center"},
-	            {title:"MES LOT", field:"meslot", sorter:"string", width:200, hozAlign:"center"},
-	            {title:"참고사항", field:"remark", sorter:"string", width:200, hozAlign:"center"},
+	            {title:"기종", field:"gijong", sorter:"string", width:110, hozAlign:"center"},
+	            {title:"적재량", field:"loadcnt", sorter:"string", width:110, hozAlign:"center"},
+	            {title:"투입구분", field:"status", sorter:"string", width:110, hozAlign:"center"},
+	            {title:"데이터발생", field:"datastatus", sorter:"string", width:110, hozAlign:"center"},
+	            {title:"MES LOT", field:"meslot", sorter:"string", width:195, hozAlign:"center"},
+	            {title:"참고사항", field:"remark", sorter:"string", width:195, hozAlign:"center"},
 	        ],
 	        rowFormatter:function(row){
 			    var data = row.getData();
