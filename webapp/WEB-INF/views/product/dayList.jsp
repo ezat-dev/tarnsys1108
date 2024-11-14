@@ -179,16 +179,16 @@
 		</div>
 	
 	<div id="contents">
-		<div style="color: black; font-size: 14px; padding-top: 1%; margin-left: 2.5%; text-align: left;"> 
+		<div style="color: black; font-size: 14px; padding-top: 1%; margin-left: 2.5%; text-align: left;width:350px;"> 
 		<b style="font-size:15pt;">처리폼관리</b> / <label style="font-size:14pt;">일자별 투입 LIST</label> </div>
 		<hr>
 		
 		<fieldset class="list_input">
 			<legend style="font-size:15pt;">검색조건</legend>
 			<div class="input_d">
-				<div class="row_label" style="display:inline-block;">
+				<div class="row_label" style="display: inline-block; position: absolute; top:260px; left:530px;">
 					<label> 설비명 : 
-						<select style="font-weight:700; font-size: 14pt; text-align: center;" 
+						<select style="font-weight:100; font-size: 14pt; text-align: center;" 
 							name="devicecode" id="devicecode" >
 							<option value="">전체</option>
 							<option value="1">1호기</option>
@@ -197,26 +197,27 @@
 							<option value="4">4호기</option>
 						</select>
 					</label>
-		
+				
 					<label style="margin-left: 15px;"> 작업일자 : 
-					<input type="date" class="daySet" id="wdate" name="wdate" 
-					style="font-weight:700; font-size: 14pt; text-align: center; width:150px;" placeholder=""/></label>
+					<input type="text" class="daySet" id="wdate" name="wdate" 
+					style=" font-weight:700; font-size: 14pt; text-align: center; width:150px;" placeholder="" /></label>
+				
 				</div>
 
-				<div class="row_data" style="display:inline-block; width:800px;">
+				<div class="row_data"  style="margin-left: 44%;">
 					<div class="row_top">
-						<button style="margin-left: 200px;" id="searchBtn" onclick="getProduct();">조회</button>
+						<button style="margin-left: 0;" id="searchBtn" onclick="getProduct();">조회</button>
 						
 						<button id="addBtn">추가</button>				
 						<button id="deleteBtn">삭제</button>
-						<button id="excelBtn">엑셀</button>
+						
 					</div>
 					
 					<div class="row_bottom" style="margin-top:1%;">			
-						<button style="margin-left: -6%;" id="endSaltBtn">SALT추출</button>
+						<button style="margin-left:0;" id="endSaltBtn">SALT추출</button>
 
 						<button id="forcingStartBtn">출고 요청</button>
-
+						<button id="excelBtn">엑셀</button>
 					</div>
 				</div>
 			</div>

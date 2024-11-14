@@ -172,14 +172,13 @@
         height: 650,
         data: tableData, 
         layout:"fitColumns",
-	    selectable:true,	//로우 선택설정
-	    tooltips:true,
-	    selectableRangeMode:"click",
-	    reactiveData:true,
-	    headerHozAlign:"center",
+        selectable:true,    //로우 선택설정
+        tooltips:true,
+        selectableRangeMode:"click",
+        reactiveData:true,
+        headerHozAlign:"center",
         columns: [
-            { title: "NO", field: "devicecode", width: 80,
-	        	hozAlign:"center"},
+            { title: "NO", field: "devicecode", width: 80, hozAlign:"center"},
             { title: "품명코드", field: "pumcode", width: 300, hozAlign:"center"},
             { title: "품명", field: "pumname", width: 300, hozAlign:"center"},
             { title: "기종", field: "gijong", width: 200, hozAlign:"center"},
@@ -194,7 +193,7 @@
     document.getElementById("searchbtn").addEventListener("click", function() {
         // 선택한 날짜와 설비명 가져오기
         var selectedDate = $("#to_date").val(); 
-        var selectedHogi = $("#placename").val();
+        var selectedHogi = $("#placename").val() || ""; // 설비명이 비어있을 경우 빈 문자열로 설정
 
         // 콘솔에 출력
         console.log("선택한 날짜:", selectedDate);
@@ -206,7 +205,7 @@
             method: "POST",
             data: {
                 date: selectedDate, // 전달할 날짜
-                placename: selectedHogi // 전달할 설비명
+                placename: selectedHogi // 전달할 설비명 (빈 문자열 포함)
             },
             success: function(data) {
                 table.setData(data); 
@@ -229,7 +228,7 @@
     document.getElementById("printbtn").addEventListener("click", function() {
         var printWindow = window.open('', '', 'width=800,height=600');
         printWindow.document.write('<html><head><title>인쇄 미리보기</title>');
-/*?*/        printWindow.document.write('<link href="https://unpkg.com/tabulator-tables@5.0.7/dist/css/tabulator.min.css" rel="stylesheet">');
+        printWindow.document.write('<link href="https://unpkg.com/tabulator-tables@5.0.7/dist/css/tabulator.min.css" rel="stylesheet">');
         printWindow.document.write('</head><body>');
         printWindow.document.write('<h1>작업실적 인쇄</h1>');
         printWindow.document.write(document.getElementById("tabulator-table").outerHTML);
@@ -242,7 +241,7 @@
     document.getElementById("previewbtn").addEventListener("click", function() {
         var previewWindow = window.open('', '', 'width=800,height=600');
         previewWindow.document.write('<html><head><title>인쇄 미리보기</title>');
-        /*?*/        previewWindow.document.write('<link href="https://unpkg.com/tabulator-tables@5.0.7/dist/css/tabulator.min.css" rel="stylesheet">');
+        previewWindow.document.write('<link href="https://unpkg.com/tabulator-tables@5.0.7/dist/css/tabulator.min.css" rel="stylesheet">');
         previewWindow.document.write('</head><body>');
         previewWindow.document.write('<h1>작업실적 미리보기</h1>');
         previewWindow.document.write(document.getElementById("tabulator-table").outerHTML);
@@ -250,16 +249,23 @@
         previewWindow.document.close();
     });
 
+    // 페이지 로딩 시 자동으로 오늘 날짜로 설정
     $(document).ready(function() {
-		var now = new Date();
-		var y = now.getFullYear();
-		var m = paddingZero(now.getMonth()+1);
-		var d = paddingZero(now.getDate());
-		$("#to_date").val(y+"-"+m+"-"+d);
+        var now = new Date();
+        var y = now.getFullYear();
+        var m = paddingZero(now.getMonth() + 1);
+        var d = paddingZero(now.getDate());
+        $("#to_date").val(y + "-" + m + "-" + d); // 오늘 날짜를 기본값으로 설정
+
+        // 페이지 로드 시 자동으로 검색 수행
+        $("#searchbtn").trigger("click");
     });
+
+    // 2자리 숫자 처리 함수 (1자리 수인 경우 앞에 0을 붙여서 두 자리를 맞춤)
+    function paddingZero(num) {
+        return num < 10 ? "0" + num : num;
+    }
 </script>
-
-
 
 
 

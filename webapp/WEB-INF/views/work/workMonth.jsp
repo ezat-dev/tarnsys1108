@@ -147,7 +147,7 @@
 					</label>
 
                     <label style="margin-left: 15px;"> 작업일자 : 
-					    <input type="date" class="monthSet" id="to_date" name="to_date" 
+					    <input type="text" class="monthSet" id="to_date" name="to_date" 
 					    style="font-size: 14pt; font-weight: 700; text-align: center; width: 150px;" placeholder=""/>
 					</label>
 
@@ -172,20 +172,17 @@
         height: 650,
         data: tableData, 
         layout:"fitColumns",
-	    selectable:true,	//로우 선택설정
-	    tooltips:true,
-	    selectableRangeMode:"click",
-	    reactiveData:true,
-	    headerHozAlign:"center",
+        selectable:true,    //로우 선택설정
+        tooltips:true,
+        selectableRangeMode:"click",
+        reactiveData:true,
+        headerHozAlign:"center",
         columns: [
-          //{ title: "keymonth", field: "keymonth", width: 250 },
-          //{ title: "devicecode", field: "devicecode", width: 300 },
             { title: "품명코드", field: "pumcode", width: 345, hozAlign:"center"},
             { title: "품명", field: "pumname", width: 345, hozAlign:"center"},
             { title: "기종", field: "gijong", width: 345, hozAlign:"center"},
             { title: "dobun", field: "dobun", width: 340, hozAlign:"center"},
             { title: "추출량(Tray)", field: "totalout", width: 340, hozAlign:"center"},
-          //{ title: "realout", field: "realout", width: 300 },
         ],
         placeholder: "검색 결과가 없습니다.", 
     });
@@ -193,8 +190,8 @@
     // 검색 버튼 클릭 이벤트
     document.getElementById("searchbtn").addEventListener("click", function() {
         // 선택한 날짜와 설비명 가져오기
-       var selectedDate = $("#to_date").val().replace(/-/g, "");
-        var selectedHogi = $("#placename").val();
+        var selectedDate = $("#to_date").val().replace(/-/g, "").slice(0, 6); // YYYYMM 형식으로 변경
+        var selectedHogi = $("#placename").val() || ""; // 설비명은 공백으로 처리
 
         // 콘솔에 출력
         console.log("선택한 날짜:", selectedDate);
@@ -205,7 +202,7 @@
             url: "/transys/work/workMonth/list", 
             method: "POST",
             data: {
-                date: selectedDate, // 전달할 날짜
+                date: selectedDate, // 전달할 YYYYMM 형식 날짜
                 placename: selectedHogi // 전달할 설비명
             },
             success: function(data) {
@@ -250,15 +247,23 @@
         previewWindow.document.close();
     });
 
+    // 페이지 로딩 시 자동으로 오늘 날짜로 설정 (기본값: 해당 월의 첫날)
     $(document).ready(function() {
-		var now = new Date();
-		var y = now.getFullYear();
-		var m = paddingZero(now.getMonth()+1);
-		var d = paddingZero(now.getDate());
-		$("#to_date").val(y+"-"+m+"-"+d);
-    });
-</script>
+        var now = new Date();
+        var y = now.getFullYear();
+        var m = paddingZero(now.getMonth() + 1);
+        // 해당 월의 첫날로 설정
+        $("#to_date").val(y + "-" + m + "-01"); // 년-월-01 형식으로 설정
 
+        // 페이지 로드 시 자동으로 검색 버튼 클릭
+        $("#searchbtn").trigger("click"); // 로드되면 자동으로 검색 실행
+    });
+
+    // 2자리 숫자 처리 함수 (1자리 수인 경우 앞에 0을 붙여서 두 자리를 맞춤)
+    function paddingZero(num) {
+        return num < 10 ? "0" + num : num;
+    }
+</script>
 
 
 

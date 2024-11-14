@@ -190,9 +190,10 @@
 		<fieldset class="list_input">
 			<legend style="font-size:15pt;">검색조건</legend>
 			<div class="input_d">
-				<div class="row_label" style="display:inline-block; margin-left: 120px;"  >
+				<div class="row_label" style="display:inline-block; margin-left: 220px;"  >
+					<div style="position: absolute; top: 268px;  ">
 					<label> 설비명 : 
-						<select style="font-weight:700; font-size: 14pt; text-align: center;" 
+						<select style="font-weight:100;width:150px; font-size: 14pt; text-align: center;" 
 							name="devicecode" id="devicecode" >
 							<option value="">전체</option>
 							<option value="1">1호기</option>
@@ -201,9 +202,9 @@
 							<option value="4">4호기</option>
 						</select>
 					</label>
-		
+					</div>
 					<label style="margin-left: 15px; display: none;"> 작업일자 : 
-					    <input type="date" class="input-sm" id="wdate" name="wdate" 
+					    <input type="text" class="input-sm" id="wdate" name="wdate" 
 					    style="font-weight:700; font-size: 14pt; text-align: center; width:150px; display: none;" placeholder=""/>
 					</label>
 

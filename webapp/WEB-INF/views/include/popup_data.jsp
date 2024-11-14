@@ -110,8 +110,8 @@ ul{
 			<li><a class="menuLink" href="/transys/work/workDay">작업일보</a></li>
 
 			<li><a class="menuLink" href="/transys/alarm/alarmSum">발생경보누계</a></li>
-			
-			<li><a class="menuLink" href="/transys/product/productPlayList">투입 LIST</a></li>
+	
+			<li><a class="menuLink" href="/transys/product/dayList">투입 LIST</a></li>
 
 			<li><a class="menuLink" href="/transys/util/lngYear">LNG 사용량 (년)</a></li>
 		</ul>
@@ -123,7 +123,7 @@ ul{
 
 			<li><a class="menuLink" href="/transys/alarm/alarmSum">경보정보</a></li>
 			
-			<li><a class="menuLink" href="/transys/product/dayList">진행 LIST</a></li>
+			<li><a class="menuLink" href="/transys/product/productPlayList">진행 LIST</a></li>
 
 			<li><a class="menuLink" href="/transys/util/electricMonth">전력 사용량 (월)</a></li>
 		</ul>

@@ -158,7 +158,7 @@
 					</label>
 
                     <label style="margin-left: 15px;"> 작업일자 : 
-					    <input type="date" class="yearSet" id="to_date" name="to_date" style="font-size: 14pt; font-weight: 700; text-align: center; width: 150px;" placeholder=""/>
+					    <input type="text" class="yearSet" id="to_date" name="to_date" style="font-size: 14pt; font-weight: 700; text-align: center; width: 150px;" placeholder=""/>
 					</label>
 
                     <button id="searchbtn" style="margin-left: 100px;">조회</button>
@@ -183,12 +183,12 @@
     var table = new Tabulator("#tabulator-table", {
         height: 650,
         data: tableData, 
-	    layout:"fitColumns",
-	    selectable:true,	//로우 선택설정
-	    tooltips:true,
-	    selectableRangeMode:"click",
-	    reactiveData:true,
-	    headerHozAlign:"center",
+        layout:"fitColumns",
+        selectable:true,    //로우 선택설정
+        tooltips:true,
+        selectableRangeMode:"click",
+        reactiveData:true,
+        headerHozAlign:"center",
         columns: [
             { title: "품명", field: "pumname", width: 140 },
             { title: "품명코드", field: "pumcode", width: 140 },
@@ -209,22 +209,30 @@
         placeholder: "검색 결과가 없습니다.", 
     });
 
+    $(document).ready(function() {
+        var now = new Date();
+        var y = now.getFullYear();  
+        $("#to_date").val(y);  
+
+        $("#searchbtn").click();
+    });
+
     // 검색 버튼 클릭 이벤트
     document.getElementById("searchbtn").addEventListener("click", function() {
-        // 선택한 날짜와 설비명 가져오기
-        var selectedDate = $("#to_date").val(); 
-        var selectedHogi = $("#placename").val();
+        // 선택한 연도와 설비명 가져오기
+        var selectedDate = $("#to_date").val(); // YYYY 형식으로 가져옴
+        var selectedHogi = $("#placename").val() || ""; // 설비명은 공백으로 처리
 
         // 콘솔에 출력
-        console.log("선택한 날짜:", selectedDate);
+        console.log("선택한 연도:", selectedDate);
         console.log("선택한 설비명:", selectedHogi);
 
         // Ajax 요청
         $.ajax({
-            url: "/transys/work/workYear/list",
+            url: "/transys/work/workYear/list", 
             method: "POST",
             data: {
-                date: selectedDate, // 전달할 날짜
+                date: selectedDate, // 전달할 연도
                 placename: selectedHogi // 전달할 설비명
             },
             success: function(data) {
@@ -269,14 +277,14 @@
         previewWindow.document.close();
     });
 
+    // 페이지 로딩 시 자동으로 현재 연도로 설정
     $(document).ready(function() {
-		var now = new Date();
-		var y = now.getFullYear();
-		var m = paddingZero(now.getMonth()+1);
-		var d = paddingZero(now.getDate());
-		$("#to_date").val(y+"-"+m+"-"+d);
+        var now = new Date();
+        var y = now.getFullYear();  // 현재 연도를 가져옵니다.
+        $("#to_date").val(y);  // 입력 필드에 현재 연도(YYYY)만 설정
     });
 
+    // Excel 내보내기 기능
     document.getElementById("excel").addEventListener("click", function() {
         // Tabulator 데이터 가져오기
         var data = table.getData();
@@ -287,7 +295,6 @@
             skipHeader: true 
         });
 
-
         var newHeaders = ["품명", "품명 코드", "기종", "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
         
         newHeaders.forEach((header, index) => {
@@ -297,7 +304,6 @@
         XLSX.utils.book_append_sheet(wb, ws, "작업실적");
         XLSX.writeFile(wb, "작업실적.xlsx");
     });
-
 </script>
 
 

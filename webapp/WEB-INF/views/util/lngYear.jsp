@@ -152,17 +152,16 @@
     <div id="menu_bar">
         <jsp:include page="../include/managePopup.jsp"/>
     </div>
+    <div style="color: black; font-size: 14px; padding-top: 1%; margin-left: 2.5%; text-align: left;"> <b style="font-size:15pt;">Utility</b>  <label style="font-size:14pt;">/ 월별 LNG 소요량 집계</label> </div>
     
-    <div style="color: black; font-size: 14px; padding-top: 1%; margin-left: 2.5%; text-align: left;">
-        <b>Utility</b> / 월별 LNG 소요량 집계
-    </div>
+       
     <hr>
     
     <fieldset class="list_input">
         <legend>검색조건</legend>
         <div class="input_d">
-            <label style="margin-left: 15px;"> 조회설정(년) : 
-                <input type="text" id="year" name="year" class="yearSet" placeholder="년도 선택"/>
+            <label style="margin-left: 15px;font-size: 18px;font-weight: 700;"> 조회설정(년) : 
+                <input type="text" id="year" name="year" class="yearSet"style="font-size: 14pt; font-weight: 700; text-align: center; width: 150px;" placeholder="년도 선택"/>
             </label>
             <button id="searchbtn" style="margin-left: 100px;">조회</button>
         </div>

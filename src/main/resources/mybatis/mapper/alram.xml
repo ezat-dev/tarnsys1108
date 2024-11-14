@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="alram">
+<mapper namespace="alarm">
 
- <select id="getAlarmSummary" resultType="map">
-        SELECT tagname, alarmdesc,
-            SUM(M01) AS M01,
-            SUM(M02) AS M02,
-            SUM(M03) AS M03,
-            SUM(M04) AS M04,
-            SUM(M05) AS M05,
-            SUM(M06) AS M06,
-            SUM(M07) AS M07,
-            SUM(M08) AS M08,
-            SUM(M09) AS M09,
-            SUM(M10) AS M10,
-            SUM(M11) AS M11,
-            SUM(M12) AS M12,
-            (SUM(M01) + SUM(M02) + SUM(M03) + SUM(M04) + SUM(M05) + SUM(M06) + 
-             SUM(M07) + SUM(M08) + SUM(M09) + SUM(M10) + SUM(M11) + SUM(M12)) AS total
+ <select id="getAlarmSummary" parameterType="alarm" resultType="alarm">
+        SELECT tagName, alarmDesc,
+            SUM(M01) AS m01,
+            SUM(M02) AS m02,
+            SUM(M03) AS m03,
+            SUM(M04) AS m04,
+            SUM(M05) AS m05,
+            SUM(M06) AS m06,
+            SUM(M07) AS m07,
+            SUM(M08) AS m08,
+            SUM(M09) AS m09,
+            SUM(M10) AS m10,
+            SUM(M11) AS m11,
+            SUM(M12) AS m12,
+            (SUM(m01) + SUM(m02) + SUM(m03) + SUM(m04) + SUM(m05) + SUM(m06) + 
+             SUM(m07) + SUM(m08) + SUM(m09) + SUM(m10) + SUM(m11) + SUM(m12)) AS total
         FROM (
             SELECT 
                 tagname,
@@ -47,8 +47,9 @@
                         LEAD(time) OVER (PARTITION BY tagname ORDER BY time) AS lead_alarmtime
                     FROM ALARMDATA
                     WHERE 1=1
-                    AND alarmgroup = #{alarmgroup}
-                    AND time BETWEEN #{sDate} AND #{eDate}
+                    AND alarmgroup = #{alarmGroup}
+                    AND substr(time,1,4) = #{sdate}
+
                     ORDER BY time
                 ) AS aa
                 WHERE alarmstate != 'Clear'
@@ -58,5 +59,25 @@
             ORDER BY tagname
         ) AS cc
         GROUP BY tagname, alarmdesc
+ 	</select>
+ 	
+ 	
+ 	<select id="getAlarmList" parameterType="alarm" resultType="alarm">
+              SELECT *
+                FROM (
+                    SELECT 
+                        *,
+                        LEAD(alarmstate) OVER (PARTITION BY tagname ORDER BY time) AS lead_alarmstate,
+                        LEAD(time) OVER (PARTITION BY tagname ORDER BY time) AS lead_alarmtime
+                    FROM ALARMDATA
+                    WHERE 1=1
+					AND alarmgroup = #{alarmGroup}
+                    AND time BETWEEN #{sdate} AND #{edate}
+                    ORDER BY time
+                ) AS aa
+                WHERE  1=1
+				and alarmstate = 'Warning'
+				and lead_alarmstate = 'Clear'				
+                ORDER BY time
  	</select>
 </mapper>

@@ -199,7 +199,7 @@
 					</label>
 		
 					<label style="margin-left: 15px;"> 작업일자 : 
-					<input type="date" class="daySet" id="wdate" name="wdate" 
+					<input type="text" class="daySet" id="wdate" name="wdate" 
 					style="font-weight:700; font-size: 14pt; text-align: center; width:150px;" placeholder=""/></label>
 				</div>
 
