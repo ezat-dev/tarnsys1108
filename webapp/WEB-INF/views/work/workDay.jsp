@@ -190,7 +190,7 @@
         reactiveData:true,
         headerHozAlign:"center",
         columns: [
-            { title: "NO", field: "devicecode", width: 80, hozAlign:"center"},
+            { title: "설비명", field: "devicecode", width: 80, hozAlign:"center"},
             { title: "품명코드", field: "pumcode", width: 300, hozAlign:"center"},
             { title: "품명", field: "pumname", width: 300, hozAlign:"center"},
             { title: "기종", field: "gijong", width: 200, hozAlign:"center"},

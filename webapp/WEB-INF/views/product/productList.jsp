@@ -354,7 +354,22 @@
 	    }
 	});
 
-		
+	$("#excelBtn").on("click", function(){
+	
+		$.ajax({
+			url:"/transys/product/productList/excelDownload",
+			type:"post",
+			dataType:"json",
+			success: function(response) {
+                console.log("받아온 데이터:", response);
+                table.setData(response);
+            },
+            error: function(xhr, status, error) {
+                console.error("데이터 가져오기 실패:", error);
+            }
+		});
+
+	});
 
 
 
