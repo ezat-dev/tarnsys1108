@@ -231,9 +231,10 @@ public class ProductController {
             cell.setCellStyle(styleLeft);  // 왼쪽 정렬 스타일 적용
 
 
-            int startRow = 7;  
+            int startRow = 8;  
             for (int i = 0; i < productList.size(); i++) {
-                row = sheet.getRow(startRow + i); 
+                row = sheet.getRow(startRow + i);
+//                System.out.println(row);
                 if (row == null) row = sheet.createRow(startRow + i);
 
                 // 품명 코드 (B열부터)
@@ -267,8 +268,8 @@ public class ProductController {
                 cell.setCellStyle(styleCenter); 
                 
              // L열 10번째와 11번째 셀을 병합하는 경우
-                CellRangeAddress mergeRegion = new CellRangeAddress(startRow + i, startRow + i, 10, 11); // 병합 범위: (시작 행, 끝 행, 시작 열, 끝 열)
-                sheet.addMergedRegion(mergeRegion);
+//                CellRangeAddress mergeRegion = new CellRangeAddress(startRow + i, startRow + i, 10, 11); // 병합 범위: (시작 행, 끝 행, 시작 열, 끝 열)
+//                sheet.addMergedRegion(mergeRegion);
 
                 // 병합된 첫 번째 셀에 값 설정
                 cell = row.getCell(10); // L열의 셀 가져오기
@@ -278,7 +279,7 @@ public class ProductController {
 
                 
                 // 아지테이터 RPM (M열)
-                cell = row.createCell(11); 
+                cell = row.createCell(12); 
                 cell.setCellValue(productList.get(i).getAgitate_rpm());
                 cell.setCellStyle(styleCenter); 
 
