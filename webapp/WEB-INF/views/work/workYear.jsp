@@ -28,9 +28,15 @@
             width: 95%;
             margin: 10px 2.5% 2% 2.5%;
         }
-        label > select, label > input {
-            width: 120px;
-            height: 25px;
+              label > select {
+            width: 150px;
+            height: 30px;
+            font-size: 14pt;
+        }
+        
+        label > input {
+         	width: 150px;
+            height: 28px;
             font-size: 14pt;
         }
         #menu_bar {
@@ -146,8 +152,8 @@
             <hr>
             <fieldset class="list_input">
                 <legend style="font-size: 15pt;">검색조건</legend>
-                <div class="input_d">
-                   <label> 설비명 : 
+                <div class="input_d" style="margin-left: 139px;">
+                   <label > 설비명 : 
 					    <select name="placename" id="placename">
 					     	<option value="">전체</option>
 					        <option value="1">1호기</option>
@@ -162,10 +168,8 @@
 					</label>
 
                     <button id="searchbtn" style="margin-left: 100px;">조회</button>
-                     <button id="excel" style="margin-left: 10px;">엑셀 </button>
-                    
-                    <button id="printbtn">인쇄</button>
-                    <button id="previewbtn" style="width: 200px;">인쇄 전 미리보기</button>
+                    <button id="excelBtn">엑셀</button>
+                   
                 </div>
             </fieldset>
             <div id="table_file">
@@ -183,12 +187,12 @@
     var table = new Tabulator("#tabulator-table", {
         height: 650,
         data: tableData, 
-        layout:"fitColumns",
-        selectable:true,    //로우 선택설정
-        tooltips:true,
-        selectableRangeMode:"click",
-        reactiveData:true,
-        headerHozAlign:"center",
+        layout: "fitColumns",
+        selectable: true,    //로우 선택설정
+        tooltips: true,
+        selectableRangeMode: "click",
+        reactiveData: true,
+        headerHozAlign: "center",
         columns: [
             { title: "품명", field: "pumname", width: 140 },
             { title: "품명코드", field: "pumcode", width: 140 },
@@ -209,112 +213,96 @@
         placeholder: "검색 결과가 없습니다.", 
     });
 
-    $(document).ready(function() {
-        var now = new Date();
-        var y = now.getFullYear();  
-        $("#to_date").val(y);  
-
-        $("#searchbtn").click();
-    });
-
-    // 검색 버튼 클릭 이벤트
-    document.getElementById("searchbtn").addEventListener("click", function() {
-        // 선택한 연도와 설비명 가져오기
-        var selectedDate = $("#to_date").val(); // YYYY 형식으로 가져옴
-        var selectedHogi = $("#placename").val() || ""; // 설비명은 공백으로 처리
-
-        // 콘솔에 출력
-        console.log("선택한 연도:", selectedDate);
-        console.log("선택한 설비명:", selectedHogi);
-
-        // Ajax 요청
-        $.ajax({
-            url: "/transys/work/workYear/list", 
-            method: "POST",
-            data: {
-                date: selectedDate, // 전달할 연도
-                placename: selectedHogi // 전달할 설비명
-            },
-            success: function(data) {
-                table.setData(data); 
-                document.querySelector(".countDATA").textContent = "조회된 데이터 수 : " + data.length;
-                console.log("서버에서 받아온 데이터:", data);
-            },
-            error: function() {
-                alert("데이터를 가져오는 데 실패했습니다.");
-            }
-        });
-
-        // Ajax 요청에 사용될 매개변수 출력
-        console.log("서버로 전송할 값:", {
-            date: selectedDate,
-            placename: selectedHogi
-        });
-    });
-
-    // 인쇄 버튼 기능
-    document.getElementById("printbtn").addEventListener("click", function() {
-        var printWindow = window.open('', '', 'width=800,height=600');
-        printWindow.document.write('<html><head><title>인쇄 미리보기</title>');
-        printWindow.document.write('<link href="https://unpkg.com/tabulator-tables@5.0.7/dist/css/tabulator.min.css" rel="stylesheet">');
-        printWindow.document.write('</head><body>');
-        printWindow.document.write('<h1>작업실적 인쇄</h1>');
-        printWindow.document.write(document.getElementById("tabulator-table").outerHTML);
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
-        printWindow.print();
-    });
-
-    // 미리보기 버튼 기능
-    document.getElementById("previewbtn").addEventListener("click", function() {
-        var previewWindow = window.open('', '', 'width=800,height=600');
-        previewWindow.document.write('<html><head><title>인쇄 미리보기</title>');
-        previewWindow.document.write('<link href="https://unpkg.com/tabulator-tables@5.0.7/dist/css/tabulator.min.css" rel="stylesheet">');
-        previewWindow.document.write('</head><body>');
-        previewWindow.document.write('<h1>작업실적 미리보기</h1>');
-        previewWindow.document.write(document.getElementById("tabulator-table").outerHTML);
-        previewWindow.document.write('</body></html>');
-        previewWindow.document.close();
-    });
-
     // 페이지 로딩 시 자동으로 현재 연도로 설정
     $(document).ready(function() {
         var now = new Date();
         var y = now.getFullYear();  // 현재 연도를 가져옵니다.
         $("#to_date").val(y);  // 입력 필드에 현재 연도(YYYY)만 설정
-    });
 
-    // Excel 내보내기 기능
-    document.getElementById("excel").addEventListener("click", function() {
-        // Tabulator 데이터 가져오기
-        var data = table.getData();
-        var wb = XLSX.utils.book_new();
+        // 검색 버튼 클릭 이벤트
+        $("#searchbtn").click(function() {
+            // 선택한 연도와 설비명 가져오기
+            var selectedDate = $("#to_date").val(); // YYYY 형식으로 가져옴
+            var selectedHogi = $("#placename").val() || ""; // 설비명은 공백으로 처리
 
-        var ws = XLSX.utils.json_to_sheet(data, { 
-            header: ["pumname", "pumcode", "gijong", "m01", "m02", "m03", "m04", "m05", "m06", "m07", "m08", "m09", "m10", "m11", "m12"], 
-            skipHeader: true 
+            // 콘솔에 출력
+            console.log("선택한 연도:", selectedDate);
+            console.log("선택한 설비명:", selectedHogi);
+
+            // Ajax 요청
+            $.ajax({
+                url: "/transys/work/workYear/list", 
+                method: "POST",
+                data: {
+                    date: selectedDate, // 전달할 연도
+                    placename: selectedHogi // 전달할 설비명
+                },
+                success: function(data) {
+                    table.setData(data); 
+                    document.querySelector(".countDATA").textContent = "조회된 데이터 수 : " + data.length;
+                    console.log("서버에서 받아온 데이터:", data);
+                },
+                error: function() {
+                    alert("데이터를 가져오는 데 실패했습니다.");
+                }
+            });
         });
 
-        var newHeaders = ["품명", "품명 코드", "기종", "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
-        
-        newHeaders.forEach((header, index) => {
-            ws[XLSX.utils.encode_cell({ c: index, r: 0 })] = { v: header }; 
+        // 엑셀 다운로드 버튼 클릭 이벤트
+        $("#excelBtn").on("click", function(){
+            var selectedDate = $("#to_date").val().replace(/-/g, "").slice(0, 6); // YYYYMM 형식으로 변경
+            var selectedHogi = $("#placename").val() || ""; // 설비명은 공백으로 처리
+
+            console.log("엑셀 보내지는 날:", selectedDate);
+            console.log("엑셀 호기:", selectedHogi);
+
+            $.ajax({
+                url: "/transys/work/workYear/excelDownload",
+                type: "post",
+                dataType: "json",
+                data: {
+                    date: selectedDate, // 전달할 연도
+                    placename: selectedHogi // 전달할 설비명
+                },
+                success: function(result) {
+                    console.log(result);
+                    // 성공 시 엑셀 다운로드 처리
+                },
+                error: function() {
+                    alert("엑셀 다운로드에 실패했습니다.");
+                }
+            });
+
+            // Ajax 요청에 사용될 매개변수 출력
+            console.log("서버로 전송할 값:", {
+                date: selectedDate,
+                placename: selectedHogi
+            });
         });
 
-        XLSX.utils.book_append_sheet(wb, ws, "작업실적");
-        XLSX.writeFile(wb, "작업실적.xlsx");
+        // Excel 내보내기 기능
+        $("#excel").on("click", function() {
+            // Tabulator 데이터 가져오기
+            var data = table.getData();
+            var wb = XLSX.utils.book_new();
+
+            var ws = XLSX.utils.json_to_sheet(data, { 
+                header: ["pumname", "pumcode", "gijong", "m01", "m02", "m03", "m04", "m05", "m06", "m07", "m08", "m09", "m10", "m11", "m12"], 
+                skipHeader: true 
+            });
+
+            var newHeaders = ["품명", "품명 코드", "기종", "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+            
+            newHeaders.forEach((header, index) => {
+                ws[XLSX.utils.encode_cell({ c: index, r: 0 })] = { v: header }; 
+            });
+
+            XLSX.utils.book_append_sheet(wb, ws, "작업실적");
+            XLSX.writeFile(wb, "작업실적.xlsx");
+        });
     });
 </script>
 
 
-
-
-
-
-<form name="parmForm" method="post">
-    <input type="hidden" id="chk1" name="chk1"/>
-    <input type="hidden" id="tdate1" name="tdate1"/>
-    <input type="hidden" id="pcode1" name="pcode1"/>
-</form>
 </body>
 </html>

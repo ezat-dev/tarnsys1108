@@ -23,15 +23,18 @@
 		margin: 10px 2.5% 2% 2.5%;
 	}
 	
-	label > select{
-		width: 120px;
-		height: 25px;
-	}
+ 	label > select {
+        width: 150px;
+        height: 30px;
+        font-size: 14pt;
+    }
+        
+    label > input {
+        width: 150px;
+        height: 28px;
+        font-size: 14pt;
+    }
 	
-	label > input{
-		width: 120px;
-		height: 25px;
-	}
 	
 	#menu_bar{
 		padding-top: 3%;

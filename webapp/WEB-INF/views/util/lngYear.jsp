@@ -36,7 +36,7 @@
 	legend{
 		border: 0px;
 		width: 7%;
-		font-size: 15px;
+		font-size: 17px;
 		margin-bottom: 0px;
 		padding-left: 2%;
 		text-align: left;
@@ -61,10 +61,12 @@
 
 	/* 작업일보 버튼 */
 	div > button{
-		width: 100px;
-		height: 30px;
+		width: 130px;
+		font-weight: 700;
+		margin-left: 5px;
 		border: 1px solid black; 
 		color: #123478;
+		font-size:14pt;
 	}
 	
 		
@@ -160,14 +162,14 @@
     <fieldset class="list_input">
         <legend>검색조건</legend>
         <div class="input_d">
-            <label style="margin-left: 15px;font-size: 18px;font-weight: 700;"> 조회설정(년) : 
-                <input type="text" id="year" name="year" class="yearSet"style="font-size: 14pt; font-weight: 700; text-align: center; width: 150px;" placeholder="년도 선택"/>
+            <label style="margin-left: 15px;font-size: 19px;font-weight: 700;"> 조회설정(년) : 
+                <input type="text" id="year" name="year" class="yearSet"style="font-size: 14pt; font-weight: 700; text-align: center; width: 150px;height:25px;" placeholder="년도 선택"/>
             </label>
-            <button id="searchbtn" style="margin-left: 100px;">조회</button>
+            	<button id="searchbtn" style="margin-left: 100px; height:34px;">조회</button>
         </div>
     </fieldset>
 
-    <div id="table_file" style="margin: 2%;"></div>
+    <div id="table_file" style="margin-left: 100px;"></div>
 
 <script>
     // Tabulator 테이블 설정
@@ -176,19 +178,19 @@
         placeholder: "검색 결과가 없습니다.",
         columns: [
             { title: "설비명", field: "deviceCode", headerSort: false, hozAlign: "center", width: 250 },
-            { title: "1월", field: "m01", headerSort: false, hozAlign: "center", width: 100 },
+            { title: "1월", field: "m01", headerSort: false, hozAlign: "center", width: 110 },
             { title: "2월", field: "m02", headerSort: false, hozAlign: "center", width: 100 },
-            { title: "3월", field: "m03", headerSort: false, hozAlign: "center", width: 100 },
-            { title: "4월", field: "m04", headerSort: false, hozAlign: "center", width: 100 },
-            { title: "5월", field: "m05", headerSort: false, hozAlign: "center", width: 100 },
-            { title: "6월", field: "m06", headerSort: false, hozAlign: "center", width: 100 },
-            { title: "7월", field: "m07", headerSort: false, hozAlign: "center", width: 100 },
-            { title: "8월", field: "m08", headerSort: false, hozAlign: "center", width: 100 },
-            { title: "9월", field: "m09", headerSort: false, hozAlign: "center", width: 100 },
-            { title: "10월", field: "m10", headerSort: false, hozAlign: "center", width: 100 },
-            { title: "11월", field: "m11", headerSort: false, hozAlign: "center", width: 100 },
-            { title: "12월", field: "m12", headerSort: false, hozAlign: "center", width: 100 },
-            { title: "합계", field: "total", headerSort: false, hozAlign: "center", width: 120 }
+            { title: "3월", field: "m03", headerSort: false, hozAlign: "center", width: 110 },
+            { title: "4월", field: "m04", headerSort: false, hozAlign: "center", width: 110 },
+            { title: "5월", field: "m05", headerSort: false, hozAlign: "center", width: 110 },
+            { title: "6월", field: "m06", headerSort: false, hozAlign: "center", width: 110 },
+            { title: "7월", field: "m07", headerSort: false, hozAlign: "center", width: 110 },
+            { title: "8월", field: "m08", headerSort: false, hozAlign: "center", width: 110 },
+            { title: "9월", field: "m09", headerSort: false, hozAlign: "center", width: 110 },
+            { title: "10월", field: "m10", headerSort: false, hozAlign: "center", width: 110 },
+            { title: "11월", field: "m11", headerSort: false, hozAlign: "center", width: 110 },
+            { title: "12월", field: "m12", headerSort: false, hozAlign: "center", width: 110 },
+            { title: "합계", field: "total", headerSort: false, hozAlign: "center", width: 130 }
         ],
     });
     console.log("현재 테이블 데이터:", table.getData());

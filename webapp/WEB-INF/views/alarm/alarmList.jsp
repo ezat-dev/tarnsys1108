@@ -21,11 +21,17 @@
 		margin: 10px 2.5% 2% 2.5%;
 	}
 	
-	label > select{
-		width: 120px;
-		height: 25px;
-		font-size:14pt;
-	}
+	label > select {
+            width: 150px;
+            height: 29px;
+            font-size: 14pt;
+        }
+        
+        label > input {
+         	width: 150px;
+            height: 27px;
+            font-size: 14pt;
+        }
 	
 	#to_date{
 		width: 120px;
@@ -78,11 +84,13 @@
 
 	/* 작업일보 버튼 */
 	div > button{
-		width: 120px;
-		height: 30px;
-		border: 1px solid black; 
-		color: #123478;
-		font-size:14pt;
+        width: 120px;
+        height: 30px;
+        margin-left: 5px;
+        border: 1px solid black; 
+        color: #123478;
+        font-size: 14pt;
+        font-weight: 700;
 	}
 		
 	div > button:hover {     

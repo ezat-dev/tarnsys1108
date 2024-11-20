@@ -23,21 +23,20 @@
 		font-size:14pt;
 	}
 	
-	label > select{
-		width: 120px;
-		height: 25px;
-		font-size:14pt;
-	}
-	
-	
-	label > input{
-		width: 120px;
-		height: 25px;
-		font-size:14pt;
-	}
+        label > select {
+            width: 150px;
+            height: 30px;
+            font-size: 14pt;
+        }
+        
+        label > input {
+         	width: 150px;
+            height: 28px;
+            font-size: 14pt;
+        }
 	
 	#menu_bar{
-		padding-top: 3%;
+	 	padding-top: 3%;
 		background: #123478;
 	}
 	
@@ -58,12 +57,13 @@
 		text-align: left;
 	}
 	
-	.input_d{
-		font-size: 14pt;
-		font-weight: 600;
-		color: black;
+	.input_d {
+	    margin-left: 240px;
+	 
+	    font-size: 14pt;
+	    font-weight: 600;
+	    color: black;
 	}
-	
 	#devicecode{
 		/* 설비명 셀렉트 박스 */
 		font-size: 14pt;
@@ -155,7 +155,7 @@
 	}
 		
 	td > input[type=text]{
-		width: 100%;
+		width: 96%;
 		background: transparent;
 		text-align: center;
 		border: 0px;
@@ -222,7 +222,7 @@
 				</div>
 			</div>
 		</fieldset>
-		<div id="workDetailList" style="margin-left: 5%;"></div>
+		<div id="workDetailList" style="margin-left: 5%; width:91%;"></div>
 	</div>
 </div>
 </div>

@@ -1,6 +1,11 @@
 package com.transys.domain;
 
 public class Work {
+	
+	
+   private String cntsum;
+   private String intray;
+   private String outtray;
 
    //t_siljuk 테이블
    private String devicecode;
@@ -119,7 +124,26 @@ public class Work {
 
    private int seq;
    
-   public String getDevicecode() {
+   
+   public String getCntsum() {
+	return cntsum;
+}
+public void setCntsum(String cntsum) {
+	this.cntsum = cntsum;
+}
+public String getIntray() {
+	return intray;
+}
+public void setIntray(String intray) {
+	this.intray = intray;
+}
+public String getOuttray() {
+	return outtray;
+}
+public void setOuttray(String outtray) {
+	this.outtray = outtray;
+}
+public String getDevicecode() {
       return devicecode;
    }
    public void setDevicecode(String devicecode) {

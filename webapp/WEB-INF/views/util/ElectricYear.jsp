@@ -11,136 +11,139 @@
 
 <style>
 
-   body {
-         text-align: center;
-      }
+	body {
+			text-align: center;
+		}
 
-   hr{
-      width: 95%;
-      margin: 10px 2.5% 2% 2.5%;
-   }
-   
-   #menu_bar{
-      padding-top: 3%;
-      background: #123478;
-   }
-   
-   .list_input{
-      text-align: center;
-      margin: 1% 5%;
-      padding: 10px 0%;
-      width: 90%;
-      border: 3px solid #F4EFEA;
-   }
-   
-   legend{
-      border: 0px;
-      width: 7%;
-      font-size: 15px;
-      margin-bottom: 0px;
-      padding-left: 2%;
-      text-align: left;
-   }
-   
-   .input_d{
-      font-size: 14px;
-      font-weight: 600;
-      color: black;
-   }
-   
-   #placename{
-      /* 설비명 셀렉트 박스 */
-      font-size: 14px;
-      text-align: center;
-   }
-   
-   .btn_work{
-      /* 작업일보 버튼 */
-      margin-top: 10px;
-   }
+	hr{
+		width: 95%;
+		margin: 10px 2.5% 2% 2.5%;
+	}
+	
+	#menu_bar{
+		padding-top: 3%;
+		background: #123478;
+	}
+	
+	.list_input{
+		text-align: center;
+		margin: 1% 5%;
+		padding: 10px 0%;
+		width: 90%;
+		border: 3px solid #F4EFEA;
+	}
+	
+	legend{
+		border: 0px;
+		width: 7%;
+		font-size: 17px;
+		margin-bottom: 0px;
+		padding-left: 2%;
+		text-align: left;
+	}
+	
+	.input_d{
+		font-size: 14px;
+		font-weight: 600;
+		color: black;
+	}
+	
+	#placename{
+		/* 설비명 셀렉트 박스 */
+		font-size: 14px;
+		text-align: center;
+	}
+	
+	.btn_work{
+		/* 작업일보 버튼 */
+		margin-top: 10px;
+	}
 
-   /* 작업일보 버튼 */
-   div > button{
-      width: 100px;
-      height: 30px;
-      border: 1px solid black; 
-      color: #123478;
-   }
-   
-      
-   div > button:hover {     
-      background: #798cb3;
-      border: 1px solid #798cb3;
-      color: white; 
-   }
+	/* 작업일보 버튼 */
+	div > button{
+		width: 130px;
+		margin-left: 5px;
+		border: 1px solid black; 
+		color: #123478;
+		font-size:14pt;
+		font-weight: 700;
+	}
+	
+		
+	div > button:hover {     
+		background: #798cb3;
+		border: 1px solid #798cb3;
+		color: white; 
+	}
 
-   .text-center{
-      font-size: 16px;
-   }
-   
-   .countDATA{
-      /* 조회된 데이터 수 */
-      width: 90%;
-      text-align: right;
-      color: black;
-      margin: 0 auto;
-      margin-bottom: 3px;
-   }
-   
-   #table_file{
-      width: 90%;
-      text-align: center;
-      margin: auto;
-      max-height: 40%;
-      overflow:auto;
-   }
-   
-   #qr_memo{
-      width: 60%;
-      text-align: center;
-   }
-   
-   .del_btn{
-      background: transparent;
-      border: 0px;
-      color: #123478;
-      font-size: 20px;
-   }
+	.text-center{
+		font-size: 16px;
+	}
+	
+	.countDATA{
+		/* 조회된 데이터 수 */
+		width: 90%;
+		text-align: right;
+		color: black;
+		margin: 0 auto;
+		margin-bottom: 3px;
+	}
+	
+	#table_file{
+		width: 90%;
+		text-align: center;
+		margin: auto;
+		max-height: 40%;
+		overflow:auto;
+	}
+	
+	#qr_memo{
+		width: 60%;
+		text-align: center;
+	}
+	
+	.del_btn{
+		background: transparent;
+		border: 0px;
+		color: #123478;
+		font-size: 20px;
+	}
 
-   .NO_list{
-      text-align: center;
-   }
-   
-   #back_div{
-      text-align: right;
-      padding-right: 2%;
-      padding-top: 2%;
-   }
-   
-   #back_btn{
-      float: right;
-      background-color: transparent;
-      border : 0px;
-      color : #123478;
-   }
-   
-   #year{
-      width: 120px;
-      height: 25px;
-      text-align: center;
-   }
-   
-   /* 테이블 스크롤 없애기 */
-   #table_file{
-      -ms-overflow-style:none;
-      height: 550px;
-   }
-   
-   #table_file::-webkit-scrollbar { display:none; }
-   /* 테이블 스크롤 없애기 끝 */
-   /* alert창 */
+	.NO_list{
+		text-align: center;
+	}
+	
+	#back_div{
+		text-align: right;
+		padding-right: 2%;
+		padding-top: 2%;
+	}
+	
+	#back_btn{
+		float: right;
+		background-color: transparent;
+		border : 0px;
+		color : #123478;
+	}
+	
+	#year{
+		width: 120px;
+		height: 25px;
+		text-align: center;
+	}
+	
+	/* 테이블 스크롤 없애기 */
+	#table_file{
+		-ms-overflow-style:none;
+		height: 550px;
+	}
+	
+	#table_file::-webkit-scrollbar { display:none; }
+	/* 테이블 스크롤 없애기 끝 */
+	/* alert창 */
 
 </style>
+
 
 
 
@@ -152,26 +155,24 @@
     <div id="menu_bar">
         <jsp:include page="../include/managePopup.jsp"/>
     </div>
+ 
     
-    <div style="color: black; font-size: 14px; padding-top: 1%; margin-left: 2.5%; text-align: left;">
-        <b>UtilityA</b> / 월별 일자별 전력 소요량 집계
-    </div>
+   <div style="color: black; font-size: 14px; padding-top: 1%; margin-left: 2.5%; text-align: left;"> <b style="font-size:15pt;">Utility</b>  <label style="font-size:14pt;">/ 월별 일자별 전력 소요량 집계</label> </div>
+
+
     <hr>
     
     <fieldset class="list_input">
         <legend>검색조건</legend>
         <div class="input_d">
-            <label style="margin-left: 15px;"> 조회설정(년) : 
-                <input type="text" id="year" name="year" class="yearSet" placeholder="년도 선택"/>
+            <label style="margin-left: 15px;font-size: 19px;font-weight: 700;"> 조회설정(년) : 
+                <input type="text" id="year" name="year" class="yearSet"style="font-size: 14pt; font-weight: 700; text-align: height:25px; center; width: 150px;" placeholder="년도 선택"/>
             </label>
-            <button id="searchbtn" style="margin-left: 100px;">조회</button>
-        <button id="excelbtn" style="margin-left: 10px;">엑셀 다운로드</button>
+            	<button id="searchbtn" style="margin-left: 100px; height:34px;">조회</button>
         </div>
-        
-      
     </fieldset>
 
-    <div id="table_file" style="margin: 2%;"></div>
+       <div id="table_file" style="margin-left: 100px;"></div>
 
 <script> 
 
@@ -183,19 +184,19 @@
             placeholder: "검색 결과가 없습니다.",
             columns: [
                 { title: "설비명", field: "deviceCode", headerSort: false, hozAlign: "center", width: 250 },
-                { title: "1월", field: "m01", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "2월", field: "m02", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "3월", field: "m03", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "4월", field: "m04", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "5월", field: "m05", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "6월", field: "m06", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "7월", field: "m07", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "8월", field: "m08", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "9월", field: "m09", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "10월", field: "m10", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "11월", field: "m11", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "12월", field: "m12", headerSort: false, hozAlign: "center", width: 100 },
-                { title: "합계", field: "total", headerSort: false, hozAlign: "center", width: 120 }
+                { title: "1월", field: "m01", headerSort: false, hozAlign: "center", width: 110 },
+                { title: "2월", field: "m02", headerSort: false, hozAlign: "center", width: 110 },
+                { title: "3월", field: "m03", headerSort: false, hozAlign: "center", width: 110 },
+                { title: "4월", field: "m04", headerSort: false, hozAlign: "center", width: 110 },
+                { title: "5월", field: "m05", headerSort: false, hozAlign: "center", width: 110 },
+                { title: "6월", field: "m06", headerSort: false, hozAlign: "center", width: 110 },
+                { title: "7월", field: "m07", headerSort: false, hozAlign: "center", width: 110 },
+                { title: "8월", field: "m08", headerSort: false, hozAlign: "center", width: 110 },
+                { title: "9월", field: "m09", headerSort: false, hozAlign: "center", width: 110 },
+                { title: "10월", field: "m10", headerSort: false, hozAlign: "center", width: 110 },
+                { title: "11월", field: "m11", headerSort: false, hozAlign: "center", width: 110 },
+                { title: "12월", field: "m12", headerSort: false, hozAlign: "center", width: 110 },
+                { title: "합계", field: "total", headerSort: false, hozAlign: "center", width: 130 }
             ],
         });
         console.log("현재 테이블 데이터:", table.getData());

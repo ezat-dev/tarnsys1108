@@ -23,18 +23,18 @@
 		font-size:14pt;
 	}
 	
-	label > select{
-		width: 120px;
-		height: 25px;
-		font-size:14pt;
-	}
+	label > select {
+        width: 150px;
+        height: 29px;
+        font-size: 14pt;
+    }
+        
+    label > input {
+        width: 150px;
+        height: 27px;
+        font-size: 14pt;
+    }
 	
-	
-	label > input{
-		width: 120px;
-		height: 25px;
-		font-size:14pt;
-	}
 	
 	#menu_bar{
 		padding-top: 3%;

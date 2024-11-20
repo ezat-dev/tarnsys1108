@@ -17,9 +17,15 @@
             width: 95%;
             margin: 10px 2.5% 2% 2.5%;
         }
-        label > select, label > input {
-            width: 120px;
-            height: 25px;
+            label > select {
+            width: 150px;
+            height: 30px;
+            font-size: 14pt;
+        }
+        
+        label > input {
+         	width: 150px;
+            height: 28px;
             font-size: 14pt;
         }
         #menu_bar {
@@ -152,7 +158,8 @@
 					</label>
 
                     <button id="searchbtn" style="margin-left: 100px;">조회</button>
-                    <button id="printbtn">인쇄</button>
+             
+                     <button id="excelBtn">엑셀</button>
                     <button id="previewbtn" style="width: 200px;">인쇄 전 미리보기</button>
                 </div>
             </fieldset>
@@ -222,30 +229,7 @@
         });
     });
 
-    // 인쇄 버튼 기능
-    document.getElementById("printbtn").addEventListener("click", function() {
-        var printWindow = window.open('', '', 'width=800,height=600');
-        printWindow.document.write('<html><head><title>인쇄 미리보기</title>');
-        printWindow.document.write('<link href="https://unpkg.com/tabulator-tables@5.0.7/dist/css/tabulator.min.css" rel="stylesheet">');
-        printWindow.document.write('</head><body>');
-        printWindow.document.write('<h1>작업실적 인쇄</h1>');
-        printWindow.document.write(document.getElementById("tabulator-table").outerHTML);
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
-        printWindow.print();
-    });
-
-    // 미리보기 버튼 기능
-    document.getElementById("previewbtn").addEventListener("click", function() {
-        var previewWindow = window.open('', '', 'width=800,height=600');
-        previewWindow.document.write('<html><head><title>인쇄 미리보기</title>');
-        previewWindow.document.write('<link href="https://unpkg.com/tabulator-tables@5.0.7/dist/css/tabulator.min.css" rel="stylesheet">');
-        previewWindow.document.write('</head><body>');
-        previewWindow.document.write('<h1>작업실적 미리보기</h1>');
-        previewWindow.document.write(document.getElementById("tabulator-table").outerHTML);
-        previewWindow.document.write('</body></html>');
-        previewWindow.document.close();
-    });
+ 
 
     // 페이지 로딩 시 자동으로 오늘 날짜로 설정 (기본값: 해당 월의 첫날)
     $(document).ready(function() {
@@ -263,6 +247,30 @@
     function paddingZero(num) {
         return num < 10 ? "0" + num : num;
     }
+
+
+  //엑셀다운로드 - 테스트 후에는 출력
+	$("#excelBtn").on("click", function(){
+		 var selectedDate = $("#to_date").val().replace(/-/g, "").slice(0, 6); // YYYYMM 형식으로 변경
+	     var selectedHogi = $("#placename").val() || ""; // 설비명은 공백으로 처리
+
+		 console.log("엑셀 보내지는 날:", selectedDate);
+		 console.log("엑셀 호기:", selectedHogi);
+		$.ajax({
+			url:"/transys/work/workMonth/excelDownload",
+			type:"post",
+			dataType:"json",
+			data:{
+				date: selectedDate, // 전달할 YYYYMM 형식 날짜
+                placename: selectedHogi // 전달할 설비명
+			},
+			success:function(result){
+				console.log(result);
+			}
+		});
+
+	});
+    
 </script>
 
 

@@ -142,46 +142,10 @@ ul{
 	</nav>
 	
 	
-	<nav class="Menu" >
-		<ul>		
-			
 
-			<li><a class="menuLink" href="/transys/">일일작업일보인쇄</a></li>
-
-			<li><a class="menuLink"></a></li>
-			
-			<li><a class="menuLink"></a></li>
-
-			<li><a class="menuLink"></a></li>
-		</ul>
-	</nav>
 	
-	<nav class="Menu" >
-		<ul>		
-			
 
-			<li><a class="menuLink" href="/transys/">월보작업일보인쇄</a></li>
 
-			<li><a class="menuLink"></a></li>
-			
-			<li><a class="menuLink"></a></li>
-
-			<li><a class="menuLink"></a></li>
-		</ul>
-	</nav>
-	<nav class="Menu" >
-		<ul>		
-			
-
-			<li><a class="menuLink" href="/transys/">년보작업일보인쇄</a></li>
-
-			<li><a class="menuLink"></a></li>
-			
-			<li><a class="menuLink"></a></li>
-
-			<li><a class="menuLink"></a></li>
-		</ul>
-	</nav>
 	
 	<nav class="Menu"  style="margin-top: 3%;" >
 		<ul>		

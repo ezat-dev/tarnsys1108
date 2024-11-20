@@ -42,11 +42,12 @@
 	legend{
 		border: 0px;
 		width: 7%;
-		font-size: 15pt;
+		font-size: 17px;
 		margin-bottom: 0px;
 		padding-left: 2%;
 		text-align: left;
 	}
+	
 	
 	.input_d{
 		font-size: 14pt;
@@ -63,11 +64,11 @@
 	/* 작업일보 버튼 */
 	div > button{
 		width: 130px;
-		height: 25px;
+		font-weight: 700;
 		margin-left: 5px;
 		border: 1px solid black; 
 		color: #123478;
-		font-size:15pt;
+		font-size:14pt;
 	}
 		
 	div > button:hover {     
@@ -233,10 +234,11 @@
 		<fieldset class="list_input">
 			<legend>검색조건</legend>
 			<div class="input_d">
-				<label style="margin-left: 15px;"> 조회설정(월) : <input type="text" id="monthPicker" name="month" class="monthSet"style="font-size: 14pt; font-weight: 700; text-align: center; width: 150px;" placeholder="월 선택"/> </label>
+				 <label style="margin-left: 15px;font-size: 19px;font-weight: 700;"> 조회설정(월) : 
+				 				 <input type="text"style="font-size: 14pt; font-weight: 700; height:25px; text-align: center; width: 150px;" id="monthPicker" name="month" class="monthSet" placeholder="월 선택"/> </label>
 				<!-- <button id="edit_name" hidden><i class="fa fa-pencil" aria-hidden="true"></i></button> -->
 				
-				<button id="searchbtn" style="margin-left: 100px;">조회</button>
+				<button id="searchbtn" style="margin-left: 100px; height:34px;">조회</button>
 			</div>
 		</fieldset>
 	
@@ -284,7 +286,7 @@
         var table1 = new Tabulator("#cate_list01", {
             layout: "fitColumns",
             columns: [
-                {title: "번호", field: "id", width: 150, hozAlign: "center"},
+                {title: "번호", field: "id", width: 70, hozAlign: "center"},
                 {title: "작성시간", field: "WRITEDAYTIME", hozAlign: "center"},
                 {title: "Electric 합계", field: "LNG_SUM", hozAlign: "center"},
             ],
@@ -294,7 +296,7 @@
         var table2 = new Tabulator("#cate_list02", {
             layout: "fitColumns",
             columns: [
-                {title: "번호", field: "id", width: 150, hozAlign: "center"},
+                {title: "번호", field: "id", width: 70, hozAlign: "center"},
                 {title: "작성시간", field: "WRITEDAYTIME", hozAlign: "center"},
                 {title: "Electric 합계", field: "LNG_SUM", hozAlign: "center"},
             ],
@@ -304,7 +306,7 @@
         var table3 = new Tabulator("#cate_list03", {
             layout: "fitColumns",
             columns: [
-                {title: "번호", field: "id", width: 150, hozAlign: "center"},
+                {title: "번호", field: "id", width: 70, hozAlign: "center"},
                 {title: "작성시간", field: "WRITEDAYTIME", hozAlign: "center"},
                 {title: "Electric 합계", field: "LNG_SUM", hozAlign: "center"},
             ],
@@ -314,7 +316,7 @@
         var table4 = new Tabulator("#cate_list04", {
             layout: "fitColumns",
             columns: [
-                {title: "번호", field: "id", width: 150, hozAlign: "center"},
+                {title: "번호", field: "id", width: 70, hozAlign: "center"},
                 {title: "작성시간", field: "WRITEDAYTIME", hozAlign: "center"},
                 {title: "Electric 합계", field: "LNG_SUM", hozAlign: "center"},
             ],
