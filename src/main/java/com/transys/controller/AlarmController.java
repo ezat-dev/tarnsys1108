@@ -98,20 +98,32 @@ public class AlarmController {
         Map<String, Object> rtnMap = new HashMap<>();
 
         try {
+            // 사용자가 시분초를 입력하지 않았다면 고정값으로 설정
+            if (!sDate.contains(":")) {
+                sDate += " 00:00:00";  // 기본 시작 시각: 00:00:00
+            }
+            if (!eDate.contains(":")) {
+                eDate += " 23:59:59";  // 기본 종료 시각: 23:59:59
+            }
+
+            // 수정된 sDate와 eDate 값 프린트
+            System.out.println("Processed sDate: " + sDate);
+            System.out.println("Processed eDate: " + eDate);
+
             Alarm alarm = new Alarm();
             alarm.setAlarmGroup(alarmgroup);
             alarm.setSdate(sDate);
             alarm.setEdate(eDate);
 
             List<Alarm> alarmList = alarmService.getAlarmList(alarm);
-            
-            System.out.println("Product List Size: " + alarmList.size());
 
-            for(Alarm alarmData : alarmList) {
-            	System.out.println(alarmData.getTagName());
-            	System.out.println(alarmData.getTotal());
+            System.out.println("Alarm List Size: " + alarmList.size());
+
+            for (Alarm alarmData : alarmList) {
+                System.out.println("Tag Name: " + alarmData.getTagName());
+                System.out.println("Total: " + alarmData.getTotal());
             }
-            
+
             rtnMap.put("status", "success");
             rtnMap.put("last_page", 1);
             rtnMap.put("data", alarmList);
@@ -123,4 +135,6 @@ public class AlarmController {
 
         return rtnMap;
     }
+
+
 }

@@ -62,22 +62,26 @@
  	</select>
  	
  	
- 	<select id="getAlarmList" parameterType="alarm" resultType="alarm">
-              SELECT *
-                FROM (
-                    SELECT 
-                        *,
-                        LEAD(alarmstate) OVER (PARTITION BY tagname ORDER BY time) AS lead_alarmstate,
-                        LEAD(time) OVER (PARTITION BY tagname ORDER BY time) AS lead_alarmtime
-                    FROM ALARMDATA
-                    WHERE 1=1
-					AND alarmgroup = #{alarmGroup}
-                    AND time BETWEEN #{sdate} AND #{edate}
-                    ORDER BY time
-                ) AS aa
-                WHERE  1=1
-				and alarmstate = 'Warning'
-				and lead_alarmstate = 'Clear'				
-                ORDER BY time
- 	</select>
+<select id="getAlarmList" parameterType="alarm" resultType="alarm">
+    SELECT *
+    FROM (
+        SELECT 
+            *,
+            LEAD(alarmstate) OVER (PARTITION BY tagname ORDER BY time) AS lead_alarmstate,
+            LEAD(time) OVER (PARTITION BY tagname ORDER BY time) AS lead_alarmtime
+        FROM ALARMDATA
+        WHERE 1=1
+      
+        <if test="alarmGroup != null and alarmGroup != ''">
+            AND alarmgroup = #{alarmGroup}
+        </if>
+        AND time BETWEEN #{sdate} AND #{edate}
+        ORDER BY time
+    ) AS aa
+    WHERE 1=1
+    AND alarmstate = 'Warning'
+    AND lead_alarmstate = 'Clear'
+    ORDER BY time
+</select>
+
 </mapper>

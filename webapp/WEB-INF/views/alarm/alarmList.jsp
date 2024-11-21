@@ -170,8 +170,9 @@
             <div class="input_d">
                 <label> 설비명 : 
                     <select name="placename" id="placename"style="font-weight: 100; text-align: center; width: 150px;">
-                        <option value="ALARM_CCF">ALARM_CCF</option>
-                        <option value="ALARM_CM">ALARM_CM</option>
+                         <option value="">전체</option>
+                        <option value="CCF1_ALARM">CCF1_ALARM</option>
+                        <option value="CCF1_ALARM">CCF1_ALARM</option>
                     </select> 
                 </label>
                 

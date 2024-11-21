@@ -5,8 +5,9 @@
 <configuration>
 <typeAliases>
 	<package name="com.transys.domain"/>
+	
 </typeAliases>
   <mappers>
-   
+ <mapper resource="mybatis/mapper-sqlite/alarm.xml"/>
   </mappers>
 </configuration>
