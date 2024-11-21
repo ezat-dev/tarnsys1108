@@ -245,7 +245,7 @@ public class ProductController {
                 // 품명 코드 (C열)
                 cell = row.createCell(2);  
                 cell.setCellValue(productList.get(i).getPumcode());
-                cell.setCellStyle(styleCenter);  
+                cell.setCellStyle(styleLeft);  
 
                 // 품명 (D열)
                 cell = row.createCell(3);  
@@ -260,7 +260,7 @@ public class ProductController {
                 // 품번 (G열)
                 cell = row.createCell(6); 
                 cell.setCellValue(productList.get(i).getDobun());
-                cell.setCellStyle(styleCenter);  
+                cell.setCellStyle(styleLeft);  
 
                 // 수량 (J열)
                 cell = row.createCell(9); 

@@ -166,6 +166,7 @@
                 <input type="text" id="year" name="year" class="yearSet"style="font-size: 14pt; font-weight: 700; text-align: center; width: 150px;height:25px;" placeholder="년도 선택"/>
             </label>
             	<button id="searchbtn" style="margin-left: 100px; height:34px;">조회</button>
+      			<button id="excelBtn"style="margin-left: 15px; height:34px;">엑셀</button>
         </div>
     </fieldset>
 
@@ -246,6 +247,32 @@
                 } else {
                     alert("처리 중 예외가 발생했습니다.");
                 }
+            }
+        });
+    });
+
+    $('#excelBtn').click(function () {
+        var year = $("#year").val();
+        
+        if (!year) {
+            var currentYear = new Date().getFullYear();
+            year = currentYear; 
+            $("#year").val(year);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/transys/util/lngYear/excel", 
+            dataType: "json",
+            data: {
+                'electricYear': year 
+            },
+            success: function(result) {
+                console.log(result);
+                // 성공 시 엑셀 다운로드 처리
+            },
+            error: function() {
+                alert("엑셀 다운로드에 실패했습니다.");
             }
         });
     });

@@ -168,8 +168,8 @@
             <label style="margin-left: 15px;font-size: 19px;font-weight: 700;"> 조회설정(년) : 
                 <input type="text" id="year" name="year" class="yearSet"style="font-size: 14pt; font-weight: 700; text-align: height:25px; center; width: 150px;" placeholder="년도 선택"/>
             </label>
-            	<button id="searchbtn" style="margin-left: 100px; height:34px;">조회</button>
-        </div>
+            	<button id="searchbtn" style="margin-left: 70px; height:34px;">조회</button>
+      			<button id="excelBtn"style="margin-left: 15px; height:34px;">엑셀</button></div>
     </fieldset>
 
        <div id="table_file" style="margin-left: 100px;"></div>
@@ -257,7 +257,7 @@
         });
 
         // 엑셀 다운로드 버튼 클릭 이벤트
-        $('#excelbtn').click(function () {
+        $('#excelBtn').click(function () {
             var year = $("#year").val();
             
             if (!year) {
@@ -273,21 +273,12 @@
                 data: {
                     'electricYear': year 
                 },
-                success: function (response) {
-                    console.log("엑셀 다운로드 요청 성공:", response);
-                    if (response.status == "ok") {
-                        window.location.href = response.filename; 
-                    } else {
-                        alert("엑셀 파일 생성 중 오류가 발생했습니다.");
-                    }
+                success: function(result) {
+                    console.log(result);
+                    // 성공 시 엑셀 다운로드 처리
                 },
-                error: function (req, status) {
-                    console.error("Error occurred while downloading Excel:", req, status);
-                    if (req.status == 0 || status == "timeout") {
-                        alert("네트워크 연결 확인 후 다시 시도해 주세요.");
-                    } else {
-                        alert("처리 중 예외가 발생했습니다.");
-                    }
+                error: function() {
+                    alert("엑셀 다운로드에 실패했습니다.");
                 }
             });
         });

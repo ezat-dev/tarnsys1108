@@ -147,7 +147,7 @@
 		</div>
         <div id="contents">
             <div style="color: black; font-size: 14px; padding-top: 1%; margin-left: 2.5%; text-align: left;">
-                <b style="font-size: 15pt;">작업실적</b> / <label style="font-size: 14pt;">작업년보</label>
+                <b style="font-size: 15pt;">작업실적</b> / <label style="font-size: 14pt;">작업연보</label>
             </div>
             <hr>
             <fieldset class="list_input">
@@ -213,94 +213,78 @@
         placeholder: "검색 결과가 없습니다.", 
     });
 
-    // 페이지 로딩 시 자동으로 현재 연도로 설정
+    // 페이지 로딩 시 자동으로 현재 연도로 설정하고, 검색을 자동으로 수행
     $(document).ready(function() {
         var now = new Date();
         var y = now.getFullYear();  // 현재 연도를 가져옵니다.
         $("#to_date").val(y);  // 입력 필드에 현재 연도(YYYY)만 설정
 
-        // 검색 버튼 클릭 이벤트
-        $("#searchbtn").click(function() {
-            // 선택한 연도와 설비명 가져오기
-            var selectedDate = $("#to_date").val(); // YYYY 형식으로 가져옴
-            var selectedHogi = $("#placename").val() || ""; // 설비명은 공백으로 처리
+        // 자동으로 검색 수행
+        $("#searchbtn").click();  // 페이지 로딩 시 버튼 클릭 이벤트를 트리거
+    });
 
-            // 콘솔에 출력
-            console.log("선택한 연도:", selectedDate);
-            console.log("선택한 설비명:", selectedHogi);
+    // 검색 버튼 클릭 이벤트
+    $("#searchbtn").click(function() {
+        // 선택한 연도와 설비명 가져오기
+        var selectedDate = $("#to_date").val(); // YYYY 형식으로 가져옴
+        var selectedHogi = $("#placename").val() || ""; // 설비명은 공백으로 처리
 
-            // Ajax 요청
-            $.ajax({
-                url: "/transys/work/workYear/list", 
-                method: "POST",
-                data: {
-                    date: selectedDate, // 전달할 연도
-                    placename: selectedHogi // 전달할 설비명
-                },
-                success: function(data) {
-                    table.setData(data); 
-                    document.querySelector(".countDATA").textContent = "조회된 데이터 수 : " + data.length;
-                    console.log("서버에서 받아온 데이터:", data);
-                },
-                error: function() {
-                    alert("데이터를 가져오는 데 실패했습니다.");
-                }
-            });
-        });
+        // 콘솔에 출력
+        console.log("선택한 연도:", selectedDate);
+        console.log("선택한 설비명:", selectedHogi);
 
-        // 엑셀 다운로드 버튼 클릭 이벤트
-        $("#excelBtn").on("click", function(){
-            var selectedDate = $("#to_date").val().replace(/-/g, "").slice(0, 6); // YYYYMM 형식으로 변경
-            var selectedHogi = $("#placename").val() || ""; // 설비명은 공백으로 처리
-
-            console.log("엑셀 보내지는 날:", selectedDate);
-            console.log("엑셀 호기:", selectedHogi);
-
-            $.ajax({
-                url: "/transys/work/workYear/excelDownload",
-                type: "post",
-                dataType: "json",
-                data: {
-                    date: selectedDate, // 전달할 연도
-                    placename: selectedHogi // 전달할 설비명
-                },
-                success: function(result) {
-                    console.log(result);
-                    // 성공 시 엑셀 다운로드 처리
-                },
-                error: function() {
-                    alert("엑셀 다운로드에 실패했습니다.");
-                }
-            });
-
-            // Ajax 요청에 사용될 매개변수 출력
-            console.log("서버로 전송할 값:", {
-                date: selectedDate,
-                placename: selectedHogi
-            });
-        });
-
-        // Excel 내보내기 기능
-        $("#excel").on("click", function() {
-            // Tabulator 데이터 가져오기
-            var data = table.getData();
-            var wb = XLSX.utils.book_new();
-
-            var ws = XLSX.utils.json_to_sheet(data, { 
-                header: ["pumname", "pumcode", "gijong", "m01", "m02", "m03", "m04", "m05", "m06", "m07", "m08", "m09", "m10", "m11", "m12"], 
-                skipHeader: true 
-            });
-
-            var newHeaders = ["품명", "품명 코드", "기종", "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
-            
-            newHeaders.forEach((header, index) => {
-                ws[XLSX.utils.encode_cell({ c: index, r: 0 })] = { v: header }; 
-            });
-
-            XLSX.utils.book_append_sheet(wb, ws, "작업실적");
-            XLSX.writeFile(wb, "작업실적.xlsx");
+        // Ajax 요청
+        $.ajax({
+            url: "/transys/work/workYear/list", 
+            method: "POST",
+            data: {
+                date: selectedDate, // 전달할 연도
+                placename: selectedHogi // 전달할 설비명
+            },
+            success: function(data) {
+                table.setData(data); 
+                document.querySelector(".countDATA").textContent = "조회된 데이터 수 : " + data.length;
+                console.log("서버에서 받아온 데이터:", data);
+            },
+            error: function() {
+                alert("데이터를 가져오는 데 실패했습니다.");
+            }
         });
     });
+
+    // 엑셀 다운로드 버튼 클릭 이벤트
+    $("#excelBtn").on("click", function(){
+        var selectedDate = $("#to_date").val().replace(/-/g, "").slice(0, 6); // YYYYMM 형식으로 변경
+        var selectedHogi = $("#placename").val() || ""; // 설비명은 공백으로 처리
+
+        console.log("엑셀 보내지는 날:", selectedDate);
+        console.log("엑셀 호기:", selectedHogi);
+
+        $.ajax({
+            url: "/transys/work/workYear/excelDownload",
+            type: "post",
+            dataType: "json",
+            data: {
+                date: selectedDate, // 전달할 연도
+                placename: selectedHogi // 전달할 설비명
+            },
+            success: function(result) {
+                console.log(result);
+                // 성공 시 엑셀 다운로드 처리
+            },
+            error: function() {
+                alert("엑셀 다운로드에 실패했습니다.");
+            }
+        });
+
+        // Ajax 요청에 사용될 매개변수 출력
+        console.log("서버로 전송할 값:", {
+            date: selectedDate,
+            placename: selectedHogi
+        });
+    });
+
+   
 </script>
 
 

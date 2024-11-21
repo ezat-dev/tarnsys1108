@@ -200,178 +200,336 @@ public class UtilController {
     
     
 
-   @RequestMapping(value = "/util/electricYear/excel", method = RequestMethod.POST)
-   @ResponseBody
-   public JSONObject electricYearExcel(
-         HttpServletRequest request,
+    @RequestMapping(value = "/util/electricYear/excel", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject electricYearExcel(
+            HttpServletRequest request,
             @RequestParam(required = false, defaultValue = "0") int electricYear
-      ) throws IOException {
+    ) throws IOException {
         JSONObject rtnObj = new JSONObject();
-           
-           Util util = new Util();
 
-           util.setElectricYear(electricYear);
-         
-         SimpleDateFormat format = new SimpleDateFormat("yyMMdd_HHmmss");
-         Date time = new Date();
-         
-         String now = format.format(time);
-         
-         FileOutputStream fos = null;
-         FileInputStream fis = null;
-         
-         String openPath = request.getServletContext().getRealPath("/WEB-INF/resources/excels/");
-         String savePath = request.getServletContext().getRealPath("/WEB-INF/resources/uploads/");
-         
-         List<Util> util1 = utilService.utilElectricYearList(util);
-         
-         System.out.println("사이즈 : "+util1.size());
-         
-         try {
-            fis = new FileInputStream(openPath+"EZ348)트랜시스양식_전력사용량.xlsx");
-            
+        Util util = new Util();
+        util.setElectricYear(electricYear);
+
+   
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date time = new Date();
+        String nowDate = format.format(time); 
+        FileOutputStream fos = null;
+        FileInputStream fis = null;
+
+        String openPath = "D:/엑셀_양식/";
+        String savePath = request.getServletContext().getRealPath("/WEB-INF/resources/uploads/");
+
+        List<Util> util1 = utilService.utilElectricYearList(util);
+
+        System.out.println("사이즈 : " + util1.size());
+
+        try {
+            fis = new FileInputStream(openPath + "EZ348)트랜시스양식_전력사용량.xlsx");
+
             XSSFWorkbook workbook = new XSSFWorkbook(fis);
             FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-            CellStyle style = workbook.createCellStyle();
-            
+            CellStyle leftAlignStyle = workbook.createCellStyle();
+            leftAlignStyle.setAlignment(HorizontalAlignment.LEFT); // 왼쪽 정렬
+
+            CellStyle centerAlignStyle = workbook.createCellStyle();
+            centerAlignStyle.setAlignment(HorizontalAlignment.CENTER); // 가운데 정렬
+
             XSSFSheet sheet = workbook.getSheetAt(0);
-//            System.out.println(sheet);
             Row row = null;
             Cell cell = null;
-            
-            for(int i=0; i<util1.size(); i++) {
-                row = sheet.createRow((i + 8));
 
-                cell = row.createCell(2); cell.setCellValue(util1.get(i).getM01());          // 1월
-                cell = row.createCell(3); cell.setCellValue(util1.get(i).getM02());          // 2월
-                cell = row.createCell(4); cell.setCellValue(util1.get(i).getM03());          // 3월
-                cell = row.createCell(5); cell.setCellValue(util1.get(i).getM04());          // 4월
-                cell = row.createCell(6); cell.setCellValue(util1.get(i).getM05());          // 5월
-                cell = row.createCell(7); cell.setCellValue(util1.get(i).getM06());          // 6월
-                cell = row.createCell(8); cell.setCellValue(util1.get(i).getM07());          // 7월
-                cell = row.createCell(9); cell.setCellValue(util1.get(i).getM08());          // 8월
-                cell = row.createCell(10); cell.setCellValue(util1.get(i).getM09());          // 9월
-                cell = row.createCell(11); cell.setCellValue(util1.get(i).getM10());          // 10월
-                cell = row.createCell(12); cell.setCellValue(util1.get(i).getM11());          // 11월
-                cell = row.createCell(13); cell.setCellValue(util1.get(i).getM12());          // 12월
-                cell = row.createCell(14); cell.setCellValue(util1.get(i).getTotal());        // 총합계
-                cell = row.createCell(15); cell.setCellValue(util1.get(i).getWriteDayTime()); // 기록 날짜와 시간
+            Row row5 = sheet.getRow(4);
+            if (row5 == null) row5 = sheet.createRow(4);
+            Cell cell5 = row5.getCell(2);
+            if (cell5 == null) cell5 = row5.createCell(2);
+            cell5.setCellValue(electricYear); 
+            cell5.setCellStyle(leftAlignStyle); 
+
+            Row row4 = sheet.getRow(4);
+            if (row4 == null) row4 = sheet.createRow(3);
+            Cell cell4 = row4.getCell(13);
+            if (cell4 == null) cell4 = row4.createCell(12);
+            cell4.setCellValue(nowDate); 
+            cell4.setCellStyle(leftAlignStyle);
+
+        
+            for (int i = 0; i < util1.size(); i++) {
+                row = sheet.createRow(i + 9);
+
+                cell = row.createCell(2); 
+                cell.setCellValue(util1.get(i).getM01()); // 1월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(3); 
+                cell.setCellValue(util1.get(i).getM02()); // 2월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(4); 
+                cell.setCellValue(util1.get(i).getM03()); // 3월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(5); 
+                cell.setCellValue(util1.get(i).getM04()); // 4월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(6); 
+                cell.setCellValue(util1.get(i).getM05()); // 5월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(7); 
+                cell.setCellValue(util1.get(i).getM06()); // 6월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(8); 
+                cell.setCellValue(util1.get(i).getM07()); // 7월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(9); 
+                cell.setCellValue(util1.get(i).getM08()); // 8월
+                cell.setCellStyle(centerAlignStyle); // 가운데 정렬
+
+                cell = row.createCell(10); 
+                cell.setCellValue(util1.get(i).getM09()); // 9월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(11); 
+                cell.setCellValue(util1.get(i).getM10()); // 10월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(12); 
+                cell.setCellValue(util1.get(i).getM11()); // 11월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(13); 
+                cell.setCellValue(util1.get(i).getM12()); // 12월
+                cell.setCellStyle(centerAlignStyle);
+
+                cell = row.createCell(14); 
+                cell.setCellValue(util1.get(i).getTotal()); // 총합계
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(15); 
+                cell.setCellValue(util1.get(i).getWriteDayTime()); // 기록 날짜와 시간
+                cell.setCellStyle(centerAlignStyle); 
             }
 
-            
+            // 호기 설정
+            // 호기 설정
+            Row row8 = sheet.getRow(9);
+            if (row8 == null) row8 = sheet.createRow(9);
+            Cell cell8 = row8.getCell(1);
+            if (cell8 == null) cell8 = row8.createCell(1);
+            cell8.setCellValue("침탄1호기");
+            cell8.setCellStyle(centerAlignStyle); 
+
+            Row row9 = sheet.getRow(10);
+            if (row9 == null) row9 = sheet.createRow(10);
+            Cell cell9 = row9.getCell(1);
+            if (cell9 == null) cell9 = row9.createCell(1);
+            cell9.setCellValue("침탄2호기");
+            cell9.setCellStyle(centerAlignStyle); 
+
+            Row row10 = sheet.getRow(11);
+            if (row10 == null) row10 = sheet.createRow(11);
+            Cell cell10 = row10.getCell(1);
+            if (cell10 == null) cell10 = row10.createCell(1);
+            cell10.setCellValue("침탄3호기");
+            cell10.setCellStyle(centerAlignStyle); 
+
+            Row row11 = sheet.getRow(12);
+            if (row11 == null) row11 = sheet.createRow(12);
+            Cell cell11 = row11.getCell(1);
+            if (cell11 == null) cell11 = row11.createCell(1);
+            cell11.setCellValue("침탄4호기");
+            cell11.setCellStyle(centerAlignStyle); 
+
             workbook.setForceFormulaRecalculation(true);
-            
-            fos = new FileOutputStream(savePath+"EZ348)트랜시스양식_전력사용량_"+now+".xlsx");
+
+            fos = new FileOutputStream(savePath + nowDate + "_전력사용량.xlsx");
             workbook.write(fos);
             workbook.close();
             fos.flush();
-            
-         }catch(Exception e) {
+
+        } catch (Exception e) {
             System.out.println(e);
-         }finally {
-            if(fis != null) {fis.close();}
-            if(fos != null) {fos.close();}
-         }
-         
-         
-         
-         rtnObj.put("r_str","ok");
-         rtnObj.put("filename", savePath+"EZ348)트랜시스양식_전력사용량_"+now+".xlsx");
-         
-         
-         return rtnObj;
-      
-      
-   }
+        } finally {
+            if (fis != null) { fis.close(); }
+            if (fos != null) { fos.close(); }
+        }
 
-   @RequestMapping(value = "/util/lngYear/excel", method = RequestMethod.POST)
-   @ResponseBody
-   public JSONObject lngYearExcel(
-           HttpServletRequest request,
-           @RequestParam(required = false, defaultValue = "0") int electricYear
-       ) throws IOException {
-           JSONObject rtnObj = new JSONObject();
-           
-           Util util = new Util();
-           util.setElectricYear(electricYear);
-           
-           SimpleDateFormat format = new SimpleDateFormat("yyMMdd_HHmmss");
-           Date time = new Date();
-           
-           String now = format.format(time);
-           
-           FileOutputStream fos = null;
-           FileInputStream fis = null;
-           
-           String openPath = request.getServletContext().getRealPath("/WEB-INF/resources/excels/");
-           String savePath = request.getServletContext().getRealPath("/WEB-INF/resources/uploads/");
-           
-           List<Util> util1 = utilService.utilYearList(util);
-           
-           System.out.println("사이즈 : " + util1.size());
-           
-           try {
-               fis = new FileInputStream(openPath +"EZ348)트랜시스양식_LNG사용량.xlsx");
-               
-               XSSFWorkbook workbook = new XSSFWorkbook(fis);
-               XSSFSheet sheet = workbook.getSheetAt(0);
-               Row row = null;
-               Cell cell = null;
-               
-               for (int i = 0; i < util1.size(); i++) {
-                  
-                   row = sheet.createRow((i + 8));
+        rtnObj.put("r_str", "ok");
+        rtnObj.put("filename", savePath + nowDate + "_전력사용량.xlsx");
 
-                   // 1월부터 12월 데이터 추가
-                   cell = row.createCell(2); cell.setCellValue(util1.get(i).getM01()); // 1월
-                   cell = row.createCell(3); cell.setCellValue(util1.get(i).getM02()); // 2월
-                   cell = row.createCell(4); cell.setCellValue(util1.get(i).getM03()); // 3월
-                   cell = row.createCell(5); cell.setCellValue(util1.get(i).getM04()); // 4월
-                   cell = row.createCell(6); cell.setCellValue(util1.get(i).getM05()); // 5월
-                   cell = row.createCell(7); cell.setCellValue(util1.get(i).getM06()); // 6월
-                   cell = row.createCell(8); cell.setCellValue(util1.get(i).getM07()); // 7월
-                   cell = row.createCell(9); cell.setCellValue(util1.get(i).getM08()); // 8월
-                   cell = row.createCell(10); cell.setCellValue(util1.get(i).getM09()); // 9월
-                   cell = row.createCell(11); cell.setCellValue(util1.get(i).getM10()); // 10월
-                   cell = row.createCell(12); cell.setCellValue(util1.get(i).getM11()); // 11월
-                   cell = row.createCell(13); cell.setCellValue(util1.get(i).getM12()); // 12월
+        return rtnObj;
+    }
 
-                   // 14번 셀에 월별 합계 추가
-                   double total = util1.get(i).getM01() + util1.get(i).getM02() + util1.get(i).getM03()
-                                + util1.get(i).getM04() + util1.get(i).getM05() + util1.get(i).getM06()
-                                + util1.get(i).getM07() + util1.get(i).getM08() + util1.get(i).getM09()
-                                + util1.get(i).getM10() + util1.get(i).getM11() + util1.get(i).getM12();
-                   cell = row.createCell(14); cell.setCellValue(total); // 14번 셀에 합계
 
-           
-                 
-               }
-         
-//               Row m = sheet.createRow(3); 
 
-               Row m = sheet.getRow(3);        
-               Cell cell1 = m.createCell(12); 
-               cell1.setCellValue(now);
 
-               workbook.setForceFormulaRecalculation(true);
-               
-               fos = new FileOutputStream(savePath +"EZ348)트랜시스양식_LNG사용량_"+ now +".xlsx");
-               workbook.write(fos);
-               workbook.close();
-               fos.flush();
-               
-           } catch (Exception e) {
-               System.out.println(e);
-           } finally {
-               if (fis != null) { fis.close(); }
-               if (fos != null) { fos.close(); }
-           }
+    @RequestMapping(value = "/util/lngYear/excel", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject lngYearExcel(
+            HttpServletRequest request,
+            @RequestParam(required = false, defaultValue = "0") int electricYear
+    ) throws IOException {
+        JSONObject rtnObj = new JSONObject();
 
-           rtnObj.put("r_str", "ok");
-           rtnObj.put("filename", savePath +"EZ348)트랜시스양식_LNG사용량_"+ now +".xlsx");
+        Util util = new Util();
+        util.setElectricYear(electricYear);
 
-           return rtnObj;
-   }
+   
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date time = new Date();
+        String nowDate = format.format(time); 
+        FileOutputStream fos = null;
+        FileInputStream fis = null;
 
+        String openPath = "D:/엑셀_양식/";
+        String savePath = request.getServletContext().getRealPath("/WEB-INF/resources/uploads/");
+
+        List<Util> util1 = utilService.utilYearList(util);
+
+        System.out.println("사이즈 : " + util1.size());
+
+        try {
+            fis = new FileInputStream(openPath + "EZ348)트랜시스양식_LNG사용량.xlsx");
+
+            XSSFWorkbook workbook = new XSSFWorkbook(fis);
+            FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+            CellStyle leftAlignStyle = workbook.createCellStyle();
+            leftAlignStyle.setAlignment(HorizontalAlignment.LEFT); // 왼쪽 정렬
+
+            CellStyle centerAlignStyle = workbook.createCellStyle();
+            centerAlignStyle.setAlignment(HorizontalAlignment.CENTER); // 가운데 정렬
+
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            Row row = null;
+            Cell cell = null;
+
+            Row row5 = sheet.getRow(4);
+            if (row5 == null) row5 = sheet.createRow(4);
+            Cell cell5 = row5.getCell(2);
+            if (cell5 == null) cell5 = row5.createCell(2);
+            cell5.setCellValue(electricYear); 
+            cell5.setCellStyle(leftAlignStyle); 
+
+            Row row4 = sheet.getRow(4);
+            if (row4 == null) row4 = sheet.createRow(3);
+            Cell cell4 = row4.getCell(13);
+            if (cell4 == null) cell4 = row4.createCell(12);
+            cell4.setCellValue(nowDate); 
+            cell4.setCellStyle(leftAlignStyle);
+
+        
+            for (int i = 0; i < util1.size(); i++) {
+                row = sheet.createRow(i + 9);
+
+                cell = row.createCell(2); 
+                cell.setCellValue(util1.get(i).getM01()); // 1월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(3); 
+                cell.setCellValue(util1.get(i).getM02()); // 2월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(4); 
+                cell.setCellValue(util1.get(i).getM03()); // 3월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(5); 
+                cell.setCellValue(util1.get(i).getM04()); // 4월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(6); 
+                cell.setCellValue(util1.get(i).getM05()); // 5월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(7); 
+                cell.setCellValue(util1.get(i).getM06()); // 6월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(8); 
+                cell.setCellValue(util1.get(i).getM07()); // 7월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(9); 
+                cell.setCellValue(util1.get(i).getM08()); // 8월
+                cell.setCellStyle(centerAlignStyle); // 가운데 정렬
+
+                cell = row.createCell(10); 
+                cell.setCellValue(util1.get(i).getM09()); // 9월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(11); 
+                cell.setCellValue(util1.get(i).getM10()); // 10월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(12); 
+                cell.setCellValue(util1.get(i).getM11()); // 11월
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(13); 
+                cell.setCellValue(util1.get(i).getM12()); // 12월
+                cell.setCellStyle(centerAlignStyle);
+
+                cell = row.createCell(14); 
+                cell.setCellValue(util1.get(i).getTotal()); // 총합계
+                cell.setCellStyle(centerAlignStyle); 
+
+                cell = row.createCell(15); 
+                cell.setCellValue(util1.get(i).getWriteDayTime()); // 기록 날짜와 시간
+                cell.setCellStyle(centerAlignStyle); 
+            }
+
+            // 호기 설정
+            Row row8 = sheet.getRow(9);
+            if (row8 == null) row8 = sheet.createRow(9);
+            Cell cell8 = row8.getCell(1);
+            if (cell8 == null) cell8 = row8.createCell(1);
+            cell8.setCellValue("침탄1호기");
+            cell8.setCellStyle(centerAlignStyle); 
+
+            Row row9 = sheet.getRow(10);
+            if (row9 == null) row9 = sheet.createRow(10);
+            Cell cell9 = row9.getCell(1);
+            if (cell9 == null) cell9 = row9.createCell(1);
+            cell9.setCellValue("침탄2호기");
+            cell9.setCellStyle(centerAlignStyle); 
+
+            Row row10 = sheet.getRow(11);
+            if (row10 == null) row10 = sheet.createRow(11);
+            Cell cell10 = row10.getCell(1);
+            if (cell10 == null) cell10 = row10.createCell(1);
+            cell10.setCellValue("침탄3호기");
+            cell10.setCellStyle(centerAlignStyle); 
+
+            Row row11 = sheet.getRow(12);
+            if (row11 == null) row11 = sheet.createRow(12);
+            Cell cell11 = row11.getCell(1);
+            if (cell11 == null) cell11 = row11.createCell(1);
+            cell11.setCellValue("침탄4호기");
+            cell11.setCellStyle(centerAlignStyle); 
+
+            workbook.setForceFormulaRecalculation(true);
+
+            fos = new FileOutputStream(savePath + nowDate + "_LNG사용량.xlsx");
+            workbook.write(fos);
+            workbook.close();
+            fos.flush();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            if (fis != null) { fis.close(); }
+            if (fos != null) { fos.close(); }
+        }
+
+        rtnObj.put("r_str", "ok");
+        rtnObj.put("filename", savePath + nowDate + "_LNG사용량.xlsx");
+
+        return rtnObj;
+    }
 
 }

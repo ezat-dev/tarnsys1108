@@ -354,7 +354,7 @@ public class WorkController {
 
         return workService.workYearList(work);
     }
-
+    //작업일보 엑셀
     @RequestMapping(value = "/work/workDay/excelDownload", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> workDayExcelDownload(@RequestParam String date,
@@ -400,13 +400,15 @@ public class WorkController {
             styleLeft.setVerticalAlignment(VerticalAlignment.CENTER);  // 세로 중앙 정렬
 
             
-         // placename을 D5 셀에 설정
-            row = sheet.getRow(5);  // D5는 row 5, cell 3
-            if (row == null) row = sheet.createRow(5);
-            cell = row.getCell(3); // D5 (4번째 열)
+
+            // D5 셀에 값 설정 (placename이 null 또는 공백이면 "전체")
+            row = sheet.getRow(4);  
+            if (row == null) row = sheet.createRow(4);
+            cell = row.getCell(3);  // D5 셀
             if (cell == null) cell = row.createCell(3);
-            cell.setCellValue(placename); // placename 값 넣기
-            cell.setCellStyle(styleLeft); // 스타일 적용
+            String placenameToSet = (placename == null || placename.trim().isEmpty()) ? "전체" : placename;
+            cell.setCellValue(placenameToSet); 
+            cell.setCellStyle(styleLeft);  // 중앙 정렬 스타일 적용
 
             
             
@@ -418,17 +420,7 @@ public class WorkController {
             cell.setCellValue(date); // date 값 넣기
             cell.setCellStyle(styleLeft); // 스타일 적용
 
-            // 날짜 셀 설정 (K6)
-            row = sheet.getRow(5);  // K6는 row 5, cell 10
-            if (row == null) row = sheet.createRow(5);
-            cell = row.getCell(10); // K6
-            if (cell == null) cell = row.createCell(10);
-            cell.setCellValue(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-            cell.setCellStyle(styleCenter);
-
-        
-
-
+            
             // 작업 데이터 개수 설정 (D7)
             row = sheet.getRow(6);  // D7은 row 6, cell 3
             if (row == null) row = sheet.createRow(6);
@@ -436,6 +428,21 @@ public class WorkController {
             if (cell == null) cell = row.createCell(3);
             cell.setCellValue(workList.size());
             cell.setCellStyle(styleLeft);
+            
+            
+            
+            // 날짜 셀 설정 (K6)
+            row = sheet.getRow(5);  // K6는 row 5, cell 10
+            if (row == null) row = sheet.createRow(5);
+            cell = row.getCell(10); // K6
+            if (cell == null) cell = row.createCell(10);
+            cell.setCellValue(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            cell.setCellStyle(styleLeft);
+
+        
+
+
+           
 
             // 작업 데이터 행 추가 (D10부터 시작)
             int startRow = 9;
@@ -451,12 +458,12 @@ public class WorkController {
                 // pumcode (C10부터)
                 cell = row.createCell(2); // C10부터 (pumcode)
                 cell.setCellValue(workList.get(i).getPumcode() != null ? workList.get(i).getPumcode() : "");
-                cell.setCellStyle(styleCenter);
+                cell.setCellStyle(styleLeft);
 
                 // pumname (F10부터)
                 cell = row.createCell(5); // F10부터 (pumname)
                 cell.setCellValue(workList.get(i).getPumname() != null ? workList.get(i).getPumname() : "");
-                cell.setCellStyle(styleCenter);
+                cell.setCellStyle(styleLeft);
 
                 // gijong (H10부터)
                 cell = row.createCell(7); // H10부터 (gijong)
@@ -511,16 +518,20 @@ public class WorkController {
         return rtnMap;
     }
 
-  //작업월보 엑셀 
     @RequestMapping(value = "/work/workMonth/excelDownload", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> workMonthExcelDownload(@RequestParam String date,
-                                                    @RequestParam String placename,
-                                                    HttpServletRequest request) {
+                                                      @RequestParam String placename,
+                                                      HttpServletRequest request) {
+        System.out.println("Received date parameter: " + date);
+        System.out.println("Received placename parameter: " + placename);
+
         Map<String, Object> rtnMap = new HashMap<>();
         Work work = new Work();
         work.setDevicecode(placename);
         work.setKeymonth(date.substring(0, 6));
+
+        System.out.println("Set keymonth in Work object: " + work.getKeymonth());
 
         SimpleDateFormat format = new SimpleDateFormat("yyMMdd_HHmmss");
         Date time = new Date();
@@ -532,19 +543,20 @@ public class WorkController {
         String savePath = request.getServletContext().getRealPath("/WEB-INF/resources/uploads/");
 
         List<Work> workList = workService.workMonthList(work);
+
+        // workList가 null인지 확인
+        if (workList == null || workList.isEmpty()) {
+            System.out.println("workList is null or empty");
+        } else {
+            System.out.println("workList size: " + workList.size());
+        }
+
         System.out.println("작업 월보 데이터 리스트:");
         for (int i = 0; i < workList.size(); i++) {
             Work w = workList.get(i);
-            System.out.println("순번: " + (i + 1));
-            System.out.println("keymonth: " + w.getKeymonth());
-            System.out.println("devicecode: " + w.getDevicecode());
-            System.out.println("pumcode: " + w.getPumcode());
-            System.out.println("pumname: " + w.getPumname());
-            System.out.println("gijong: " + w.getGijong());
-            System.out.println("dobun: " + w.getDobun());
-            System.out.println("totalout: " + w.getTotalout());
-            System.out.println("realout: " + w.getRealout());
+            // 디버깅 출력 필요 시 추가
         }
+
         try {
             fis = new FileInputStream(openPath + "EZ348)트랜시스양식_작업월보.xlsx");
 
@@ -554,37 +566,38 @@ public class WorkController {
             Row row = null;
             Cell cell = null;
 
-       
+            // 스타일 정의
             XSSFCellStyle styleCenter = workbook.createCellStyle();
             styleCenter.setAlignment(HorizontalAlignment.CENTER);  // 중앙 정렬
             styleCenter.setVerticalAlignment(VerticalAlignment.CENTER);  // 세로 중앙 정렬
 
-   
             XSSFCellStyle styleLeft = workbook.createCellStyle();
             styleLeft.setAlignment(HorizontalAlignment.LEFT);  // 왼쪽 정렬
             styleLeft.setVerticalAlignment(VerticalAlignment.CENTER);  // 세로 중앙 정렬
 
- 
+            // D5 셀에 값 설정 (placename이 null 또는 공백이면 "전체")
             row = sheet.getRow(4);  
-            if (row == null) row = sheet.getRow(4);
-            cell = row.getCell(15); 
-            cell.setCellValue(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-            cell.setCellStyle(styleCenter);  // 중앙 정렬 스타일 적용
+            if (row == null) row = sheet.createRow(4);
+            cell = row.getCell(3);  // D5 셀
+            if (cell == null) cell = row.createCell(3);
+            String placenameToSet = (placename == null || placename.trim().isEmpty()) ? "전체" : placename;
+            cell.setCellValue(placenameToSet); 
+            cell.setCellStyle(styleLeft);  // 중앙 정렬 스타일 적용
 
-           
-            row = sheet.getRow(5);  
-            if (row == null) row = sheet.getRow(5);
-            cell = row.getCell(3);  
+            // 나머지 코드 그대로 진행
+            row = sheet.getRow(5);
+            if(row == null) row = sheet.createRow(5);
+            cell = row.getCell(3);
+            if(cell == null) cell = row.createCell(3);
             cell.setCellValue(workList.get(0).getKeymonth()); 
-            cell.setCellStyle(styleLeft);  
+            cell.setCellStyle(styleLeft);
 
             row = sheet.getRow(6);  
-            if (row == null) row = sheet.getRow(6);
+            if (row == null) row = sheet.createRow(6);
             cell = row.getCell(3);  
+            if(cell == null) cell = row.createCell(3);            
             cell.setCellValue(workList.size());  
             cell.setCellStyle(styleLeft); 
-
-           
 
             int startRow = 9;  
             for (int i = 0; i < workList.size(); i++) {
@@ -597,11 +610,11 @@ public class WorkController {
 
                 cell = row.createCell(2);  
                 cell.setCellValue(workList.get(i).getPumcode());
-                cell.setCellStyle(styleCenter);  
+                cell.setCellStyle(styleLeft);  
 
                 cell = row.createCell(4);  
                 cell.setCellValue(workList.get(i).getPumname());
-                cell.setCellStyle(styleCenter);  
+                cell.setCellStyle(styleLeft);  
 
                 cell = row.createCell(9); 
                 cell.setCellValue(workList.get(i).getGijong());
@@ -632,6 +645,7 @@ public class WorkController {
         rtnMap.put("data", savePath + now + "_작업월보.xlsx");
         return rtnMap;
     }
+
     
     
     //작업년보
@@ -699,6 +713,15 @@ public class WorkController {
             styleRight.setAlignment(HorizontalAlignment.RIGHT);  // 오른쪽 정렬
             styleRight.setVerticalAlignment(VerticalAlignment.CENTER);  // 세로 중앙 정렬
             
+            // D5 셀에 값 설정 (placename이 null 또는 공백이면 "전체")
+            row = sheet.getRow(4);  
+            if (row == null) row = sheet.createRow(4);
+            cell = row.getCell(3);  // D5 셀
+            if (cell == null) cell = row.createCell(3);
+            String placenameToSet = (placename == null || placename.trim().isEmpty()) ? "전체" : placename;
+            cell.setCellValue(placenameToSet); 
+            cell.setCellStyle(styleLeft);  // 중앙 정렬 스타일 적용
+            
             
             row = sheet.getRow(4);  
             if (row == null) row = sheet.createRow(4);
@@ -714,9 +737,10 @@ public class WorkController {
 
             row = sheet.getRow(6);  
             if (row == null) row = sheet.createRow(6);
-            cell = row.createCell(3);  
-            cell.setCellValue(workList.size());  // 작업 리스트 크기 설정
-            cell.setCellStyle(styleLeft);
+            cell = row.getCell(3);  
+            if(cell == null) cell = row.createCell(3);            
+            cell.setCellValue(workList.size());  
+            cell.setCellStyle(styleLeft); 
             
             int startRow = 9;  
             for (int i = 0; i < workList.size(); i++) {
