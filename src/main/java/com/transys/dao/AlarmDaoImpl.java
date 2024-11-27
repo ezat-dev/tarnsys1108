@@ -25,5 +25,9 @@ public class AlarmDaoImpl implements AlarmDao{
 	    public List<Alarm> getAlarmList(Alarm params) {
 	        return sessionSQLite.selectList("alarm.getAlarmList", params);  
 	    }
+	    @Override
+	    public List<Alarm> getAlarmInfo(Alarm alarm) {
+	        return sessionSQLite.selectList("alarm.getAlarmInfo", alarm);  
+	    }
 
 }

@@ -181,7 +181,7 @@
 </div>
 
 <script>
-    // Tabulator 테이블 설정
+
     var tableData = []; 
 
     var table = new Tabulator("#tabulator-table", {
@@ -213,33 +213,32 @@
         placeholder: "검색 결과가 없습니다.", 
     });
 
-    // 페이지 로딩 시 자동으로 현재 연도로 설정하고, 검색을 자동으로 수행
+   
     $(document).ready(function() {
         var now = new Date();
-        var y = now.getFullYear();  // 현재 연도를 가져옵니다.
-        $("#to_date").val(y);  // 입력 필드에 현재 연도(YYYY)만 설정
+        var y = now.getFullYear();  
+        $("#to_date").val(y);
 
         // 자동으로 검색 수행
-        $("#searchbtn").click();  // 페이지 로딩 시 버튼 클릭 이벤트를 트리거
+        $("#searchbtn").click();
     });
 
-    // 검색 버튼 클릭 이벤트
+   
     $("#searchbtn").click(function() {
-        // 선택한 연도와 설비명 가져오기
-        var selectedDate = $("#to_date").val(); // YYYY 형식으로 가져옴
-        var selectedHogi = $("#placename").val() || ""; // 설비명은 공백으로 처리
+      
+        var selectedDate = $("#to_date").val();
+        var selectedHogi = $("#placename").val() || ""; 
 
-        // 콘솔에 출력
         console.log("선택한 연도:", selectedDate);
         console.log("선택한 설비명:", selectedHogi);
 
-        // Ajax 요청
+
         $.ajax({
             url: "/transys/work/workYear/list", 
             method: "POST",
             data: {
-                date: selectedDate, // 전달할 연도
-                placename: selectedHogi // 전달할 설비명
+                date: selectedDate,
+                placename: selectedHogi 
             },
             success: function(data) {
                 table.setData(data); 
@@ -265,19 +264,19 @@
             type: "post",
             dataType: "json",
             data: {
-                date: selectedDate, // 전달할 연도
-                placename: selectedHogi // 전달할 설비명
+                date: selectedDate, 
+                placename: selectedHogi 
             },
             success: function(result) {
                 console.log(result);
-                // 성공 시 엑셀 다운로드 처리
+    
             },
             error: function() {
                 alert("엑셀 다운로드에 실패했습니다.");
             }
         });
 
-        // Ajax 요청에 사용될 매개변수 출력
+
         console.log("서버로 전송할 값:", {
             date: selectedDate,
             placename: selectedHogi

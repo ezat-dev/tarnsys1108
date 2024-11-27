@@ -2,64 +2,64 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="alarm">
 
- <select id="getAlarmSummary" parameterType="alarm" resultType="alarm">
-        SELECT tagName, alarmDesc,
-            SUM(M01) AS m01,
-            SUM(M02) AS m02,
-            SUM(M03) AS m03,
-            SUM(M04) AS m04,
-            SUM(M05) AS m05,
-            SUM(M06) AS m06,
-            SUM(M07) AS m07,
-            SUM(M08) AS m08,
-            SUM(M09) AS m09,
-            SUM(M10) AS m10,
-            SUM(M11) AS m11,
-            SUM(M12) AS m12,
-            (SUM(m01) + SUM(m02) + SUM(m03) + SUM(m04) + SUM(m05) + SUM(m06) + 
-             SUM(m07) + SUM(m08) + SUM(m09) + SUM(m10) + SUM(m11) + SUM(m12)) AS total
+<select id="getAlarmSummary" parameterType="alarm" resultType="alarm">
+    SELECT tagName, alarmDesc,
+        SUM(M01) AS m01,
+        SUM(M02) AS m02,
+        SUM(M03) AS m03,
+        SUM(M04) AS m04,
+        SUM(M05) AS m05,
+        SUM(M06) AS m06,
+        SUM(M07) AS m07,
+        SUM(M08) AS m08,
+        SUM(M09) AS m09,
+        SUM(M10) AS m10,
+        SUM(M11) AS m11,
+        SUM(M12) AS m12,
+        (SUM(m01) + SUM(m02) + SUM(m03) + SUM(m04) + SUM(m05) + SUM(m06) + 
+         SUM(m07) + SUM(m08) + SUM(m09) + SUM(m10) + SUM(m11) + SUM(m12)) AS total
+    FROM (
+        SELECT 
+            tagname,
+            alarmdesc,
+            IFNULL(CASE WHEN mons = '01' THEN ccnt END, 0) AS 'M01',
+            IFNULL(CASE WHEN mons = '02' THEN ccnt END, 0) AS 'M02',
+            IFNULL(CASE WHEN mons = '03' THEN ccnt END, 0) AS 'M03',
+            IFNULL(CASE WHEN mons = '04' THEN ccnt END, 0) AS 'M04',
+            IFNULL(CASE WHEN mons = '05' THEN ccnt END, 0) AS 'M05',
+            IFNULL(CASE WHEN mons = '06' THEN ccnt END, 0) AS 'M06',
+            IFNULL(CASE WHEN mons = '07' THEN ccnt END, 0) AS 'M07',
+            IFNULL(CASE WHEN mons = '08' THEN ccnt END, 0) AS 'M08',
+            IFNULL(CASE WHEN mons = '09' THEN ccnt END, 0) AS 'M09',
+            IFNULL(CASE WHEN mons = '10' THEN ccnt END, 0) AS 'M10',
+            IFNULL(CASE WHEN mons = '11' THEN ccnt END, 0) AS 'M11',
+            IFNULL(CASE WHEN mons = '12' THEN ccnt END, 0) AS 'M12'
         FROM (
             SELECT 
-                tagname,
-                alarmdesc,
-                IFNULL(CASE WHEN mons = '01' THEN ccnt END, 0) AS 'M01',
-                IFNULL(CASE WHEN mons = '02' THEN ccnt END, 0) AS 'M02',
-                IFNULL(CASE WHEN mons = '03' THEN ccnt END, 0) AS 'M03',
-                IFNULL(CASE WHEN mons = '04' THEN ccnt END, 0) AS 'M04',
-                IFNULL(CASE WHEN mons = '05' THEN ccnt END, 0) AS 'M05',
-                IFNULL(CASE WHEN mons = '06' THEN ccnt END, 0) AS 'M06',
-                IFNULL(CASE WHEN mons = '07' THEN ccnt END, 0) AS 'M07',
-                IFNULL(CASE WHEN mons = '08' THEN ccnt END, 0) AS 'M08',
-                IFNULL(CASE WHEN mons = '09' THEN ccnt END, 0) AS 'M09',
-                IFNULL(CASE WHEN mons = '10' THEN ccnt END, 0) AS 'M10',
-                IFNULL(CASE WHEN mons = '11' THEN ccnt END, 0) AS 'M11',
-                IFNULL(CASE WHEN mons = '12' THEN ccnt END, 0) AS 'M12'
+                tagname, 
+                alarmdesc, 
+                SUBSTR(MAX(time), 6, 2) AS mons, 
+                COUNT(*) AS ccnt
             FROM (
                 SELECT 
-                    tagname, 
-                    alarmdesc, 
-                    SUBSTR(MAX(time), 6, 2) AS mons, 
-                    COUNT(*) AS ccnt
-                FROM (
-                    SELECT 
-                        *,
-                        LEAD(alarmstate) OVER (PARTITION BY tagname ORDER BY time) AS lead_alarmstate,
-                        LEAD(time) OVER (PARTITION BY tagname ORDER BY time) AS lead_alarmtime
-                    FROM ALARMDATA
-                    WHERE 1=1
-                    AND alarmgroup = #{alarmGroup}
-                    AND substr(time,1,4) = #{sdate}
-
-                    ORDER BY time
-                ) AS aa
-                WHERE alarmstate != 'Clear'
-                GROUP BY tagname, SUBSTR(time, 6, 2)
+                    *,
+                    LEAD(alarmstate) OVER (PARTITION BY tagname ORDER BY time) AS lead_alarmstate,
+                    LEAD(time) OVER (PARTITION BY tagname ORDER BY time) AS lead_alarmtime
+                FROM ALARMDATA
+                WHERE 1=1
+                AND (#{alarmGroup} IS NULL OR #{alarmGroup} = '' OR alarmgroup = #{alarmGroup})
+                AND substr(time, 1, 4) = #{time}
                 ORDER BY time
-            ) AS bb
-            ORDER BY tagname
-        ) AS cc
-        GROUP BY tagname, alarmdesc
- 	</select>
+            ) AS aa
+            WHERE alarmstate != 'Clear'
+            GROUP BY tagname, SUBSTR(time, 6, 2)
+            ORDER BY time
+        ) AS bb
+        ORDER BY tagname
+    ) AS cc
+    GROUP BY tagname, alarmdesc
+</select>
+
  	
  	
 <select id="getAlarmList" parameterType="alarm" resultType="alarm">
@@ -83,5 +83,21 @@
     AND lead_alarmstate = 'Clear'
     ORDER BY time
 </select>
+
+
+	<select id="getAlarmInfo" parameterType="alarm" resultType="alarm">
+	    SELECT no, alarmgroup, tagname, alarmdesc
+	    FROM alarmInfo
+	    WHERE 1 = 1
+	    <if test="alarmGroup != null and alarmGroup != ''">
+	        AND alarmgroup = #{alarmGroup}
+	    </if>
+	    <if test="alarmGroup == null or alarmGroup == ''">
+	    </if>
+	    ORDER BY NO ASC
+	</select>
+
+
+
 
 </mapper>

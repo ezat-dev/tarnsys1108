@@ -8,6 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>경보</title>
 <jsp:include page="../include/pluginpage.jsp"/>
+
+
 <style>
 
 	body {
@@ -19,10 +21,26 @@
 		margin: 10px 2.5% 2% 2.5%;
 	}
 	
-	label > select{
+	label > select {
+            width: 150px;
+            height: 29px;
+            font-size: 14pt;
+        }
+        
+        label > input {
+         	width: 150px;
+            height: 27px;
+            font-size: 14pt;
+        }
+	
+	#to_date{
 		width: 120px;
 		height: 25px;
-		font-size:14pt;
+	}
+	
+	#from_date{
+		width: 120px;
+		height: 25px;
 	}
 	
 	#menu_bar{
@@ -66,11 +84,13 @@
 
 	/* 작업일보 버튼 */
 	div > button{
-		width: 120px;
-		height: 30px;
-		border: 1px solid black; 
-		color: #123478;
-		font-size:14pt;
+        width: 120px;
+        height: 30px;
+        margin-left: 5px;
+        border: 1px solid black; 
+        color: #123478;
+        font-size: 14pt;
+        font-weight: 700;
 	}
 		
 	div > button:hover {     
@@ -85,16 +105,16 @@
 	
 	.countDATA{
 		/* 조회된 데이터 수 */
-		width: 90%;
-		text-align: right;
+		width: 100%;
+
 		color: black;
-		margin: 0 auto;
+		margin-left: 400px;
 		margin-bottom: 3px;
 		font-size:15pt;
 	}
 	
 	#table_file{
-		width: 90%;
+		width: 100%;
 		text-align: center;
 		margin: auto;
 		max-height: 40%;
@@ -122,6 +142,8 @@
 	#table_file{
 		-ms-overflow-style:none;
 		height: 900px;
+		width: 100%;
+		margin-left: 100px;
 	}
 	
 	#table_file::-webkit-scrollbar { display:none; }
@@ -130,223 +152,172 @@
 
 </style>
 
-
-
-
 </head>
 
 <body data-offset="60" data-target=".navbar">
+    <div id="menu_bar">
+        <jsp:include page="../include/AheaderPopup.jsp"/>
+    </div>
+
+    <div id="contents">
+        <div style="color: black; font-size: 14px; padding-top: 1%; margin-left: 2.5%; text-align: left;">
+            <b style="font-size:15pt;">경보</b> / <label style="font-size:15pt;">경보 정보 : </label> 
+        </div>
+        <hr>
+
+        <fieldset class="list_input">
+            <legend>검색조건</legend>
+            <div class="input_d">
+                <label> 설비명 : 
+                    <select name="placename" id="placename"style="font-weight: 100; text-align: center; width: 150px;">
+                         <option value="">전체</option>
+                        <option value="CCF1_ALARM">1 호기</option>
+                        <option value="CCF1_TRACKING">TRACKING</option>
+                    </select> 
+                </label>
+                
+               
+
+                <button id="searchbtn" style="margin-left: 60px;">조회</button>
+                <button id="excelBtn"style="margin-left: 20px;">엑셀</button>
+            </div>
+        </fieldset>
+
+        <div id="table_file">
+            <div class="countDATA">발생된 경보 수 : </div>
+            <div id="cate_list" style="width: 70%; margin-left:170px;"></div>
+        </div>
+    </div>
+
+<script>
+$(document).ready(function() {
+    var today = new Date();
+    var lastWeek = new Date(today);
+    lastWeek.setDate(today.getDate() - 7); 
+
+    function formatDate(date) {
+        var year = date.getFullYear();
+        var month = ('0' + (date.getMonth() + 1)).slice(-2); 
+        var day = ('0' + date.getDate()).slice(-2);
+        return year + '-' + month + '-' + day;
+    }
+
+    // 시작일자 7일 전, 종료일자 오늘 날짜로 설정
+    $("#from_date").val(formatDate(lastWeek));
+    $("#to_date").val(formatDate(today));
+
+    $("#searchbtn").click(); 
+});
+
+var table = new Tabulator("#cate_list", {
+    layout: "fitColumns",
+    columns: [
+        {title: "NO", field: "no", width: 60, hozAlign: "center"},
+        {title: "설비명", field: "alarmGroup", width: 310, hozAlign: "center"},
+        {title: "PLC ADDR", field: "tagName", width: 310, hozAlign: "center"},
+        {title: "경보내용", field: "alarmDesc", width: 640, hozAlign: "center"},
+       
+    ],
+    placeholder: "검색 결과가 없습니다.",
+    data: []  
+});
+
+$("#searchbtn").click(function() {
+    console.log("검색 버튼 클릭됨");
+    getProduct();
+});
+
+function getProduct() {
+  
+
+    // 기존 데이터 지우기
+    table.clearData();
 
 
+    // 서버로 보내는 데이터 확인
+    var alarmGroupValue = $("#placename").val();
+    console.log("서버로 보내는 alarmgroup 값:", alarmGroupValue);  // 서버로 보내는 alarmgroup 값을 출력
+    
+    $.ajax({
+        type: "POST",
+        url: "/transys/alarm/alarmInfo/list",
+        cache: false,
+        dataType: "json",
+        data: {
+            'alarmgroup': $("#placename").val()
+            
+          
+        },
+       
+        
+        success: function(rsJson) {
+            console.log("서버 응답:", rsJson);  // 서버에서 받은 전체 응답을 출력
+            if (rsJson && rsJson.status === "success") {
+                var rsAr = rsJson.data;
+                var n_cnt = rsAr.length;
 
-	
+                $(".countDATA").text("경보 정보: " + n_cnt);
 
-		<div id="menu_bar">
-		<jsp:include page="../include/AheaderPopup.jsp"/>
-		</div>
-	
-	<div id="contents">
-		<!-- <div style="color: black; font-size: 20px; padding-top: 2%;"> &lt;경보정보&gt; </div> -->
-		<div style="color: black; font-size: 14px; padding-top: 1%; margin-left: 2.5%; text-align: left;"> <b style="font-size:15pt;">경보</b> / <label style="font-size:14pt;">경보정보</label> </div>
-		<hr>
-		
-		<fieldset class="list_input">
-			<legend>검색조건</legend>
-			<div class="input_d">
-				<label> 설비명 : <select name="placename" id="placename" ></select> </label>
-				<!-- <button id="edit_name" hidden><i class="fa fa-pencil" aria-hidden="true"></i></button> -->
+                // 서버에서 받은 데이터 콘솔에 출력
+                console.log("서버에서 받은 데이터:", rsAr);
 
-				<button id="searchbtn" style="margin-left: 50px;">조회</button>
-				<!-- <button id="printbtn" style="margin-left: 10px;">인쇄</button> -->
-			</div>
-			
-		</fieldset>
-			
-		<div id="table_file" >
-			<div class="countDATA">등록된 경보 수 :  </div>
-		    <table id="cate_list" class="table table-bordered table-hover table-responsive scrolltbody table_font_size">
-				<thead>
-					<tr>
-						<th class="text-center NO_list" 
-						style="background-color:#F4EFEA; color:#123478; border: 1px solid black; border-right: 1px solid black; width: 5%; height: 20px; font-size:14pt;">NO</th>
-						<th class="text-center cell" 
-						style="background-color:#F4EFEA; color:#123478; border: 1px solid black; border-right: 1px solid black; width: 10%; height: 20px; font-size:14pt;">설비명</th>
-						<th class="text-center cell"
-						style="background-color:#F4EFEA; color:#123478; border: 1px solid black; border-right: 1px solid black; width: 10%; height: 20px; font-size:14pt;">PLC ADDR</th>
-						<th class="text-center cell"
-						style="background-color:#F4EFEA; color:#123478; border: 1px solid black; border-right: 1px solid black; width: 55%; height: 20px; font-size:14pt;">경보내용</th>
-						<th class="text-center cell"
-						style="background-color:#F4EFEA; color:#123478; border: 1px solid black; width: 15%; height: 20px; font-size:14pt;">비고</th>
-					</tr>
-				</thead>
-				
-				<tbody id="cate_contents">
-					<tr> 
-						<td  class="text-center" style="vertical-align: middle; height: 20px; color: black;" colspan="11">검색 결과가 없습니다.</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>	
-	</div>	
-	<script>
-	var check = 0; // 체크박스 변수
-	var temp = 0; // 중앙 테이블 클릭 했는지 체크
-	var place = ""; // devicecode
-	var type = ""; // devicetype
-	var n_cnt = 0;
-	
-	var name_cl =0, name_eng = 0; 
-	//로드
-	$(function () {
-	
-		//2021-10-20 날짜수정
-		var d_now = new Date();
-		
-//		console.log(d_now);
-		var month = d_now.getMonth();
-		var d_year = d_now.getFullYear();
-		var d_month = checkDate(month+1);
-		var d_date = checkDate(d_now.getDate());
-		
-		$("#from_date").val(d_year+"-"+d_month+"-"+d_date);
-//		$("#to_date").val((d_year+"").substring(2,4)+d_month+d_date);
-		
-		
-		var d_before = new Date();
-		d_before.setFullYear(d_before.getFullYear(), d_before.getMonth()-1);
+                // 데이터를 테이블에 맞게 변환
+                table.setData(rsAr.map(function(item, index) {
+                    return {
+                        no: item.no, 
+                        tagName: item.tagName,  
+                        alarmGroup: item.alarmGroup || '알람 그룹', 
+                        tagName: item.tagName ||'PLC ADDR',
+                        alarmDesc: item.alarmDesc || '경보 내용 없음'  
+                         
+                         
+                    };
+                }));
+            } else {
+                $(".countDATA").text("발생된 경보 수 : 0");
+            }
+        },
 
-		var d_b_year = d_before.getFullYear();
-		var d_b_month = checkDate(d_before.getMonth()+1);
-		var d_b_date = checkDate(d_before.getDate());
-		$("#to_date").val(d_b_year+"-"+d_b_month+"-"+d_b_date);
-		
+        error: function(req, status) {
+            if (req.status == 0 || status === "timeout") {
+                alert("네트워크 연결 확인 후 다시 시도해주세요.");
+            } else {
+                alert("처리중 예외가 발생하였습니다. 브라우저를 완전히 종료 후 다시 시도해 보시기 바랍니다.");
+            }
+        }
+    });
+}
 
-		$(".datepicker").datepicker({
-			dateFormat: "yy-mm-dd",
-			dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ],
-			monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
-			monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ]
-			
-		});			
+// 엑셀 다운로드 버튼 클릭 이벤트
+$("#excelBtn").on("click", function(){
+    var selectedDate = $("#to_date").val().replace(/-/g, "").slice(0, 6); // YYYYMM 형식으로 변경
+    var selectedHogi = $("#placename").val() || ""; // 설비명은 공백으로 처리
 
-		$(".countDATA").text("조회된 데이터 수 : " + n_cnt);
+    console.log("엑셀 보내지는 날:", selectedDate);
+    console.log("엑셀 호기:", selectedHogi);
 
-		getSelectPlace();		
-		getProduct();
-	});
-	// 로드 끝
-	
-	//이벤트
-	$('#searchbtn').click(function(){
-/*
-		var select = $("#placename option:selected").val();
-		
-		array_p = select.split("^");
-		
-		place = array_p[0]; // devicecode
-		type = array_p[1]; // devicetype
-*/	
-		getProduct();
-	});
+    $.ajax({
+        url: "/transys/alarm/alarmlist/excelDownload",
+        type: "post",
+        dataType: "json",
+        data: {
+            'alarmgroup': $("#placename").val()
+        },
+        success: function(result) {
+            console.log(result);
+        },
+        error: function() {
+            alert("엑셀 다운로드에 실패했습니다.");
+        }
+    });  
+});
+</script>
 
-	// 위치 셀렉트 박스
-	function getSelectPlace(){
-		$.ajax({
-			type : "POST",
-			url : "place_list2.jsp",
-			cache : false,
-			dataType : "json",
-			data : {'time':new Date().getTime()},
-			success : function(rsJson) {
-				if (rsJson && rsJson.status == "ok") {
-					
-			 		var cli = "";
-
-			   		$.each(rsJson.rows, function(i, cl_s){	
-				 		/* if(company_temp != cl_s.qr_place){ */
-				   			cli = cli + "<option value='"+ cl_s.devicecode+"'>"+cl_s.devicename+"</option>";	
-				 		/* } */
-			   		});
-			   		
-			   		$("#placename").empty().append(cli);							
-
-				} else if (rsJson && rsJson.status == "fail") {
-					alert("데이터 불러오는중 예외가 발생하였습니다.\n다시 시도하시기 바랍니다.");
-				} else {
-					alert("에러발생!");
-				}
-			},	// success 끝
-			error: function(req, status) {
-				if (req.status == 0 || status == "timeout") {
-					alert("네트워크 연결 확인 후 다시 시도해주세요.");
-				} else {
-					alert("처리중 예외가 발생하였습니다. 브라우저를 완전히 종료 후 다시 시도해 보시기 바랍니다.");
-				}
-			},						
-		});
-	}
-		
-		function getProduct() {
-		/* 경보 정보 */
-			$.ajax({
-				type : "POST",
-				url : "../DB/02_alarm_04.jsp",
-				cache : false,
-				dataType : "json",
-				data : {'time':new Date().getTime(),
-					'hogi': $("#placename").val()},						
-				success : function(rsJson) {
-					if (rsJson && rsJson.status == "ok") {
-						n_cnt = 0;
-						var rsAr = rsJson.rows;
-			   			var listHtml = "";
-			   			
-			   			if ($.isArray(rsAr)) {
-			   				for (var i = 0; i < rsAr.length; i++) {
-				   				listHtml += '<tr>';
-				   				//listHtml += '<td class="nr" style="text-align: center; vertical-align: middle; height: 20px; width: 70px; word-break:break-all; font-size: 16px; color:black;">' + rsAr[i].p_code + '</td>';
-				   				listHtml +=	'<td class="nr1" style="text-align: center; vertical-align: middle; height: 20px; width: 5%; word-break:break-all; font-size: 14pt; font-weight:700; color:black;">' + (i+1) + '</td>';
-				   				listHtml +=	'<td class="nr2" style="text-align: center; vertical-align: middle; height: 20px; width: 10%; word-break:break-all; font-size: 14pt; font-weight:700; color:black;">' + rsAr[i].DEVICENAME + '</td>';
-				   				listHtml +=	'<td class="nr3" style="text-align: center; vertical-align: middle; height: 20px; width: 10%; word-break:break-all; font-size: 14pt; font-weight:700; color:black;">' + rsAr[i].PLCADDR + '</td>';
-								listHtml +=	'<td class="nr4" style="text-align: center; vertical-align: middle; height: 20px; width: 55%; word-break:break-all; font-size: 14pt; font-weight:700; color:black;">' + rsAr[i].WARNDESC + '</td>';
-								listHtml +=	'<td class="nr5" style="text-align: center; vertical-align: middle; height: 20px; width: 15%; word-break:break-all; font-size: 14pt; font-weight:700; color:black;">' + rsAr[i].REMARK + '</td>';
-								listHtml +=	'</tr>';
-
-			   				}			   				
-
-			   				$(".countDATA").text("발생된 경보 수 : " + rsAr.length);
-			   				
-			   			} else {
-			   				listHtml += '<tr>' +
-							'<td class="text-center" style="vertical-align: middle; height: 55px;" colspan="6">검색 결과가 없습니다.</td>' +
-							'</tr>';
-			   			}
-			   			
-			   			$("#cate_list tbody").html(listHtml);
-			   			
-					} else if (rsJson && rsJson.status == "fail") {
-						alert("데이터 불러오는중 예외가 발생하였습니다.\n다시 시도하시기 바랍니다.");
-					} else {
-						alert("에러발생!");
-					}
-					
-//					timer = setTimeout(function(){ o.run(); }, o.pollInterval);
-					
-				},	// success 끝
-				error: function(req, status) {
-					if (req.status == 0 || status == "timeout") {
-						alert("네트워크 연결 확인 후 다시 시도해주세요.");
-					} else {
-						alert("처리중 예외가 발생하였습니다. 브라우저를 완전히 종료 후 다시 시도해 보시기 바랍니다.");
-					}
-				},
-				
-			});
-		};
-
-	</script>
-	
 
 
 </body>
+
+
+
+
 </html>

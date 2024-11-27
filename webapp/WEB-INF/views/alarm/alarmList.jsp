@@ -188,97 +188,140 @@
                            placeholder="2024-11-08" />
                 </label>
 
-                <button id="searchbtn" style="margin-left: 100px;">조회</button>
+                <button id="searchbtn" style="margin-left: 60px;">조회</button>
+                <button id="excelBtn"style="margin-left: 20px;">엑셀</button>
             </div>
         </fieldset>
 
         <div id="table_file">
             <div class="countDATA">발생된 경보 수 : </div>
-            <div id="cate_list" style="width: 80%;"></div>
+                   <div id="cate_list" style="width: 74%; margin-left:100px;"></div>
         </div>
     </div>
 
- <script>
- $(document).ready(function() {
-	
-	    var table = new Tabulator("#cate_list", {
-	        layout: "fitColumns",
-	        columns: [
-	            {title: "설비명", field: "tagName", width: 250, hozAlign: "center"},
-	            {title: "PLC ADDR", field: "alarmState", width: 250, hozAlign: "center"},
-	            // {title: "경보LEVEL", field: "alarmlevel", width: 150, hozAlign: "center"},
-	            {title: "경보내용", field: "alarmDesc", width: 400, hozAlign: "center"},
-	            {title: "발생시간", field: "time", width: 250},
-	            {title: "해제시간", field: "lead_alarmtime", width: 250}
-	        ],
-	        placeholder: "검색 결과가 없습니다.",
-	        data: []  
-	    });
- 
-    $("#searchbtn").click(function() {
-        getProduct();
+<script>
+$(document).ready(function() {
+    var today = new Date();
+    var lastWeek = new Date(today);
+    lastWeek.setDate(today.getDate() - 7); 
+
+    function formatDate(date) {
+        var year = date.getFullYear();
+        var month = ('0' + (date.getMonth() + 1)).slice(-2); 
+        var day = ('0' + date.getDate()).slice(-2);
+        return year + '-' + month + '-' + day;
+    }
+
+    // 시작일자 7일 전, 종료일자 오늘 날짜로 설정
+    $("#from_date").val(formatDate(lastWeek));
+    $("#to_date").val(formatDate(today));
+
+    $("#searchbtn").click(); 
+});
+
+var table = new Tabulator("#cate_list", {
+    layout: "fitColumns",
+    columns: [
+        {title: "설비명", field: "alarmGroup", width: 260, hozAlign: "center"},
+        {title: "PLC ADDR", field: "tagName", width: 260, hozAlign: "center"},
+        {title: "경보내용", field: "alarmDesc", width: 410, hozAlign: "center"},
+        {title: "발생시간", field: "time", width: 250, hozAlign: "center"},
+        {title: "해제시간", field: "lead_alarmtime", width: 250, hozAlign: "center"}
+    ],
+    placeholder: "검색 결과가 없습니다.",
+    data: []  
+});
+
+$("#searchbtn").click(function() {
+    console.log("검색 버튼 클릭됨");
+    getProduct();
+});
+
+function getProduct() {
+    // 서버로 전송할 데이터 콘솔에 출력
+    console.log("Sending data to server:", {
+        alarmgroup: $("#placename").val(),
+        sDate: $("#from_date").val(),
+        eDate: $("#to_date").val()
     });
 
-    function getProduct() {
-        // 서버로 전송할 데이터 콘솔에 출력
-        console.log("Sending data to server:", {
-            alarmgroup: $("#placename").val(),
-            sDate: $("#from_date").val(),
-            eDate: $("#to_date").val()
-        });
+    // 기존 데이터 지우기
+    table.clearData();
 
-        // 기존 데이터 지우기
-        table.clearData();
+    $.ajax({
+        type: "POST",
+        url: "/transys/alarm/alarmList/list",
+        cache: false,
+        dataType: "json",
+        data: {
+            'alarmgroup': $("#placename").val(),
+            'sDate': $("#from_date").val(),
+            'eDate': $("#to_date").val()
+        },
+        success: function(rsJson) {
+            console.log("서버 응답:", rsJson);  // 서버에서 받은 전체 응답을 출력
+            if (rsJson && rsJson.status === "success") {
+                var rsAr = rsJson.data;
+                var n_cnt = rsAr.length;
 
-        $.ajax({
-            type: "POST",
-            url: "/transys/alarm/alarmList/list",
-            cache: false,
-            dataType: "json",
-            data: {
-                'alarmgroup': $("#placename").val(),
-                'sDate': $("#from_date").val(),
-                'eDate': $("#to_date").val()
-                
-            },
-            success: function(rsJson) {
-                console.log("서버 응답:", rsJson);  // 서버에서 받은 전체 응답을 출력
-                if (rsJson && rsJson.status === "success") {
-                    var rsAr = rsJson.data;
-                    var n_cnt = rsAr.length;
+                $(".countDATA").text("발생된 경보 수 : " + n_cnt);
 
-                    $(".countDATA").text("발생된 경보 수 : " + n_cnt);
+                // 서버에서 받은 데이터 콘솔에 출력
+                console.log("서버에서 받은 데이터:", rsAr);
 
-                    // 서버에서 받은 데이터 콘솔에 출력
-                    console.log("서버에서 받은 데이터:", rsAr);
-
-                    // 데이터를 테이블에 맞게 변환
-                    table.setData(rsAr.map(function(item, index) {
-                    	 return {
-                             no: index + 1, 
-                             tagName: item.tagName,  
-                             alarmState: item.alarmState || '상태 미정',  
-                             alarmDesc: item.alarmDesc || '경보 내용 없음',  
-                             time: item.time || '시간 미정',  
-                             lead_alarmtime: item.lead_alarmtime || '해제 시간 미정'  
-                         };
-                     }));
-                } else {
-                    $(".countDATA").text("발생된 경보 수 : 0");
-                }
-            },
-
-            error: function(req, status) {
-                if (req.status == 0 || status === "timeout") {
-                    alert("네트워크 연결 확인 후 다시 시도해주세요.");
-                } else {
-                    alert("처리중 예외가 발생하였습니다. 브라우저를 완전히 종료 후 다시 시도해 보시기 바랍니다.");
-                }
+                // 데이터를 테이블에 맞게 변환
+                table.setData(rsAr.map(function(item, index) {
+                    return {
+                        no: index + 1, 
+                        tagName: item.tagName,  
+                        alarmState: item.alarmState || '상태 미정',  
+                        alarmDesc: item.alarmDesc || '경보 내용 없음',  
+                        time: item.time || '시간 미정',  
+                        lead_alarmtime: item.lead_alarmtime || '해제 시간 미정'  
+                    };
+                }));
+            } else {
+                $(".countDATA").text("발생된 경보 수 : 0");
             }
-        });
-    }
+        },
+
+        error: function(req, status) {
+            if (req.status == 0 || status === "timeout") {
+                alert("네트워크 연결 확인 후 다시 시도해주세요.");
+            } else {
+                alert("처리중 예외가 발생하였습니다. 브라우저를 완전히 종료 후 다시 시도해 보시기 바랍니다.");
+            }
+        }
+    });
+}
+
+// 엑셀 다운로드 버튼 클릭 이벤트
+$("#excelBtn").on("click", function(){
+    var selectedDate = $("#to_date").val().replace(/-/g, "").slice(0, 6); // YYYYMM 형식으로 변경
+    var selectedHogi = $("#placename").val() || ""; // 설비명은 공백으로 처리
+
+    console.log("엑셀 보내지는 날:", selectedDate);
+    console.log("엑셀 호기:", selectedHogi);
+
+    $.ajax({
+        url: "/transys/alarm/alarmlist/excelDownload",
+        type: "post",
+        dataType: "json",
+        data: {
+            'alarmgroup': $("#placename").val(),
+            'sDate': $("#from_date").val(),
+            'eDate': $("#to_date").val()
+        },
+        success: function(result) {
+            console.log(result);
+        },
+        error: function() {
+            alert("엑셀 다운로드에 실패했습니다.");
+        }
+    });  
 });
 </script>
+
 
 
 </body>

@@ -22,6 +22,10 @@ public class AlarmServiceImpl implements AlarmService {
     public List<Alarm> getAlarmList(Alarm params) {
         return alarmDao.getAlarmList(params); 
     }
+    @Override
+    public List<Alarm> getAlarmInfo(Alarm alarm) {
+        return alarmDao.getAlarmInfo(alarm); 
+    }
     
 
 }

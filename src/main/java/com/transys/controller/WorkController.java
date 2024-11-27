@@ -337,7 +337,7 @@ public class WorkController {
         return workService.workMonthList(work);
     }
     
-    
+    //작업연보 조회
     @RequestMapping(value = "/work/workYear/list", method = RequestMethod.POST)
     @ResponseBody
     public List<Work> workYearList(@RequestParam String date,
@@ -354,6 +354,13 @@ public class WorkController {
 
         return workService.workYearList(work);
     }
+    
+    
+    
+    
+    
+    
+    
     //작업일보 엑셀
     @RequestMapping(value = "/work/workDay/excelDownload", method = RequestMethod.POST)
     @ResponseBody
@@ -648,7 +655,7 @@ public class WorkController {
 
     
     
-    //작업년보
+    //작업년보 엑셀
     @RequestMapping(value = "/work/workYear/excelDownload", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> workYearExcelDownload(@RequestParam String date,

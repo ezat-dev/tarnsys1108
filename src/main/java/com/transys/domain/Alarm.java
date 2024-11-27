@@ -1,7 +1,7 @@
 package com.transys.domain;
 
 public class Alarm {
-	
+		private Integer no;
 		//ALARMDATA
 	 	private String tagName;
 	    private double tagValue;
@@ -55,14 +55,7 @@ public class Alarm {
 	    private Integer m12;        
 	    private Integer total;        
 
-	    //t_AlarmMaster 
-	  
-	    public Integer getTotal() {
-			return total;
-		}
-		public void setTotal(Integer total) {
-			this.total = total;
-		}
+
 		private String plcAddrSub;    // plcaddr_sub
 	    private String remark;        // remark
 	    private String gubun;         // gubun
@@ -70,7 +63,20 @@ public class Alarm {
     
 	    
 	    
-	    
+	    //t_AlarmMaster 
+		  
+	    public Integer getTotal() {
+			return total;
+		}
+		public Integer getNo() {
+			return no;
+		}
+		public void setNo(Integer no) {
+			this.no = no;
+		}
+		public void setTotal(Integer total) {
+			this.total = total;
+		}
 	    
 		public String getTime() {
 			return time;
