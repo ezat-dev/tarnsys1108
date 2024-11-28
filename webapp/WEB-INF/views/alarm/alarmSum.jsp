@@ -175,6 +175,11 @@
                         <option value="CCF1_ALARM">2 호기</option>
                         <option value="CCF1_ALARM">3 호기</option>
                         <option value="CCF1_ALARM">4 호기</option>
+                        <option value="CCF1_ALARM">5 호기</option>
+                        <option value="CCF1_ALARM">6 호기</option>
+                        <option value="CCF1_ALARM">7 호기</option>
+                        <option value="CCF1_ALARM">공통 1 호기</option>
+                        <option value="CCF1_ALARM">공통 2 호기</option>
                         
                     </select> 
                 </label>
