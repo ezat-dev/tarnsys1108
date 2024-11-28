@@ -171,8 +171,10 @@
                 <label> 설비명 : 
                     <select name="placename" id="placename"style="font-weight: 100; text-align: center; width: 150px;">
                          <option value="">전체</option>
-                        <option value="CCF1_ALARM">CCF1_ALARM</option>
-                        <option value="CCF1_ALARM">CCF1_ALARM</option>
+                        <option value="CCF1_ALARM">1 호기</option>
+                        <option value="CCF1_ALARM">2 호기</option>
+                        <option value="CCF1_ALARM">3 호기</option>
+                        <option value="CCF1_ALARM">4 호기</option>
                     </select> 
                 </label>
                 
@@ -222,7 +224,7 @@ $(document).ready(function() {
 var table = new Tabulator("#cate_list", {
     layout: "fitColumns",
     columns: [
-        {title: "설비명", field: "alarmGroup", width: 260, hozAlign: "center"},
+        {title: "설비명", field: "alarmGroupLabel", width: 260, hozAlign: "center"},
         {title: "PLC ADDR", field: "tagName", width: 260, hozAlign: "center"},
         {title: "경보내용", field: "alarmDesc", width: 410, hozAlign: "center"},
         {title: "발생시간", field: "time", width: 250, hozAlign: "center"},
@@ -272,7 +274,8 @@ function getProduct() {
                 // 데이터를 테이블에 맞게 변환
                 table.setData(rsAr.map(function(item, index) {
                     return {
-                        no: index + 1, 
+                        no: index + 1,
+                        alarmGroupLabel: item.alarmGroupLabel, 
                         tagName: item.tagName,  
                         alarmState: item.alarmState || '상태 미정',  
                         alarmDesc: item.alarmDesc || '경보 내용 없음',  

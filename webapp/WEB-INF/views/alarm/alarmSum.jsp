@@ -171,8 +171,11 @@
                 <label> 설비명 : 
                     <select name="placename" id="placename"style="font-weight: 100; text-align: center; width: 150px;">
                          <option value="">전체</option>
-                        <option value="CCF1_ALARM">CCF1_ALARM</option>
-                        <option value="CCF1_ALARM">CCF1_ALARM</option>
+                        <option value="CCF1_ALARM">1 호기</option>
+                        <option value="CCF1_ALARM">2 호기</option>
+                        <option value="CCF1_ALARM">3 호기</option>
+                        <option value="CCF1_ALARM">4 호기</option>
+                        
                     </select> 
                 </label>
                 
@@ -187,7 +190,7 @@
 
          	<div id="table_file">
                 <div class="countDATA">조회된 데이터 수 : </div>
-                <div id="tabulator-table"style="width: 86%;margin-left:30px;" ></div> <!-- Tabulator가 테이블을 렌더링할 div -->
+                <div id="tabulator-table"style="width: 90%;margin-left:5px;" ></div> <!-- Tabulator가 테이블을 렌더링할 div -->
             </div>
     </div>
 
@@ -196,34 +199,33 @@
  var tableData = []; 
 
  var table = new Tabulator("#tabulator-table", {
-     height: 650,
-     data: tableData, 
-     layout: "fitColumns",
-     selectable: true,    //로우 선택설정
-     tooltips: true,
-     selectableRangeMode: "click",
-     reactiveData: true,
-     headerHozAlign: "center",
-     columns: [
-
-         { title: "설비명", field: "alarmGroup", width: 140 },
-         { title: "PLC주소", field: "tagName", width: 140 },
-         { title: "경보내용", field: "alarmDesc", width: 140 },         
-         { title: "1월", field: "m01", width: 100 },
-         { title: "2월", field: "m02", width: 100 },
-         { title: "3월", field: "m03", width: 100 },
-         { title: "4월", field: "m04", width: 100 },
-         { title: "5월", field: "m05", width: 100 },
-         { title: "6월", field: "m06", width: 100 },
-         { title: "7월", field: "m07", width: 100 },
-         { title: "8월", field: "m08", width: 100 },
-         { title: "9월", field: "m09", width: 100 },
-         { title: "10월", field: "m10", width: 100},
-         { title: "11월", field: "m11", width: 100 },
-         { title: "12월", field: "m12", width: 100 },
-     ],
-     placeholder: "검색 결과가 없습니다.", 
- });
+	    height: 650,
+	    data: tableData, 
+	    layout: "fitColumns",
+	    selectable: true,    //로우 선택설정
+	    tooltips: true,
+	    selectableRangeMode: "click",
+	    reactiveData: true,
+	    headerHozAlign: "center", // 헤더 중앙 정렬
+	    columns: [
+	        { title: "설비명", field: "alarmGroupLabel", width: 88, hozAlign: "center" },
+	        { title: "PLC주소", field: "tagName", width: 180, hozAlign: "center" },
+	        { title: "경보내용", field: "alarmDesc", width: 230, hozAlign: "center" },         
+	        { title: "1월", field: "m01", width: 100, hozAlign: "center" },
+	        { title: "2월", field: "m02", width: 100, hozAlign: "center" },
+	        { title: "3월", field: "m03", width: 100, hozAlign: "center" },
+	        { title: "4월", field: "m04", width: 100, hozAlign: "center" },
+	        { title: "5월", field: "m05", width: 100, hozAlign: "center" },
+	        { title: "6월", field: "m06", width: 100, hozAlign: "center" },
+	        { title: "7월", field: "m07", width: 100, hozAlign: "center" },
+	        { title: "8월", field: "m08", width: 100, hozAlign: "center" },
+	        { title: "9월", field: "m09", width: 100, hozAlign: "center" },
+	        { title: "10월", field: "m10", width: 100, hozAlign: "center" },
+	        { title: "11월", field: "m11", width: 100, hozAlign: "center" },
+	        { title: "12월", field: "m12", width: 100, hozAlign: "center" },
+	    ],
+	    placeholder: "검색 결과가 없습니다.", 
+	});
 
 
  $(document).ready(function() {

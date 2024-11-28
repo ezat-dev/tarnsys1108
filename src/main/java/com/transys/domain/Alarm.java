@@ -1,6 +1,7 @@
 package com.transys.domain;
 
 public class Alarm {
+	    private String alarmGroupLabel;
 		private Integer no;
 		//ALARMDATA
 	 	private String tagName;
@@ -65,7 +66,13 @@ public class Alarm {
 	    
 	    //t_AlarmMaster 
 		  
-	    public Integer getTotal() {
+	    public String getAlarmGroupLabel() {
+			return alarmGroupLabel;
+		}
+		public void setAlarmGroupLabel(String alarmGroupLabel) {
+			this.alarmGroupLabel = alarmGroupLabel;
+		}
+		public Integer getTotal() {
 			return total;
 		}
 		public Integer getNo() {

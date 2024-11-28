@@ -172,6 +172,9 @@
                     <select name="placename" id="placename"style="font-weight: 100; text-align: center; width: 150px;">
                          <option value="">전체</option>
                         <option value="CCF1_ALARM">1 호기</option>
+                        <option value="CCF2_ALARM">2 호기</option>
+                        <option value="CCF3_ALARM">3 호기</option>
+                        <option value="CCF4_ALARM">4 호기</option>
                         <option value="CCF1_TRACKING">TRACKING</option>
                     </select> 
                 </label>
@@ -266,7 +269,7 @@ function getProduct() {
                     return {
                         no: item.no, 
                         tagName: item.tagName,  
-                        alarmGroup: item.alarmGroup || '알람 그룹', 
+                        alarmGroup: item.alarmGroupLabel || '알람 그룹', 
                         tagName: item.tagName ||'PLC ADDR',
                         alarmDesc: item.alarmDesc || '경보 내용 없음'  
                          
