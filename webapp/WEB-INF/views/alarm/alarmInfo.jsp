@@ -186,7 +186,7 @@
                
 
                 <button id="searchbtn" style="margin-left: 60px;">조회</button>
-                <button id="excelBtn"style="margin-left: 20px;">엑셀</button>
+   
             </div>
         </fieldset>
 

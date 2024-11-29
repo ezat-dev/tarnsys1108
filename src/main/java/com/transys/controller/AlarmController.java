@@ -242,7 +242,7 @@ public class AlarmController {
                     cell.setCellStyle(styleCenter);  
                     
                     cell = row.createCell(2);  
-                    cell.setCellValue(alarmList.get(i).getAlarmGroup());
+                    cell.setCellValue(alarmList.get(i).getAlarmGroupLabel());
                     cell.setCellStyle(styleCenter);  
 
                     cell = row.createCell(3);  
@@ -383,7 +383,7 @@ public class AlarmController {
                 cell.setCellStyle(styleCenter);  
 
                 cell = row.createCell(2);  
-                cell.setCellValue(alarmList.get(i).getAlarmGroup());
+                cell.setCellValue(alarmList.get(i).getAlarmGroupLabel());
                 cell.setCellStyle(styleLeft);  
 
                 cell = row.createCell(3);  
