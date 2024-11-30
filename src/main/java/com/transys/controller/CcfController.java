@@ -15,11 +15,11 @@ public class CcfController {
     public String ccf03_04(Model model) {
         return "/ccf/ccf03_04.jsp"; // 
     }	
-    @RequestMapping(value= "/ccf/05_06", method = RequestMethod.GET)
+    @RequestMapping(value= "/ccf/ccf05_06", method = RequestMethod.GET)
     public String ccf05_06(Model model) {
         return "/ccf/ccf05_06.jsp"; // 
     }	
-    @RequestMapping(value= "/ccf/07", method = RequestMethod.GET)
+    @RequestMapping(value= "/ccf/ccf07", method = RequestMethod.GET)
     public String ccf07(Model model) {
         return "/ccf/ccf07.jsp"; // 
     }	
